@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   Menu, X, ChevronRight, Brain, BarChart3, Shield, Cloud,
   Building2, TrendingUp, Heart, DollarSign, Mail, Phone, MapPin,
-  Linkedin, Twitter, Youtube, Play, CheckCircle, Globe, Users
+  Linkedin, Twitter, Youtube, Play, CheckCircle, Globe, Users,Stethoscope
 } from 'lucide-react';
 import logo from './assests/Color logo - no background.png'
 import Footer from './Footer';
@@ -202,115 +202,6 @@ function App() {
           </div>
         </div>
       </section>
-
-      {/* Industries Section */}
-      <section id="industries" className="py-20 bg-gradient-to-br from-gray-50 to-slate-100/50">
-        <div className="container mx-auto px-6">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">Industries We Transform</h2>
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                Delivering AI-powered solutions across key sectors to revolutionize business operations
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-              <div className="group p-8 bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl hover:shadow-xl transition-all transform hover:-translate-y-2">
-                <div className="w-16 h-16 bg-blue-800 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                  <DollarSign className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">Finance & Banking</h3>
-                <p className="text-gray-600 mb-4">Advanced fintech solutions with AI-driven risk assessment and automated trading systems.</p>
-                <button className="text-blue-800 font-semibold hover:text-blue-900 flex items-center">
-                  Explore Demo <ChevronRight className="ml-1 w-4 h-4" />
-                </button>
-              </div>
-
-              <div className="group p-8 bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-2xl hover:shadow-xl transition-all transform hover:-translate-y-2">
-                <div className="w-16 h-16 bg-yellow-500 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                  <TrendingUp className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">Stock Market & Investments</h3>
-                <p className="text-gray-600 mb-4">Intelligent trading platforms with predictive analytics and portfolio optimization.</p>
-                <button className="text-yellow-600 font-semibold hover:text-yellow-700 flex items-center">
-                  Explore Demo <ChevronRight className="ml-1 w-4 h-4" />
-                </button>
-              </div>
-
-              <div className="group p-8 bg-gradient-to-br from-green-50 to-green-100 rounded-2xl hover:shadow-xl transition-all transform hover:-translate-y-2">
-                <div className="w-16 h-16 bg-green-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                  <Building2 className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">Real Estate Platforms</h3>
-                <p className="text-gray-600 mb-4">Smart property management with AI valuations and market trend analysis.</p>
-                <button className="text-green-600 font-semibold hover:text-green-700 flex items-center">
-                  Explore Demo <ChevronRight className="ml-1 w-4 h-4" />
-                </button>
-              </div>
-
-              <div className="group p-8 bg-gradient-to-br from-red-50 to-red-100 rounded-2xl hover:shadow-xl transition-all transform hover:-translate-y-2">
-                <div className="w-16 h-16 bg-red-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                  <Heart className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">Healthcare Solutions</h3>
-                <p className="text-gray-600 mb-4">Medical data intelligence with AI diagnostics and patient management systems.</p>
-                <button className="text-red-600 font-semibold hover:text-red-700 flex items-center">
-                  Explore Demo <ChevronRight className="ml-1 w-4 h-4" />
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* AI Solutions Section */}
-      <section id="solutions" className="py-20 bg-gradient-to-br from-indigo-50/30 to-purple-50/20">
-        <div className="container mx-auto px-6">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">AI-Powered Features</h2>
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                Cutting-edge artificial intelligence capabilities that drive business transformation
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-              <div className="text-center p-6">
-                <div className="w-20 h-20 bg-gradient-to-br from-blue-800 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                  <Brain className="w-10 h-10 text-white" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">Predictive Analytics</h3>
-                <p className="text-gray-600">Advanced machine learning algorithms that forecast market trends and business outcomes.</p>
-              </div>
-
-              <div className="text-center p-6">
-                <div className="w-20 h-20 bg-gradient-to-br from-yellow-500 to-yellow-400 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                  <BarChart3 className="w-10 h-10 text-white" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">Smart Dashboards</h3>
-                <p className="text-gray-600">Intelligent data visualization with automated insights and customizable reporting.</p>
-              </div>
-
-              <div className="text-center p-6">
-                <div className="w-20 h-20 bg-gradient-to-br from-green-600 to-green-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                  <TrendingUp className="w-10 h-10 text-white" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">Real-time Insights</h3>
-                <p className="text-gray-600">Live data processing and instant alerts for critical business events and opportunities.</p>
-              </div>
-
-              <div className="text-center p-6">
-                <div className="w-20 h-20 bg-gradient-to-br from-purple-600 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                  <Cloud className="w-10 h-10 text-white" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">Secure Cloud Integration</h3>
-                <p className="text-gray-600">Enterprise-grade security with seamless cloud deployment and scalable infrastructure.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Demo Projects Section */}
       <section id="demos" className="py-20 bg-gradient-to-br from-emerald-50/20 to-teal-50/30">
         <div className="container mx-auto px-6">
@@ -422,6 +313,115 @@ function App() {
           </div>
         </div>
       </section>
+
+      {/* Industries Section */}
+      <section id="industries" className="py-20 bg-gradient-to-br from-gray-50 to-slate-100/50">
+        <div className="container mx-auto px-6">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold text-gray-900 mb-4">Industries We Transform</h2>
+              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                Delivering AI-powered solutions across key sectors to revolutionize business operations
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+              <div className="group p-8 bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl hover:shadow-xl transition-all transform hover:-translate-y-2">
+                <div className="w-16 h-16 bg-blue-800 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <DollarSign className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">Finance Services</h3>
+                <p className="text-gray-600 mb-4">Advanced fintech solutions with AI-driven risk assessment and automated trading systems.</p>
+                <button className="text-blue-800 font-semibold hover:text-blue-900 flex items-center">
+                  {/* Explore Demo <ChevronRight className="ml-1 w-4 h-4" /> */}
+                </button>
+              </div>
+
+              <div className="group p-8 bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-2xl hover:shadow-xl transition-all transform hover:-translate-y-2">
+                <div className="w-16 h-16 bg-yellow-500 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <TrendingUp className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">Stock Market & Investments</h3>
+                <p className="text-gray-600 mb-4">Intelligent trading platforms with predictive analytics and portfolio optimization.</p>
+                <button className="text-yellow-600 font-semibold hover:text-yellow-700 flex items-center">
+                  {/* Explore Demo <ChevronRight className="ml-1 w-4 h-4" /> */}
+                </button>
+              </div>
+
+              <div className="group p-8 bg-gradient-to-br from-green-50 to-green-100 rounded-2xl hover:shadow-xl transition-all transform hover:-translate-y-2">
+                <div className="w-16 h-16 bg-green-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <Building2 className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">Real Estate Platforms</h3>
+                <p className="text-gray-600 mb-4">Smart property management with AI valuations and market trend analysis.</p>
+                <button className="text-green-600 font-semibold hover:text-green-700 flex items-center">
+                  {/* Explore Demo <ChevronRight className="ml-1 w-4 h-4" /> */}
+                </button>
+              </div>
+
+              <div className="group p-8 bg-gradient-to-br from-red-50 to-red-100 rounded-2xl hover:shadow-xl transition-all transform hover:-translate-y-2">
+                <div className="w-16 h-16 bg-red-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <Stethoscope className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">Healthcare Solutions</h3>
+                <p className="text-gray-600 mb-4">Medical data intelligence with AI diagnostics and patient management systems.</p>
+                <button className="text-red-600 font-semibold hover:text-red-700 flex items-center">
+                  {/* Explore Demo <ChevronRight className="ml-1 w-4 h-4" /> */}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* AI Solutions Section */}
+      <section id="solutions" className="py-20 bg-gradient-to-br from-indigo-50/30 to-purple-50/20">
+        <div className="container mx-auto px-6">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold text-gray-900 mb-4">AI-Powered Features</h2>
+              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                Cutting-edge artificial intelligence capabilities that drive business transformation
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+              <div className="text-center p-6">
+                <div className="w-20 h-20 bg-gradient-to-br from-blue-800 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                  <Brain className="w-10 h-10 text-white" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">Predictive Analytics</h3>
+                <p className="text-gray-600">Advanced machine learning algorithms that forecast market trends and business outcomes.</p>
+              </div>
+
+              <div className="text-center p-6">
+                <div className="w-20 h-20 bg-gradient-to-br from-yellow-500 to-yellow-400 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                  <BarChart3 className="w-10 h-10 text-white" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">Smart Dashboards</h3>
+                <p className="text-gray-600">Intelligent data visualization with automated insights and customizable reporting.</p>
+              </div>
+
+              <div className="text-center p-6">
+                <div className="w-20 h-20 bg-gradient-to-br from-green-600 to-green-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                  <TrendingUp className="w-10 h-10 text-white" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">Real-time Insights</h3>
+                <p className="text-gray-600">Live data processing and instant alerts for critical business events and opportunities.</p>
+              </div>
+
+              <div className="text-center p-6">
+                <div className="w-20 h-20 bg-gradient-to-br from-purple-600 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                  <Cloud className="w-10 h-10 text-white" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">Secure Cloud Integration</h3>
+                <p className="text-gray-600">Enterprise-grade security with seamless cloud deployment and scalable infrastructure.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
 
       {/* About Section */}
       <section id="about" className="py-20 bg-gradient-to-br from-amber-50/20 to-orange-50/30">
