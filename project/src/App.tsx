@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   Menu, X, ChevronRight, Brain, BarChart3, Shield, Cloud,
   Building2, TrendingUp, Heart, DollarSign, Mail, Phone, MapPin,
-  Linkedin, Twitter, Youtube, Play, CheckCircle, Globe, Users,Stethoscope
+  Linkedin, Twitter, Youtube, Play, CheckCircle, Globe, Users, Stethoscope
 } from 'lucide-react';
 import logo from './assests/Color logo - no background.png'
 import Footer from './Footer';
@@ -138,13 +138,13 @@ function App() {
                   {/* AI Investment Growth Visualization */}
                   <div className="w-full h-full relative">
                     {/* Central AI Brain */}
-  <div className="absolute inset-0">
-  <img
-    src={image}
-    alt="Card background"
-    className="w-full h-full object-cover rounded-2xl"
-  />
-</div>
+                    <div className="absolute inset-0">
+                      <img
+                        src={image}
+                        alt="Card background"
+                        className="w-full h-full object-cover rounded-2xl"
+                      />
+                    </div>
 
 
                     {/* Growth Chart Lines */}
@@ -498,11 +498,11 @@ function App() {
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-1">Location</h3>
                     <p className="text-gray-600">
-            Golden Hills Capital India Pvt Ltd.<br/>
-Unit A, 26th Floor, Eastern Block,<br/>
-Vamsiram Suvarna Durga Tech Park,<br/>
-Survey No 142, Nanakramguda, Financial District,<br/>
-Hyderabad, Telangana 500032<br/><br/>
+                      Golden Hills Capital India Pvt Ltd.<br />
+                      Unit A, 26th Floor, Eastern Block,<br />
+                      Vamsiram Suvarna Durga Tech Park,<br />
+                      Survey No 142, Nanakramguda, Financial District,<br />
+                      Hyderabad, Telangana 500032<br /><br />
 
                     </p>
                   </div>
@@ -514,8 +514,8 @@ Hyderabad, Telangana 500032<br/><br/>
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-1">Phone</h3>
-                    <p className="text-gray-600"><strong>Phone:</strong> +91 7207011234<br/>
-</p>
+                    <p className="text-gray-600"><strong>Phone:</strong> +91 7207011234<br />
+                    </p>
                     {/* <p className="text-gray-600">+1 555 123 4567 (US)</p> */}
                   </div>
                 </div>
@@ -526,7 +526,7 @@ Hyderabad, Telangana 500032<br/><br/>
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-1">Email</h3>
-                    <p className="text-gray-600"><strong>Email:</strong> contact@goldenhillsindia.com<br/><br/></p>
+                    <p className="text-gray-600"><strong>Email:</strong> contact@goldenhillsindia.com<br /><br /></p>
                     {/* <p className="text-gray-600">sales@goldenhillsindia.com</p> */}
                   </div>
                 </div>
