@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import logo from './assests/Color logo - no background.png'
 import Footer from './Footer';
+import image from './assests/videoframe_11070.png'
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -137,11 +138,14 @@ function App() {
                   {/* AI Investment Growth Visualization */}
                   <div className="w-full h-full relative">
                     {/* Central AI Brain */}
-                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                      <div className="w-16 h-16 bg-gradient-to-br from-blue-800 to-blue-600 rounded-full flex items-center justify-center animate-pulse">
-                        <Brain className="w-8 h-8 text-white" />
-                      </div>
-                    </div>
+  <div className="absolute inset-0">
+  <img
+    src={image}
+    alt="Card background"
+    className="w-full h-full object-cover rounded-2xl"
+  />
+</div>
+
 
                     {/* Growth Chart Lines */}
                     <svg className="w-full h-full absolute inset-0" viewBox="0 0 300 200">
