@@ -95,30 +95,39 @@ function App() {
                     and Investment platforms to drive growth and innovation for businesses worldwide.
                   </p>
                 </div>
-
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <button className="bg-blue-800 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-900 transition-all transform hover:scale-105 flex items-center justify-center">
+                  {/* Link to Demo Projects */}
+                  <a
+                    href="#demos"
+                    className="bg-blue-800 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-900 transition-all transform hover:scale-105 flex items-center justify-center"
+                  >
                     View Demo Projects
                     <Play className="ml-2 w-5 h-5" />
-                  </button>
-                  <button className="border-2 border-blue-800 text-blue-800 px-8 py-4 rounded-lg font-semibold hover:bg-blue-800 hover:text-white transition-all flex items-center justify-center">
-                    Contact Us
-                    <ChevronRight className="ml-2 w-5 h-5" />
-                  </button>
+                  </a>
+
+                  {/* Link to Contact */}
+                  <a
+                    href="#contact"
+                    className="bg-white text-blue-800 px-8 py-4 rounded-lg font-semibold transition-all transform hover:scale-105 flex items-center justify-center"
+                  >
+                    contact us
+                    <Play className="ml-2 w-5 h-5" />
+                  </a>
                 </div>
+
 
                 <div className="flex items-center space-x-8 pt-4">
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-blue-800">500+</div>
+                    <div className="text-2xl font-bold text-blue-800">50+</div>
                     <div className="text-sm text-gray-600">Projects Delivered</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-blue-800">15+</div>
-                    <div className="text-sm text-gray-600">Countries Served</div>
+                    <div className="text-2xl font-bold text-blue-800">12+</div>
+                    <div className="text-sm text-gray-600">Years of Experience</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-blue-800">99.9%</div>
-                    <div className="text-sm text-gray-600">Uptime</div>
+                    <div className="text-2xl font-bold text-blue-800">98%</div>
+                    <div className="text-sm text-gray-600">Client Satisfaction</div>
                   </div>
                 </div>
               </div>
@@ -431,19 +440,19 @@ function App() {
 
                 <div className="grid grid-cols-2 gap-6">
                   <div className="text-center p-4 bg-white rounded-lg shadow-sm">
-                    <div className="text-3xl font-bold text-blue-800 mb-1">10+</div>
+                    <div className="text-3xl font-bold text-blue-800 mb-1">12+</div>
                     <div className="text-sm text-gray-600">Years Experience</div>
                   </div>
                   <div className="text-center p-4 bg-white rounded-lg shadow-sm">
                     <div className="text-3xl font-bold text-blue-800 mb-1">50+</div>
-                    <div className="text-sm text-gray-600">AI Specialists</div>
+                    <div className="text-sm text-gray-600">projects</div>
                   </div>
                   <div className="text-center p-4 bg-white rounded-lg shadow-sm">
                     <div className="text-3xl font-bold text-blue-800 mb-1">24/7</div>
                     <div className="text-sm text-gray-600">Support</div>
                   </div>
                   <div className="text-center p-4 bg-white rounded-lg shadow-sm">
-                    <div className="text-3xl font-bold text-blue-800 mb-1">ISO</div>
+                    <div className="text-3xl font-bold text-blue-800 mb-1">ISO 27001</div>
                     <div className="text-sm text-gray-600">Certified</div>
                   </div>
                 </div>
@@ -452,8 +461,8 @@ function App() {
               <div className="relative">
                 <div className="w-full h-96 bg-gradient-to-br from-blue-100 via-white to-yellow-100 rounded-2xl flex items-center justify-center">
                   <div className="text-center">
-                    <div className="w-32 h-32 bg-gradient-to-br from-blue-800 to-yellow-400 rounded-full flex items-center justify-center mx-auto mb-6">
-                      <Globe className="w-16 h-16 text-white" />
+                    <div className="w-50 h-50 bg-gradient-to-br from-white-300 to-blue-400 rounded-full flex items-center justify-center mx-auto mb-6">
+                      <img src={logo} className="w-40 h-16 text-white" />
                     </div>
                     <h3 className="text-2xl font-bold text-gray-900 mb-2">Global Innovation</h3>
                     <p className="text-gray-600">Transforming businesses worldwide</p>
