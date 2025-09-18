@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { 
+import {
   Menu, X, ChevronRight, Brain, BarChart3, Shield, Cloud,
   Building2, TrendingUp, Heart, DollarSign, Mail, Phone, MapPin,
   Linkedin, Twitter, Youtube, Play, CheckCircle, Globe, Users
 } from 'lucide-react';
-
+import logo from './assests/Color logo - no background.png'
+import Footer from './Footer';
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -20,21 +21,20 @@ function App() {
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className={`fixed w-full top-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-lg' : 'bg-transparent'
-      }`}>
+      <header className={`fixed w-full top-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-lg' : 'bg-transparent'
+        }`}>
         <div className="container mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
             {/* Logo */}
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-800 to-yellow-400 rounded-lg flex items-center justify-center">
-                <Globe className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <h1 className="text-xl font-bold text-gray-900">Golden Hills</h1>
-                <p className="text-xs text-blue-800 font-medium">INDIA</p>
-              </div>
+              <img
+                src={logo}
+                alt="Golden Hills Logo"
+                className="w-40 h-20 object-contain"
+              />
+
             </div>
+
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center space-x-8">
@@ -47,7 +47,7 @@ function App() {
             </nav>
 
             {/* Mobile Menu Button */}
-            <button 
+            <button
               className="lg:hidden"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
@@ -86,16 +86,16 @@ function App() {
               <div className="space-y-8 animate-fade-in">
                 <div>
                   <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
-                    Building Tomorrow's 
+                    Building Tomorrow's
                     <span className="text-blue-800"> Web Solutions</span>,
                     <span className="text-blue-600"> Today</span>.
                   </h1>
                   <p className="text-xl text-gray-700 mt-6 leading-relaxed">
-                    We integrate Artificial Intelligence into Finance, Real Estate, Healthcare, 
+                    We integrate Artificial Intelligence into Finance, Real Estate, Healthcare,
                     and Investment platforms to drive growth and innovation for businesses worldwide.
                   </p>
                 </div>
-                
+
                 <div className="flex flex-col sm:flex-row gap-4">
                   <button className="bg-blue-800 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-900 transition-all transform hover:scale-105 flex items-center justify-center">
                     View Demo Projects
@@ -133,32 +133,32 @@ function App() {
                         <Brain className="w-8 h-8 text-white" />
                       </div>
                     </div>
-                    
+
                     {/* Growth Chart Lines */}
                     <svg className="w-full h-full absolute inset-0" viewBox="0 0 300 200">
-                      <path 
-                        d="M50 150 Q100 120 150 100 T250 50" 
-                        stroke="rgb(30, 58, 138)" 
-                        strokeWidth="3" 
+                      <path
+                        d="M50 150 Q100 120 150 100 T250 50"
+                        stroke="rgb(30, 58, 138)"
+                        strokeWidth="3"
                         fill="none"
                         className="animate-pulse"
                       />
-                      <path 
-                        d="M50 160 Q120 140 180 110 T280 70" 
-                        stroke="rgb(59, 130, 246)" 
-                        strokeWidth="2" 
+                      <path
+                        d="M50 160 Q120 140 180 110 T280 70"
+                        stroke="rgb(59, 130, 246)"
+                        strokeWidth="2"
                         fill="none"
                         className="animate-pulse"
                         style={{ animationDelay: '0.5s' }}
                       />
                     </svg>
-                    
+
                     {/* Data Points */}
                     <div className="absolute top-8 right-8 w-3 h-3 bg-blue-800 rounded-full animate-ping"></div>
                     <div className="absolute top-16 left-12 w-2 h-2 bg-blue-600 rounded-full animate-ping" style={{ animationDelay: '0.3s' }}></div>
                     <div className="absolute bottom-12 right-16 w-4 h-4 bg-blue-800 rounded-full animate-ping" style={{ animationDelay: '0.7s' }}></div>
                     <div className="absolute bottom-20 left-8 w-2 h-2 bg-blue-600 rounded-full animate-ping" style={{ animationDelay: '1s' }}></div>
-                    
+
                     {/* Investment Icons */}
                     <div className="absolute top-4 left-4">
                       <div className="w-8 h-8 bg-blue-100/60 rounded-lg flex items-center justify-center">
@@ -418,17 +418,17 @@ function App() {
               <div>
                 <h2 className="text-4xl font-bold text-gray-900 mb-6">About Golden Hills India</h2>
                 <p className="text-xl text-gray-600 mb-6">
-                  Golden Hills India is a trusted technology partner delivering enterprise-grade solutions 
-                  with AI integration. Our mission is to empower businesses worldwide with secure, scalable, 
+                  Golden Hills India is a trusted technology partner delivering enterprise-grade solutions
+                  with AI integration. Our mission is to empower businesses worldwide with secure, scalable,
                   and intelligent platforms.
                 </p>
                 <p className="text-gray-600 mb-8">
-                  With over a decade of experience in software development and artificial intelligence, 
-                  we have successfully delivered 500+ projects across 15+ countries. Our team of expert 
-                  developers and AI specialists work closely with clients to transform their vision into 
+                  With over a decade of experience in software development and artificial intelligence,
+                  we have successfully delivered 500+ projects across 15+ countries. Our team of expert
+                  developers and AI specialists work closely with clients to transform their vision into
                   cutting-edge digital solutions.
                 </p>
-                
+
                 <div className="grid grid-cols-2 gap-6">
                   <div className="text-center p-4 bg-white rounded-lg shadow-sm">
                     <div className="text-3xl font-bold text-blue-800 mb-1">10+</div>
@@ -519,17 +519,17 @@ function App() {
                 <form className="space-y-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                       placeholder="Your full name"
                     />
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                    <input 
-                      type="email" 
+                    <input
+                      type="email"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                       placeholder="your.email@company.com"
                     />
@@ -537,8 +537,8 @@ function App() {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Company</label>
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                       placeholder="Your company name"
                     />
@@ -546,7 +546,7 @@ function App() {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Message</label>
-                    <textarea 
+                    <textarea
                       rows={4}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none"
                       placeholder="Tell us about your project requirements..."
@@ -564,7 +564,8 @@ function App() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-16">
+      <Footer />
+      {/* <footer className="bg-gray-900 text-white py-16">
         <div className="container mx-auto px-6">
           <div className="max-w-6xl mx-auto">
             <div className="grid md:grid-cols-4 gap-8">
@@ -632,7 +633,7 @@ function App() {
             </div>
           </div>
         </div>
-      </footer>
+      </footer> */}
     </div>
   );
 }
