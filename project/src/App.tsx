@@ -492,11 +492,14 @@ function App() {
                     <MapPin className="w-6 h-6 text-blue-800" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-1">Global Headquarters</h3>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-1">Location</h3>
                     <p className="text-gray-600">
-                      Tech Park, Electronic City<br />
-                      Bangalore, Karnataka 560100<br />
-                      India
+            Golden Hills Capital India Pvt Ltd.<br/>
+Unit A, 26th Floor, Eastern Block,<br/>
+Vamsiram Suvarna Durga Tech Park,<br/>
+Survey No 142, Nanakramguda, Financial District,<br/>
+Hyderabad, Telangana 500032<br/><br/>
+
                     </p>
                   </div>
                 </div>
@@ -507,8 +510,9 @@ function App() {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-1">Phone</h3>
-                    <p className="text-gray-600">+91 80 4567 8900</p>
-                    <p className="text-gray-600">+1 555 123 4567 (US)</p>
+                    <p className="text-gray-600"><strong>Phone:</strong> +91 7207011234<br/>
+</p>
+                    {/* <p className="text-gray-600">+1 555 123 4567 (US)</p> */}
                   </div>
                 </div>
 
@@ -518,8 +522,8 @@ function App() {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-1">Email</h3>
-                    <p className="text-gray-600">info@goldenhillsindia.com</p>
-                    <p className="text-gray-600">sales@goldenhillsindia.com</p>
+                    <p className="text-gray-600"><strong>Email:</strong> contact@goldenhillsindia.com<br/><br/></p>
+                    {/* <p className="text-gray-600">sales@goldenhillsindia.com</p> */}
                   </div>
                 </div>
               </div>
