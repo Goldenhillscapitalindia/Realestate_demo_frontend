@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import {
   Menu, X, ChevronRight, Brain, BarChart3, Shield, Cloud,
   Building2, TrendingUp, Heart, DollarSign, Mail, Phone, MapPin,
-  Linkedin, Twitter, Youtube, Play, CheckCircle, Globe, Users, Stethoscope
+  Linkedin, Twitter, Youtube, Play, CheckCircle, Globe, Users, Stethoscope,
+  
 } from 'lucide-react';
 import logo from './assests/Color logo - no background.png'
 import Footer from './Footer';
 import image from './assests/videoframe_11070.png'
+import Contact from './contact';
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -479,7 +481,7 @@ function App() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-20 bg-gradient-to-br from-rose-50/20 to-pink-50/30">
+      {/* <section id="contact" className="py-20 bg-gradient-to-br from-rose-50/20 to-pink-50/30">
         <div className="container mx-auto px-6">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
@@ -516,7 +518,7 @@ function App() {
                     <h3 className="text-lg font-semibold text-gray-900 mb-1">Phone</h3>
                     <p className="text-gray-600"><strong>Phone:</strong> +91 7207011234<br />
                     </p>
-                    {/* <p className="text-gray-600">+1 555 123 4567 (US)</p> */}
+                    <p className="text-gray-600">+1 555 123 4567 (US)</p>
                   </div>
                 </div>
 
@@ -527,7 +529,7 @@ function App() {
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-1">Email</h3>
                     <p className="text-gray-600"><strong>Email:</strong> contact@goldenhillsindia.com<br /><br /></p>
-                    {/* <p className="text-gray-600">sales@goldenhillsindia.com</p> */}
+                    <p className="text-gray-600">sales@goldenhillsindia.com</p>
                   </div>
                 </div>
               </div>
@@ -578,7 +580,8 @@ function App() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
+      <Contact />
 
       {/* Footer */}
       <Footer />
