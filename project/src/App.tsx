@@ -9,6 +9,8 @@ import logo from './assests/Color logo - no background.png'
 import Footer from './Footer';
 import image from './assests/videoframe_11070.png'
 import Contact from './Contact';
+import DemoProjects from './sections/DemoProjects';
+// import About from './sections/About';
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -205,117 +207,8 @@ function App() {
         </div>
       </section>
       {/* Demo Projects Section */}
-      <section id="demos" className="py-20 bg-gradient-to-br from-emerald-50/20 to-teal-50/30">
-        <div className="container mx-auto px-6">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">Demo Projects</h2>
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                Experience our AI-powered solutions through interactive demonstrations
-              </p>
-            </div>
 
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="group bg-gradient-to-br from-blue-50 to-white border border-blue-100 rounded-2xl p-8 hover:shadow-xl transition-all">
-                <div className="flex items-center justify-between mb-6">
-                  <div className="w-12 h-12 bg-blue-800 rounded-xl flex items-center justify-center">
-                    <BarChart3 className="w-6 h-6 text-white" />
-                  </div>
-                  <span className="px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full">Finance</span>
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-3">AI-Driven Finance Dashboard</h3>
-                <p className="text-gray-600 mb-6">Comprehensive financial analytics with real-time market data, risk assessment, and automated reporting features.</p>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-4 text-sm text-gray-500">
-                    <span className="flex items-center">
-                      <CheckCircle className="w-4 h-4 mr-1" /> Live Data
-                    </span>
-                    <span className="flex items-center">
-                      <Shield className="w-4 h-4 mr-1" /> Secure
-                    </span>
-                  </div>
-                  <button className="bg-blue-800 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-900 transition-colors group-hover:scale-105 transform">
-                    View Demo
-                  </button>
-                </div>
-              </div>
-
-              <div className="group bg-gradient-to-br from-green-50 to-white border border-green-100 rounded-2xl p-8 hover:shadow-xl transition-all">
-                <div className="flex items-center justify-between mb-6">
-                  <div className="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center">
-                    <Building2 className="w-6 h-6 text-white" />
-                  </div>
-                  <span className="px-3 py-1 bg-green-100 text-green-700 text-sm font-medium rounded-full">Real Estate</span>
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-3">Real Estate Property Portal</h3>
-                <p className="text-gray-600 mb-6">Smart property management platform with AI valuations, market analysis, and tenant management systems.</p>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-4 text-sm text-gray-500">
-                    <span className="flex items-center">
-                      <CheckCircle className="w-4 h-4 mr-1" /> AI Powered
-                    </span>
-                    <span className="flex items-center">
-                      <Users className="w-4 h-4 mr-1" /> Multi-user
-                    </span>
-                  </div>
-                  <button className="bg-green-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700 transition-colors group-hover:scale-105 transform">
-                    View Demo
-                  </button>
-                </div>
-              </div>
-
-              <div className="group bg-gradient-to-br from-yellow-50 to-white border border-yellow-100 rounded-2xl p-8 hover:shadow-xl transition-all">
-                <div className="flex items-center justify-between mb-6">
-                  <div className="w-12 h-12 bg-yellow-500 rounded-xl flex items-center justify-center">
-                    <TrendingUp className="w-6 h-6 text-white" />
-                  </div>
-                  <span className="px-3 py-1 bg-yellow-100 text-yellow-700 text-sm font-medium rounded-full">Investment</span>
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-3">Stock Market Insights Platform</h3>
-                <p className="text-gray-600 mb-6">Advanced trading platform with predictive analytics, portfolio optimization, and automated trading strategies.</p>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-4 text-sm text-gray-500">
-                    <span className="flex items-center">
-                      <CheckCircle className="w-4 h-4 mr-1" /> Real-time
-                    </span>
-                    <span className="flex items-center">
-                      <Brain className="w-4 h-4 mr-1" /> AI Insights
-                    </span>
-                  </div>
-                  <button className="bg-yellow-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-yellow-600 transition-colors group-hover:scale-105 transform">
-                    View Demo
-                  </button>
-                </div>
-              </div>
-
-              <div className="group bg-gradient-to-br from-red-50 to-white border border-red-100 rounded-2xl p-8 hover:shadow-xl transition-all">
-                <div className="flex items-center justify-between mb-6">
-                  <div className="w-12 h-12 bg-red-600 rounded-xl flex items-center justify-center">
-                    <Heart className="w-6 h-6 text-white" />
-                  </div>
-                  <span className="px-3 py-1 bg-red-100 text-red-700 text-sm font-medium rounded-full">Healthcare</span>
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-3">Healthcare Data Intelligence</h3>
-                <p className="text-gray-600 mb-6">Medical data platform with AI diagnostics, patient management, and healthcare analytics for better outcomes.</p>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-4 text-sm text-gray-500">
-                    <span className="flex items-center">
-                      <CheckCircle className="w-4 h-4 mr-1" /> HIPAA
-                    </span>
-                    <span className="flex items-center">
-                      <Shield className="w-4 h-4 mr-1" /> Secure
-                    </span>
-                  </div>
-                  <button className="bg-red-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-red-700 transition-colors group-hover:scale-105 transform">
-                    View Demo
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
+{/* <DemoProjects />   */}
       {/* Industries Section */}
       <section id="industries" className="py-20 bg-gradient-to-br from-gray-50 to-slate-100/50">
         <div className="container mx-auto px-6">
@@ -479,108 +372,9 @@ function App() {
           </div>
         </div>
       </section>
+      {/* <About /> */}
 
       {/* Contact Section */}
-      {/* <section id="contact" className="py-20 bg-gradient-to-br from-rose-50/20 to-pink-50/30">
-        <div className="container mx-auto px-6">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">Let's Collaborate</h2>
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                Ready to transform your business with AI-powered solutions? Get in touch with our experts.
-              </p>
-            </div>
-
-            <div className="grid lg:grid-cols-2 gap-12">
-              <div className="space-y-8">
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-                    <MapPin className="w-6 h-6 text-blue-800" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-1">Location</h3>
-                    <p className="text-gray-600">
-                      Golden Hills Capital India Pvt Ltd.<br />
-                      Unit A, 26th Floor, Eastern Block,<br />
-                      Vamsiram Suvarna Durga Tech Park,<br />
-                      Survey No 142, Nanakramguda, Financial District,<br />
-                      Hyderabad, Telangana 500032<br /><br />
-
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-                    <Phone className="w-6 h-6 text-blue-800" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-1">Phone</h3>
-                    <p className="text-gray-600"><strong>Phone:</strong> +91 7207011234<br />
-                    </p>
-                    <p className="text-gray-600">+1 555 123 4567 (US)</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-                    <Mail className="w-6 h-6 text-blue-800" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-1">Email</h3>
-                    <p className="text-gray-600"><strong>Email:</strong> contact@goldenhillsindia.com<br /><br /></p>
-                    <p className="text-gray-600">sales@goldenhillsindia.com</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-gray-50 p-8 rounded-2xl">
-                <form className="space-y-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
-                    <input
-                      type="text"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                      placeholder="Your full name"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                    <input
-                      type="email"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                      placeholder="your.email@company.com"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Company</label>
-                    <input
-                      type="text"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                      placeholder="Your company name"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Message</label>
-                    <textarea
-                      rows={4}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none"
-                      placeholder="Tell us about your project requirements..."
-                    ></textarea>
-                  </div>
-
-                  <button className="w-full bg-blue-800 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-900 transition-colors">
-                    Send Message
-                  </button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section> */}
       <Contact />
 
       {/* Footer */}
