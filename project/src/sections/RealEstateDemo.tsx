@@ -19,7 +19,7 @@ const RealEstateDemo: React.FC = () => {
     setError(null);
 
     try {
-      const res = await axios.post(`${API_URL}/api/realestate_ai/`, {
+      const res = await axios.post(`${API_URL}/api/gid_ai_summary/`, {
         question,
         mode,
       });
@@ -42,7 +42,7 @@ const RealEstateDemo: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white flex flex-col items-center py-12 px-6">
-      <div className="max-w-3xl w-full bg-white rounded-xl shadow-md p-6">
+      <div className="max-w-7xl w-full bg-white rounded-xl shadow-md p-6">
         <h1 className="text-2xl font-bold text-gray-900 mb-4 text-center">
           Real Estate Demo
         </h1>
@@ -81,21 +81,24 @@ const RealEstateDemo: React.FC = () => {
             {loading ? "..." : "Ask"}
           </button>
         </div>
+</div>
+   
+{/* Response Section */}
+<div className="mt-6 w-full flex flex-col items-center gap-4">
+  {loading && <p className="text-gray-500 italic">Loading response...</p>}
+  {error && <p className="text-red-500">{error}</p>}
 
-        {/* Response Section */}
-        <div className="mt-4">
-          {loading && <p className="text-gray-500 italic">Loading response...</p>}
-          {error && <p className="text-red-500">{error}</p>}
+  {!loading && response.length > 0 && (
+    <div className="w-full max-w-7xl bg-white shadow-lg rounded-xl p-6">
+      <GENAIRenderer
+        blocks={response}
+        setQuestion={setQuestion}
+        handleSubmit={handleSubmit}
+      />
+    </div>
+  )}
+</div>
 
-          {!loading && response.length > 0 && (
-            <GENAIRenderer
-              blocks={response}
-              setQuestion={setQuestion}
-              handleSubmit={handleSubmit}
-            />
-          )}
-        </div>
-      </div>
     </div>
   );
 };
