@@ -8,7 +8,7 @@ import {
 import logo from './assests/Color logo - no background.png'
 import Footer from './Footer';
 import image from './assests/videoframe_11070.png'
-import Contact from './contact';
+import Contact from './Contact';
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
