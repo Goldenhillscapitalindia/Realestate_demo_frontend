@@ -38,19 +38,19 @@ const BLOCK_RENDERERS: Record<BlockType, (block: any, setQuestion?: (q: string) 
   video: (block: VideoBlock) => <GENAIVideoCard {...block} />,
   calendar: (block: CalendarBlock) => <GENAICalendar {...block} />,
   tree: (block: TreeBlock) => <GENAITree {...block} />,
-  suggested_questions: (block: SuggestedQuestionsBlock, setQuestion, handleSubmit) => (
-    <SuggestedQuestions
-      questions={block.questions || []}
-      onSelect={(selected) => {
-        if (setQuestion && handleSubmit) {
-          setQuestion(selected);
-          handleSubmit();
-          window.scrollTo({ top: 0, behavior: "smooth" });
+suggested_questions: (block: SuggestedQuestionsBlock, setQuestion, handleSubmit) => (
+  <SuggestedQuestions
+    questions={block.questions || []}
+    onSelect={(selected) => {
+      if (setQuestion && handleSubmit) {
+        setQuestion(selected);         // updates UI input
+        handleSubmit(selected);        // ✅ submit with latest
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    }}
+  />
+),
 
-        }
-      }}
-    />
-  ),
 };
 
 const GENAIRenderer: React.FC<{
@@ -138,11 +138,11 @@ const GENAIRenderer: React.FC<{
         </Grid>
       ))}
 
-      {/* {suggestedBlock && (
+      {suggestedBlock && (
         <Box mt={2}>
           {BLOCK_RENDERERS.suggested_questions(suggestedBlock, setQuestion, handleSubmit)}
         </Box>
-      )} */}
+      )}
     </CardContent>
   );
 };

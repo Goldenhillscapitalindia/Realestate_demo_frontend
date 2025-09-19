@@ -11,16 +11,17 @@ const RealEstateDemo: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   const API_URL = import.meta.env.VITE_API_URL;
+  const handleSubmit = async (customQuestion?: string) => {
+    const finalQuestion = (customQuestion ?? question).trim();
+    if (!finalQuestion) return;
 
-  const handleSubmit = async () => {
-    if (!question.trim()) return;
     setLoading(true);
     setResponse([]);
     setError(null);
 
     try {
-      const res = await axios.post(`${API_URL}/api/gid_ai_summary/`, {
-        question,
+      const res = await axios.post(`${API_URL}/api/realestate_ai/`, {
+        question: finalQuestion,
         mode,
       });
 
@@ -32,6 +33,7 @@ const RealEstateDemo: React.FC = () => {
       setLoading(false);
     }
   };
+
 
   const handleModeChange = (selectedMode: "general" | "gid") => {
     setMode(selectedMode);
@@ -53,11 +55,10 @@ const RealEstateDemo: React.FC = () => {
             <button
               key={m}
               onClick={() => handleModeChange(m as "general" | "gid")}
-              className={`px-4 py-2 rounded-full font-semibold transition-colors text-sm ${
-                mode === m
+              className={`px-4 py-2 rounded-full font-semibold transition-colors text-sm ${mode === m
                   ? "bg-blue-600 text-white"
                   : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-              }`}
+                }`}
             >
               {m === "gid" ? "GID" : "General"}
             </button>
@@ -74,30 +75,31 @@ const RealEstateDemo: React.FC = () => {
             className="flex-1 p-3 border border-blue-200 rounded-full focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-800"
           />
           <button
-            onClick={handleSubmit}
+            onClick={() => handleSubmit()}
             disabled={loading || !question.trim()}
             className="bg-blue-600 text-white px-4 py-2 rounded-full font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50"
           >
             {loading ? "..." : "Ask"}
           </button>
-        </div>
-</div>
-   
-{/* Response Section */}
-<div className="mt-6 w-full flex flex-col items-center gap-4">
-  {loading && <p className="text-gray-500 italic">Loading response...</p>}
-  {error && <p className="text-red-500">{error}</p>}
 
-  {!loading && response.length > 0 && (
-    <div className="w-full max-w-7xl bg-white shadow-lg rounded-xl p-6">
-      <GENAIRenderer
-        blocks={response}
-        setQuestion={setQuestion}
-        handleSubmit={handleSubmit}
-      />
-    </div>
-  )}
-</div>
+        </div>
+      </div>
+
+      {/* Response Section */}
+      <div className="mt-6 w-full flex flex-col items-center gap-4">
+        {loading && <p className="text-gray-500 italic">Loading response...</p>}
+        {error && <p className="text-red-500">{error}</p>}
+
+        {!loading && response.length > 0 && (
+          <div className="w-full max-w-7xl bg-white shadow-lg rounded-xl p-6">
+            <GENAIRenderer
+              blocks={response}
+              setQuestion={setQuestion}
+              handleSubmit={handleSubmit}
+            />
+          </div>
+        )}
+      </div>
 
     </div>
   );
