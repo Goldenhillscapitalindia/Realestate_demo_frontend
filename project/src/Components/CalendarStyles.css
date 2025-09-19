@@ -1,0 +1,36 @@
+/* components/Charts/CalendarStyles.css */
+
+.calendar-events {
+  display: flex;
+  justify-content: center;
+  margin-top: 4px;
+  gap: 4px;
+  padding: 0;
+  list-style: none;
+}
+
+.calendar-event-dot {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  background-color: #3b82f6; /* blue */
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.tooltip {
+  position: absolute;
+  bottom: 150%;
+  left: 50%;
+  transform: translateX(-50%) scale(0);
+  transform-origin: bottom;
+  transition: transform 0.2s ease-in-out;
+  background-color: #111;
+  color: rgb(176, 219, 206);
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 10;
+}
