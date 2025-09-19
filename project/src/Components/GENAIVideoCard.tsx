@@ -16,7 +16,7 @@ interface Props {
   thumbnail: string;
 }
 
-const VideoBlock: React.FC<Props> = ({
+const GENAIVideoCard: React.FC<Props> = ({
   title,
   description,
   url,
@@ -73,4 +73,4 @@ const VideoBlock: React.FC<Props> = ({
   );
 };
 
-export default VideoBlock;
+export default GENAIVideoCard;

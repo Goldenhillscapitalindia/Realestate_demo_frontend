@@ -1,27 +1,35 @@
 import React, { useState } from "react";
 import axios from "axios";
-
+// import GENAIRenderer from "../Components/GENAIRenderer";
+import GENAIRenderer from '../Components/GENAIRenderer';
+import  { Block } from '../Components/Utils/ComponentsUtils'
 const RealEstateDemo: React.FC = () => {
-  const [mode, setMode] = useState<"General" | "GID">("General");
+  const [mode, setMode] = useState<"general" | "gid">("general");
   const [question, setQuestion] = useState("");
-  const [response, setResponse] = useState<string | null>(null);
+  const [response, setResponse] = useState<Block[]>([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  // ✅ API base URL from env
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const handleSubmit = async () => {
     if (!question.trim()) return;
     setLoading(true);
-    setResponse(null);
+    setResponse([]);
+    setError(null);
 
     try {
-      const res = await axios.post("/api/real-estate", {
+      const res = await axios.post(`${API_URL}/api/realestate_ai/`, {
         question,
         mode,
       });
 
-      setResponse(res.data?.answer || "No response received.");
+      // ✅ Expecting array of blocks from backend
+      setResponse(res.data?.answer || []);
     } catch (err) {
-      setResponse("Error: Unable to fetch response.");
       console.error(err);
+      setError("Error fetching response");
     } finally {
       setLoading(false);
     }
@@ -29,24 +37,24 @@ const RealEstateDemo: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-white flex flex-col items-center py-12 px-6">
-      <div className="max-w-3xl w-full bg-white rounded-2xl shadow-lg p-8">
+      <div className="max-w-5xl w-full bg-white rounded-2xl shadow-lg p-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-6 text-center">
           Real Estate Demo
         </h1>
 
         {/* Toggle Buttons */}
         <div className="flex justify-center space-x-4 mb-8">
-          {["General", "GID"].map((m) => (
+          {["general", "gid"].map((m) => (
             <button
               key={m}
-              onClick={() => setMode(m as "General" | "GID")}
+              onClick={() => setMode(m as "general" | "gid")}
               className={`px-6 py-2 rounded-lg font-semibold transition-colors ${
                 mode === m
                   ? "bg-green-600 text-white"
                   : "bg-gray-100 text-gray-700 hover:bg-gray-200"
               }`}
             >
-              {m}
+              {m === "gid" ? "GID" : "General"}
             </button>
           ))}
         </div>
@@ -69,12 +77,18 @@ const RealEstateDemo: React.FC = () => {
         </button>
 
         {/* Response Section */}
-        {response && (
-          <div className="mt-6 p-4 border rounded-lg bg-gray-50 text-gray-800">
-            <strong>Response:</strong>
-            <p>{response}</p>
-          </div>
-        )}
+        <div className="mt-6">
+          {loading && <p className="text-gray-500 italic">Loading response...</p>}
+          {error && <p className="text-red-500">{error}</p>}
+
+          {!loading && response.length > 0 && (
+            <GENAIRenderer
+              blocks={response}
+              setQuestion={setQuestion}
+              handleSubmit={handleSubmit}
+            />
+          )}
+        </div>
       </div>
     </div>
   );

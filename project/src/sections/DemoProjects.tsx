@@ -93,7 +93,7 @@ const DemoProjects: React.FC = () => {
                                 </div>
 
                                 <button
-                                    // onClick={() => navigate("/real-estate")}
+                                    onClick={() => navigate("/real-estate")}
                                     className="bg-green-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700 transition-colors group-hover:scale-105 transform"
                                 >
                                     View Demo

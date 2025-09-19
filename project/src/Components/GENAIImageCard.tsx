@@ -8,23 +8,16 @@ interface Props {
   alt: string;
 }
 
-// const BASE_URL = "http://192.168.1.40:1000"; // Your base URL
-// const BASE_URL = process.env.REACT_APP_BASE_URL;
-const apiUrl = import.meta.env.VITE_API_URL;
-
-
-const ImageBlock: React.FC<Props> = ({ title, description, url, alt }) => {
-  const fullUrl = url.startsWith("http") ? url : `${apiUrl}${url}`;
-
+const GENAIImageCard: React.FC<Props> = ({ title, description, url, alt }) => {
   return (
     <Card
       sx={{
-        borderRadius: 3,
-        overflow: "hidden",
-        boxShadow: 3,
+        borderRadius: 3, // Adjust the curve here (e.g., 2 = medium, 3 = more curved)
+        overflow: "hidden", // Important to make the image follow the card's border radius
+        boxShadow: 3, // Optional: adds elevation to enhance visual appeal
       }}
     >
-      <CardMedia component="img" height="200" image={fullUrl} alt={alt} />
+      <CardMedia component="img" height="200" image={url} alt={alt} />
       <CardContent>
         <Typography variant="subtitle1" fontWeight={600}>
           {title}
@@ -37,4 +30,4 @@ const ImageBlock: React.FC<Props> = ({ title, description, url, alt }) => {
   );
 };
 
-export default ImageBlock;
+export default GENAIImageCard;
