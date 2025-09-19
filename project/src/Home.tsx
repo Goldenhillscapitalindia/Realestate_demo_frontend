@@ -10,6 +10,7 @@ import Footer from './Footer';
 import image from './assests/videoframe_11070.png'
 import Contact from './Contact';
 import DemoProjects from './sections/DemoProjects';
+import Header from './Header';
 // import About from './sections/About';
 function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -26,55 +27,7 @@ function Home() {
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className={`fixed w-full top-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-lg' : 'bg-transparent'
-        }`}>
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex justify-between items-center">
-            {/* Logo */}
-            <div className="flex items-center space-x-3">
-              <img
-                src={logo}
-                alt="Golden Hills Logo"
-                className="w-40 h-20 object-contain"
-              />
-
-            </div>
-
-
-            {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center space-x-8">
-              <a href="#home" className="text-gray-700 hover:text-blue-800 font-medium transition-colors">Home</a>
-              <a href="#about" className="text-gray-700 hover:text-blue-800 font-medium transition-colors">About</a>
-              <a href="#industries" className="text-gray-700 hover:text-blue-800 font-medium transition-colors">Industries</a>
-              <a href="#solutions" className="text-gray-700 hover:text-blue-800 font-medium transition-colors">AI Solutions</a>
-              <a href="#demos" className="text-gray-700 hover:text-blue-800 font-medium transition-colors">Demo Projects</a>
-              <a href="#contact" className="text-gray-700 hover:text-blue-800 font-medium transition-colors">Contact</a>
-            </nav>
-
-            {/* Mobile Menu Button */}
-            <button
-              className="lg:hidden"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
-
-          {/* Mobile Menu */}
-          {isMenuOpen && (
-            <div className="lg:hidden mt-4 pb-4 border-t border-gray-200">
-              <nav className="flex flex-col space-y-3 pt-4">
-                <a href="#home" className="text-gray-700 hover:text-blue-800 font-medium transition-colors">Home</a>
-                <a href="#about" className="text-gray-700 hover:text-blue-800 font-medium transition-colors">About</a>
-                <a href="#industries" className="text-gray-700 hover:text-blue-800 font-medium transition-colors">Industries</a>
-                <a href="#solutions" className="text-gray-700 hover:text-blue-800 font-medium transition-colors">AI Solutions</a>
-                <a href="#demos" className="text-gray-700 hover:text-blue-800 font-medium transition-colors">Demo Projects</a>
-                <a href="#contact" className="text-gray-700 hover:text-blue-800 font-medium transition-colors">Contact</a>
-              </nav>
-            </div>
-          )}
-        </div>
-      </header>
+      <Header />
 
       {/* Hero Section */}
       <section id="home" className="pt-20 min-h-screen bg-gradient-to-br from-blue-100 via-blue-50 to-slate-50 flex items-center relative overflow-hidden">

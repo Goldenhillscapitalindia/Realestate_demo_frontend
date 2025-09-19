@@ -24,7 +24,7 @@ const Contact = () => {
     try {
         console.log("API URL =>", import.meta.env.VITE_API_URL);
 const res = await axios.post(
-  `${import.meta.env.VITE_API_URL}/api/mail_contact_details`,
+  `${import.meta.env.VITE_API_URL}/api/mail_contact_details/`,
   formData
 );
       if (res.data.status === "success") {
