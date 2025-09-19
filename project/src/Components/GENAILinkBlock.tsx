@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Link, Typography, Card } from "@mui/material";
 import LinkIcon from "@mui/icons-material/Link";
-import { getRandomBgColor } from "../Utils/colorUtils"; // optional
+import { getRandomBgColor } from "../Components/Utils/colorUtils"; // optional
 
 const GENAILinkBlock: React.FC<{ text: string; url: string }> = ({ text, url }) => (
   <Card
