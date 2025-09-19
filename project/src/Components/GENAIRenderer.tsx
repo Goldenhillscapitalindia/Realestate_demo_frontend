@@ -26,7 +26,7 @@ import {
   CalendarBlock,
   TreeBlock,
   SuggestedQuestionsBlock,
-} from "../Utils/ComponentsUtils";
+} from "../Components/Utils/ComponentsUtils";
 
 const BLOCK_RENDERERS: Record<BlockType, (block: any, setQuestion?: (q: string) => void, handleSubmit?: () => void) => JSX.Element> = {
   text: (block: TextBlock) => <GENAITextBlock content={block.content} />,
