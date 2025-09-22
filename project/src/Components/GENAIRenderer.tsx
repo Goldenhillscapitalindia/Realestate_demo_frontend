@@ -97,55 +97,45 @@ suggested_questions: (block: SuggestedQuestionsBlock, setQuestion, handleSubmit)
       if (!grouped[row]) grouped[row] = [];
       grouped[row].push(block);
     });
+const sortedRows = Object.entries(grouped).sort(([a], [b]) => Number(a) - Number(b));
 
-    const sortedRows = Object.entries(grouped).sort(([a], [b]) => Number(a) - Number(b));
+return (
+  <CardContent sx={{ paddingBottom: 0 }}>
+    {sortedRows.map(([rowKey, rowBlocks]) => (
+      <Grid container spacing={2} key={`row-${rowKey}`} sx={{ mb: 2 }}>
+        {rowBlocks.map((block, idx) => {
+          const Renderer = BLOCK_RENDERERS[block.type];
+          if (!Renderer) return null;
 
-    return (
-      <CardContent sx={{ paddingBottom: "0 !important" }}>
-        {sortedRows.map(([rowKey, rowBlocks]) => (
-          <Grid container spacing={1.8} key={`row-${rowKey}`} sx={{ mb: 1, alignItems: "stretch" }}>
-            {rowBlocks.map((block, idx) => {
-              const Renderer = BLOCK_RENDERERS[block.type];
-              if (!Renderer) return null;
+          const totalCols = block.total_columns || 1;
+          const gridSize = Math.floor(12 / totalCols);
 
-              const totalCols = block.total_columns || 1;
-              const gridSize = totalCols >= 1 && totalCols <= 12 ? Math.floor(12 / totalCols) : 12;
+          return (
+            <Grid
+              item
+              xs={12}
+              sm={gridSize * 1} // adjust multiplier if needed
+              md={gridSize * 1}
+              lg={gridSize * 1}
+              key={idx}
+              sx={{ display: "flex", flexDirection: "column" }}
+            >
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.05, duration: 0.3, ease: "easeOut" }}
+                style={{ flexGrow: 1, display: "flex" }}
+              >
+                {Renderer(block, setQuestion, handleSubmit)}
+              </motion.div>
+            </Grid>
+          );
+        })}
+      </Grid>
+    ))}
+  </CardContent>
+);
 
-              return (
-                <Grid
-                  item
-                  xs={12}
-                  sm={12}
-                  md={gridSize}
-                  lg={gridSize}
-                  key={idx}
-                  sx={{ display: "flex", flexDirection: "column" }}
-                >
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                      delay: idx * 0.05,
-                      duration: 0.4,
-                      ease: "easeOut",
-                    }}
-                    style={{ flexGrow: 1, display: "flex" }}
-                  >
-                    {Renderer(block, setQuestion, handleSubmit)}
-                  </motion.div>
-                </Grid>
-              );
-            })}
-          </Grid>
-        ))}
-
-        {suggestedBlock && (
-          <Box mt={2}>
-            {BLOCK_RENDERERS.suggested_questions(suggestedBlock, setQuestion, handleSubmit)}
-          </Box>
-        )}
-      </CardContent>
-    );
   };
 
   export default GENAIRenderer;

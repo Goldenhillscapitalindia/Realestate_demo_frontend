@@ -15,22 +15,10 @@ import ReactMarkdown from "react-markdown";
 import { motion } from "framer-motion";
 
 const COLOR_THEMES = [
-  {
-    headerColor: "#1E3A8A",
-    rowHover: "rgba(30, 58, 138, 0.08)",
-  },
-  {
-    headerColor: "#B91C1C",
-    rowHover: "rgba(185, 28, 28, 0.08)",
-  },
-  {
-    headerColor: "#0F766E",
-    rowHover: "rgba(15, 118, 110, 0.08)",
-  },
-  {
-    headerColor: "#6D28D9",
-    rowHover: "rgba(109, 40, 217, 0.08)",
-  },
+  { headerColor: "#1E3A8A", rowHover: "rgba(30, 58, 138, 0.08)" },
+  { headerColor: "#B91C1C", rowHover: "rgba(185, 28, 28, 0.08)" },
+  { headerColor: "#0F766E", rowHover: "rgba(15, 118, 110, 0.08)" },
+  { headerColor: "#6D28D9", rowHover: "rgba(109, 40, 217, 0.08)" },
 ];
 
 const getRandomTheme = () =>
@@ -45,18 +33,20 @@ const GENATableBlock: React.FC<{
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20, scale: 0.98 }}
+      initial={{ opacity: 0, y: 15, scale: 0.98 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
+      transition={{ duration: 0.45, ease: "easeOut" }}
       style={{ width: "100%" }}
     >
       <Card
-        elevation={4}
+        elevation={3}
         sx={{
           borderRadius: 3,
-          bgcolor: "#f9fafa",
-          width: "100%",        // ✅ Responsive width
+          bgcolor: "#f5f7fa", // subtle pastel background
+          width: "100%",
           boxSizing: "border-box",
+          transition: "transform 0.3s ease, box-shadow 0.3s ease",
+          "&:hover": { transform: "scale(1.01)", boxShadow: 5 },
         }}
       >
         {title && (
@@ -105,6 +95,7 @@ const GENATableBlock: React.FC<{
                         backgroundColor: theme.rowHover,
                         transition: "background-color 0.3s ease",
                       },
+                      backgroundColor: i % 2 === 0 ? "rgba(0,0,0,0.01)" : "transparent", // subtle striping
                     }}
                   >
                     {row.map((cell, j) => (
