@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { Play, Pause } from 'lucide-react';
-import aiVideo from '../assests/InShot_20250919_153128982.mp4';
+import aiVideo from '../assests/InShot_20250922_144504520.mp4';
 
 const VideoShowcase = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false); // New state
   const sectionRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -18,12 +19,10 @@ const VideoShowcase = () => {
     return () => observer.disconnect();
   }, []);
 
-  // Set default volume and play/pause when visible
+  // Set default volume and play/pause when visible (only if video has started)
   useEffect(() => {
-    if (!videoRef.current) return;
-
-    // Set default volume
-    videoRef.current.volume = 0.9;
+    if (!videoRef.current || !hasStarted) return;
+    videoRef.current.volume = 0.8;
 
     if (isVisible) {
       videoRef.current.play();
@@ -32,7 +31,14 @@ const VideoShowcase = () => {
       videoRef.current.pause();
       setIsPlaying(false);
     }
-  }, [isVisible]);
+  }, [isVisible, hasStarted]);
+
+  const handleStart = () => {
+    if (!videoRef.current) return;
+    setHasStarted(true);
+    videoRef.current.play();
+    setIsPlaying(true);
+  };
 
   const togglePlay = () => {
     if (!videoRef.current) return;
@@ -45,20 +51,34 @@ const VideoShowcase = () => {
     <section ref={sectionRef} className="py-12 px-6">
       <div className="container mx-auto max-w-6xl">
         <div className="relative rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-500">
-          {/* Video with controls */}
+          {/* Video */}
           <video
             ref={videoRef}
-            className="w-full h-auto rounded-3xl object-cover"
+            className={`w-full h-auto rounded-3xl object-cover transition-all duration-500 ${
+              !hasStarted ? 'blur-xl scale-105' : ''
+            }`}
             src={aiVideo}
-            muted={false} // unmuted now since we have volume
+            muted={false}
             playsInline
             loop
-            controls
+            controls={hasStarted} // only show native controls after starting
             onEnded={() => setIsPlaying(false)}
           />
 
-          {/* Custom Overlay Play/Pause */}
-          {!isPlaying && (
+          {/* Initial Overlay Play Button */}
+          {!hasStarted && (
+            <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+              <button
+                onClick={handleStart}
+                className="w-24 h-24 bg-white/90 hover:bg-white rounded-full flex items-center justify-center transition-transform duration-300 shadow-lg"
+              >
+                <Play className="w-10 h-10 text-blue-700" />
+              </button>
+            </div>
+          )}
+
+          {/* Custom Overlay Play/Pause for playing video */}
+          {hasStarted && !isPlaying && (
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
               <button
                 onClick={togglePlay}
@@ -70,7 +90,7 @@ const VideoShowcase = () => {
           )}
         </div>
 
-        {/* Optional Caption */}
+        {/* Caption */}
         <div className="text-center mt-6">
           <p className="text-lg text-gray-600">
             Experience our AI assistant in action with real-time demonstrations.
