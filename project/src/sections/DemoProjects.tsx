@@ -84,7 +84,7 @@ const DemoProjects: React.FC = () => {
                                 </span>
                             </div>
                             <h3 className="text-2xl font-bold text-gray-900 mb-3">
-                                GID AI Real Estate Assistant
+                                GID AI  Assistant
                             </h3>
                             <p className="text-gray-600 mb-6">
                                 Smart property management platform with AI valuations, market
@@ -120,7 +120,7 @@ const DemoProjects: React.FC = () => {
                                 </span>
                             </div>
                             <h3 className="text-2xl font-bold text-gray-900 mb-3">
-                                S1 Documnet Summarization                            </h3>
+                                S1 Documnet Summary                            </h3>
                             <p className="text-gray-600 mb-6">
                                 AI-driven insights and summaries for S1 filings, helping investors
                                 make informed decisions.
@@ -151,7 +151,7 @@ const DemoProjects: React.FC = () => {
                                 </span>
                             </div>
                             <h3 className="text-2xl font-bold text-gray-900 mb-3">
-                                Real Estate Documents Summarization
+                                Real Estate Documents Summary
                             </h3>
                             <p className="text-gray-600 mb-6">
                                 AI-powered document analysis for real estate contracts,

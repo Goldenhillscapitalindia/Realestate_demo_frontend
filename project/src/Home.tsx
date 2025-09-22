@@ -45,7 +45,7 @@ function Home() {
                 <div>
                   <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
                     Building Tomorrow's
-                    <span className="text-blue-800"> Web Solutions</span>,
+                    <span className="text-blue-800"> AI Solutions</span>,
                     <span className="text-blue-600"> Today</span>.
                   </h1>
                   <p className="text-xl text-gray-700 mt-6 leading-relaxed">
