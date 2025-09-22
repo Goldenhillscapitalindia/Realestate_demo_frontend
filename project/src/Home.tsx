@@ -11,18 +11,32 @@ import image from './assests/videoframe_11070.png'
 import Contact from './Contact';
 import DemoProjects from './sections/DemoProjects';
 import Header from './Header';
-// import About from './sections/About';
+import { useLocation } from "react-router-dom";
+
 function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation();
 
+  // Scroll listener for header
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, []); // <-- properly closed
+
+  // Scroll to section if navigated with state
+  useEffect(() => {
+    if (location.state?.scrollTo) {
+      const element = document.getElementById(location.state.scrollTo);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [location.state]);
+
 
   return (
     <div className="min-h-screen bg-white">
@@ -160,8 +174,9 @@ function Home() {
         </div>
       </section>
       {/* Demo Projects Section */}
-
+<section id='demos'>
       <DemoProjects />
+      </section>
       {/* Industries Section */}
       <section id="industries" className="py-20 bg-gradient-to-br from-gray-50 to-slate-100/50">
         <div className="container mx-auto px-6">
@@ -284,8 +299,8 @@ function Home() {
                   and intelligent platforms.
                 </p>
                 <p className="text-gray-600 mb-8">
-                  With over a decade of experience in software development and artificial intelligence,
-                  we have successfully delivered 500+ projects across 15+ countries. Our team of expert
+                  With over a years of experience in software development and artificial intelligence,
+                  we have successfully delivered 50+ projects across  countries. Our team of expert
                   developers and AI specialists work closely with clients to transform their vision into
                   cutting-edge digital solutions.
                 </p>
