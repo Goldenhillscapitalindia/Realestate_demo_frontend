@@ -64,15 +64,18 @@ const RealEstateDemo: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white flex flex-col items-center py-12 px-6">
 
       {/* Back Button */}
-      <div className="w-full max-w-7xl mb-6">
+      {/* <div className="w-full max-w-7xl mb-6"> */}
+{/* Back Button (fixed top-left) */}
 <button
   onClick={() => navigate("/", { state: { scrollTo: "demos" } })}
-  className="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-300 transition-colors"
+  className="fixed top-4 left-4 bg-blue-200 text-gray-800 px-4 py-2 rounded-lg 
+             hover:bg-purple-300 transition-colors shadow-md z-50"
 >
-  ← Back to Demo Projects
+  ← Back
 </button>
 
-      </div>
+
+      {/* </div> */}
 
       <div className="max-w-7xl w-full bg-white rounded-xl shadow-md p-6">
         <h1 className="text-2xl font-bold text-gray-900 mb-4 text-center">
