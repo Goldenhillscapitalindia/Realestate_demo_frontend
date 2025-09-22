@@ -109,9 +109,7 @@ const RealEstateDemo: React.FC = () => {
   {/* General Card - only visible if mode === "general" */}
   {mode === "general" && generalResponse.length > 0 && (
     <div className="w-full bg-white rounded-xl shadow-md p-6">
-      <h2 className="text-xl font-semibold mb-4 text-blue-600">
-        Global Assistant Response
-      </h2>
+ 
       {generalError && <p className="text-red-500">{generalError}</p>}
       {generalLoading && <p className="text-gray-500 italic">Loading response...</p>}
       <GENAIRenderer
@@ -125,9 +123,7 @@ const RealEstateDemo: React.FC = () => {
   {/* GID Card - only visible if mode === "gid" */}
   {mode === "gid" && gidResponse.length > 0 && (
     <div className="w-full bg-white rounded-xl shadow-md p-6">
-      <h2 className="text-xl font-semibold mb-4 text-purple-600">
-        GID Assistant Response
-      </h2>
+
       {gidError && <p className="text-red-500">{gidError}</p>}
       {gidLoading && <p className="text-gray-500 italic">Loading response...</p>}
       <GENAIRenderer
