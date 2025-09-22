@@ -87,8 +87,7 @@ const DemoProjects: React.FC = () => {
                                 GID AI  Assistant
                             </h3>
                             <p className="text-gray-600 mb-6">
-                                Smart property management platform with AI valuations, market
-                                analysis, and tenant management systems.
+                                Comprehensive real estate intelligence with automated company and portfolio insights.
                             </p>
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center space-x-4 text-sm text-gray-500">
