@@ -14,10 +14,12 @@ const Header: React.FC = () => {
 
   const navLinks = [
     { href: "#home", label: "Home" },
-    { href: "#about", label: "About" },
+        { href: "#demos", label: "Demo Projects" },
+
     { href: "#industries", label: "Industries" },
     { href: "#solutions", label: "AI Solutions" },
-    { href: "#demos", label: "Demo Projects" },
+        { href: "#about", label: "About" },
+
     { href: "#contact", label: "Contact" },
   ];
 

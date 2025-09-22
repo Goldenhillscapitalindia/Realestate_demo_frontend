@@ -3,8 +3,7 @@ import axios from "axios";
 import GENAIRenderer from '../Components/GENAIRenderer';
 import { Block } from '../Components/Utils/ComponentsUtils';
 import { useNavigate } from "react-router-dom";
-import SuggestedQuestions from "../Components/SuggestedQuestions";
-
+import { Paper } from "@mui/material";
 const RealEstateDemo: React.FC = () => {
   const API_URL = import.meta.env.VITE_API_URL;
   const navigate = useNavigate();
@@ -50,17 +49,17 @@ const RealEstateDemo: React.FC = () => {
       else setGidLoading(false);
     }
   };
-const handleSuggestionClick = (question: string) => {
-  if (mode === "general") {
-    setGeneralResponse([]); // clear previous response
-    setGeneralQuestion(question); // set the clicked question
-  } else {
-    setGidResponse([]); // clear previous response
-    setGidQuestion(question); // set the clicked question
-  }
+  const handleSuggestionClick = (question: string) => {
+    if (mode === "general") {
+      setGeneralResponse([]); // clear previous response
+      setGeneralQuestion(question); // set the clicked question
+    } else {
+      setGidResponse([]); // clear previous response
+      setGidQuestion(question); // set the clicked question
+    }
 
-  handleSubmit(question);
-};
+    handleSubmit(question);
+  };
 
   const handleModeChange = (selectedMode: "general" | "gid") => {
     setMode(selectedMode);
@@ -77,14 +76,14 @@ const handleSuggestionClick = (question: string) => {
 
       {/* Back Button */}
       {/* <div className="w-full max-w-7xl mb-6"> */}
-{/* Back Button (fixed top-left) */}
-<button
-  onClick={() => navigate("/", { state: { scrollTo: "demos" } })}
-  className="fixed top-4 left-4 bg-blue-200 text-gray-800 px-4 py-2 rounded-lg 
-             hover:bg-purple-300 transition-colors shadow-md z-50"
->
-  ← Back
-</button>
+      {/* Back Button (fixed top-left) */}
+      <button
+        onClick={() => navigate("/", { state: { scrollTo: "demos" } })}
+        className="fixed top-4 left-4 bg-blue-200 text-black px-4 py-2 rounded-lg 
+             hover:bg-blue-900 hover:text-white transition-colors shadow-md z-50"
+      >
+        ← Back
+      </button>
 
 
       {/* </div> */}
@@ -100,11 +99,10 @@ const handleSuggestionClick = (question: string) => {
             <button
               key={m}
               onClick={() => handleModeChange(m as "general" | "gid")}
-              className={`px-4 py-2 rounded-full font-semibold transition-colors text-sm ${
-                mode === m
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-              }`}
+              className={`px-4 py-2 rounded-full font-semibold transition-colors text-sm ${mode === m
+                ? "bg-blue-600 text-white"
+                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
             >
               {m === "gid" ? "GID" : "General"}
             </button>
@@ -112,52 +110,75 @@ const handleSuggestionClick = (question: string) => {
         </div>
 
         {/* Prompt Section */}
-        <div className="flex items-center gap-2 mb-4">
-          <input
-            type="text"
-            value={currentQuestion}
-            onChange={(e) => setCurrentQuestion(e.target.value)}
-            placeholder="Ask your question..."
-            className="flex-1 p-3 border border-blue-200 rounded-full focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-800"
-          />
-          <button
-            onClick={() => handleSubmit()}
-            disabled={currentLoading || !currentQuestion.trim()}
-            className="bg-blue-600 text-white px-4 py-2 rounded-full font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50"
-          >
-            {currentLoading ? "..." : "Ask"}
-          </button>
-        </div>
+<div className="flex items-center gap-2 mb-4">
+  <input
+    type="text"
+    value={currentQuestion}
+    onChange={(e) => setCurrentQuestion(e.target.value)}
+    placeholder="Ask your question..."
+    className="flex-1 p-3 border border-blue-200 rounded-full focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-800"
+    onKeyDown={(e) => {
+      if (e.key === "Enter" && currentQuestion.trim()) {
+        // Clear previous response
+        if (mode === "general") setGeneralResponse([]);
+        else setGidResponse([]);
+
+        handleSubmit();
+      }
+    }}
+  />
+  <button
+    onClick={() => {
+      if (!currentQuestion.trim()) return;
+
+      // Clear previous response
+      if (mode === "general") setGeneralResponse([]);
+      else setGidResponse([]);
+
+      handleSubmit();
+    }}
+    disabled={currentLoading || !currentQuestion.trim()}
+    className="bg-blue-600 text-white px-4 py-2 rounded-full font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50"
+  >
+    {currentLoading ? "..." : "Ask"}
+  </button>
+</div>
+
       </div>
 
       {/* Response Section */}
-      <div className="mt-6 w-full flex flex-col items-center gap-6 max-w-7xl">
-        {mode === "general" && generalResponse.length > 0 && (
-          <div className="w-full bg-white rounded-xl shadow-md p-6">
-            {generalError && <p className="text-red-500">{generalError}</p>}
-            {generalLoading && <p className="text-gray-500 italic">Loading response...</p>}
-<GENAIRenderer
-  blocks={generalResponse}
-  setQuestion={setGeneralQuestion}
-  handleSubmit={(question?: string) => handleSuggestionClick(question || generalQuestion)}
-/>
 
-          </div>
-        )}
 
-        {mode === "gid" && gidResponse.length > 0 && (
-          <div className="w-full bg-white rounded-xl shadow-md p-6">
-            {gidError && <p className="text-red-500">{gidError}</p>}
-            {gidLoading && <p className="text-gray-500 italic">Loading response...</p>}
-<GENAIRenderer
-  blocks={gidResponse}
-  setQuestion={setGidQuestion}
-  handleSubmit={(question?: string) => handleSuggestionClick(question || gidQuestion)}
-/>
+      {mode === "general" && generalResponse.length > 0 && (
+        <Paper
+          elevation={3}
+          sx={{ mt:4,width: "70%", p: 3, borderRadius: 3 }}
+        >
+          {generalError && <p className="text-red-500">{generalError}</p>}
+          {generalLoading && <p className="text-gray-500 italic">Loading response...</p>}
+          <GENAIRenderer
+            blocks={generalResponse}
+            setQuestion={setGeneralQuestion}
+            handleSubmit={(question?: string) => handleSuggestionClick(question || generalQuestion)}
+          />
+        </Paper>
+      )}
 
-          </div>
-        )}
-      </div>
+      {mode === "gid" && gidResponse.length > 0 && (
+        <Paper
+          elevation={3}
+          sx={{ width: "70%", p: 3, borderRadius: 3 }}
+        >
+          {gidError && <p className="text-red-500">{gidError}</p>}
+          {gidLoading && <p className="text-gray-500 italic">Loading response...</p>}
+          <GENAIRenderer
+            blocks={gidResponse}
+            setQuestion={setGidQuestion}
+            handleSubmit={(question?: string) => handleSuggestionClick(question || gidQuestion)}
+          />
+        </Paper>
+      )}
+
     </div>
   );
 };
