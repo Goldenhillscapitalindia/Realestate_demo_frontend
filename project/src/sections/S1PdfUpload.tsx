@@ -1,14 +1,14 @@
 // src/components/S1PdfUpload.tsx
 import React, { useState, useRef } from "react";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 const S1PdfUpload: React.FC = () => {
   const API_URL = import.meta.env.VITE_API_URL;
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
-
+    const navigate = useNavigate();
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setFile(e.target.files[0]);
@@ -60,6 +60,13 @@ const S1PdfUpload: React.FC = () => {
 
   return (
     <div className="flex justify-center mt-16">
+              <button
+        onClick={() => navigate("/", { state: { scrollTo: "demos" } })}
+        className="fixed top-4 left-4 bg-blue-200 text-black px-4 py-2 rounded-lg 
+             hover:bg-blue-900 hover:text-white transition-colors shadow-md z-50"
+      >
+        ← Back
+      </button>
       <div className="w-full max-w-md p-6 bg-white rounded-2xl shadow-lg border border-gray-200">
         <h2 className="text-2xl font-semibold mb-4 text-center text-gray-800">
           Upload PDF
