@@ -38,18 +38,19 @@
     video: (block: VideoBlock) => <GENAIVideoCard {...block} />,
     calendar: (block: CalendarBlock) => <GENAICalendar {...block} />,
     tree: (block: TreeBlock) => <GENAITree {...block} />,
-  suggested_questions: (block: SuggestedQuestionsBlock, setQuestion, handleSubmit) => (
-    <SuggestedQuestions
-      questions={block.questions || []}
-      onSelect={(selected) => {
-        if (setQuestion && handleSubmit) {
-          setQuestion(selected);         // updates UI input
-          handleSubmit(selected);        // ✅ submit with latest
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }
-      }}
-    />
-  ),
+suggested_questions: (block: SuggestedQuestionsBlock, setQuestion, handleSubmit) => (
+  <SuggestedQuestions
+    questions={block.questions || []}
+    onSelect={(selected) => {
+      if (setQuestion && handleSubmit) {
+        handleSubmit(selected); // this will clear previous response and submit new one
+        setQuestion(selected);  // update input
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    }}
+  />
+),
+
 
   };
 

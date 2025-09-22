@@ -3,6 +3,7 @@ import axios from "axios";
 import GENAIRenderer from '../Components/GENAIRenderer';
 import { Block } from '../Components/Utils/ComponentsUtils';
 import { useNavigate } from "react-router-dom";
+import SuggestedQuestions from "../Components/SuggestedQuestions";
 
 const RealEstateDemo: React.FC = () => {
   const API_URL = import.meta.env.VITE_API_URL;
@@ -49,6 +50,17 @@ const RealEstateDemo: React.FC = () => {
       else setGidLoading(false);
     }
   };
+const handleSuggestionClick = (question: string) => {
+  if (mode === "general") {
+    setGeneralResponse([]); // clear previous response
+    setGeneralQuestion(question); // set the clicked question
+  } else {
+    setGidResponse([]); // clear previous response
+    setGidQuestion(question); // set the clicked question
+  }
+
+  handleSubmit(question);
+};
 
   const handleModeChange = (selectedMode: "general" | "gid") => {
     setMode(selectedMode);
@@ -124,11 +136,12 @@ const RealEstateDemo: React.FC = () => {
           <div className="w-full bg-white rounded-xl shadow-md p-6">
             {generalError && <p className="text-red-500">{generalError}</p>}
             {generalLoading && <p className="text-gray-500 italic">Loading response...</p>}
-            <GENAIRenderer
-              blocks={generalResponse}
-              setQuestion={setGeneralQuestion}
-              handleSubmit={() => handleSubmit()}
-            />
+<GENAIRenderer
+  blocks={generalResponse}
+  setQuestion={setGeneralQuestion}
+  handleSubmit={(question?: string) => handleSuggestionClick(question || generalQuestion)}
+/>
+
           </div>
         )}
 
@@ -136,11 +149,12 @@ const RealEstateDemo: React.FC = () => {
           <div className="w-full bg-white rounded-xl shadow-md p-6">
             {gidError && <p className="text-red-500">{gidError}</p>}
             {gidLoading && <p className="text-gray-500 italic">Loading response...</p>}
-            <GENAIRenderer
-              blocks={gidResponse}
-              setQuestion={setGidQuestion}
-              handleSubmit={() => handleSubmit()}
-            />
+<GENAIRenderer
+  blocks={gidResponse}
+  setQuestion={setGidQuestion}
+  handleSubmit={(question?: string) => handleSuggestionClick(question || gidQuestion)}
+/>
+
           </div>
         )}
       </div>
