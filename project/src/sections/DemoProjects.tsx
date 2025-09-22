@@ -134,7 +134,9 @@ const DemoProjects: React.FC = () => {
                                         <Brain className="w-4 h-4 mr-1" /> AI Insights
                                     </span>
                                 </div>
-                                <button className="bg-yellow-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-yellow-600 transition-colors group-hover:scale-105 transform">
+                                <button
+                                    onClick={() => navigate("/s1document")}
+                                    className="bg-yellow-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-yellow-600 transition-colors group-hover:scale-105 transform">
                                     View Demo
                                 </button>
                             </div>
@@ -165,7 +167,9 @@ const DemoProjects: React.FC = () => {
                                         <Shield className="w-4 h-4 mr-1" /> Secure
                                     </span>
                                 </div>
-                                <button className="bg-red-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-red-700 transition-colors group-hover:scale-105 transform">
+                                <button
+                                    onClick={() => navigate("/realestatepdfupload")}
+                                    className="bg-red-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-red-700 transition-colors group-hover:scale-105 transform">
                                     View Demo
                                 </button>
                             </div>
