@@ -89,13 +89,6 @@ const VideoShowcase = () => {
             </div>
           )}
         </div>
-
-        {/* Caption */}
-        <div className="text-center mt-6">
-          <p className="text-lg text-gray-600">
-            Experience our AI assistant in action with real-time demonstrations.
-          </p>
-        </div>
       </div>
     </section>
   );
