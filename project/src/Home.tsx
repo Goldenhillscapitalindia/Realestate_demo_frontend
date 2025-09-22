@@ -3,7 +3,7 @@ import {
   Menu, X, ChevronRight, Brain, BarChart3, Shield, Cloud,
   Building2, TrendingUp, Heart, DollarSign, Mail, Phone, MapPin,
   Linkedin, Twitter, Youtube, Play, CheckCircle, Globe, Users, Stethoscope,
-  
+
 } from 'lucide-react';
 import logo from './assests/Color logo - no background.png'
 import Footer from './Footer';
@@ -30,7 +30,7 @@ function Home() {
       <Header />
 
       {/* Hero Section */}
-      <section id="home" className="pt-20 min-h-screen bg-gradient-to-br from-blue-100 via-blue-50 to-slate-50 flex items-center relative overflow-hidden">
+      <section id="home" className="pt-20 min-h-screen bg-[#dbedca5e] flex items-center relative overflow-hidden">
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-20 left-10 w-32 h-32 border border-blue-300/30 rounded-full"></div>
@@ -161,7 +161,7 @@ function Home() {
       </section>
       {/* Demo Projects Section */}
 
-<DemoProjects />  
+      <DemoProjects />
       {/* Industries Section */}
       <section id="industries" className="py-20 bg-gradient-to-br from-gray-50 to-slate-100/50">
         <div className="container mx-auto px-6">
@@ -272,7 +272,7 @@ function Home() {
 
 
       {/* About Section */}
-      <section id="about" className="py-20 bg-gradient-to-br from-amber-50/20 to-orange-50/30">
+      <section id="about" className="py-20 bg-[#f9f9f4]">
         <div className="container mx-auto px-6">
           <div className="max-w-6xl mx-auto">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -332,10 +332,10 @@ function Home() {
 
       {/* Footer */}
       <Footer />
-                                        
+
 
     </div>
-    
+
   );
 }
 

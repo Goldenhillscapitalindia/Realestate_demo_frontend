@@ -13,13 +13,14 @@ import {
 import { useNavigate } from "react-router-dom";
 
 import { File } from "lucide-react";
+import VideoShowcase from "./VideoShowcase";
 
 const DemoProjects: React.FC = () => {
     const navigate = useNavigate();
     return (
         <section
             id="demos"
-            className="py-20 bg-gradient-to-br from-emerald-50/20 to-teal-50/30"
+            className="py-20 bg-[#fdfdf7] "
         >
             <div className="container mx-auto px-6">
                 <div className="max-w-6xl mx-auto">
@@ -150,11 +151,10 @@ const DemoProjects: React.FC = () => {
                                 </span>
                             </div>
                             <h3 className="text-2xl font-bold text-gray-900 mb-3">
-                                Real Estate Documents Summary
+                                Real Estate Due Diligence Document Insights
                             </h3>
                             <p className="text-gray-600 mb-6">
-                                AI-powered document analysis for real estate contracts,
-                                lease agreements, and property records.
+                                AI-driven analysis of key property and financial documents
                             </p>
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center space-x-4 text-sm text-gray-500">
@@ -170,7 +170,9 @@ const DemoProjects: React.FC = () => {
                                 </button>
                             </div>
                         </div>
-                    </div>
+                        <div className="md:col-span-2">
+                            <VideoShowcase />
+                        </div>                    </div>
                 </div>
             </div>
         </section>
