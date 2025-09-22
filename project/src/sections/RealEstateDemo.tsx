@@ -20,7 +20,7 @@ const RealEstateDemo: React.FC = () => {
     setError(null);
 
     try {
-      const res = await axios.post(`${API_URL}/api/realestate_ai/`, {
+      const res = await axios.post(`${API_URL}/api/gid_ai_summary/`, {
         question: finalQuestion,
         mode,
       });
@@ -91,7 +91,7 @@ const RealEstateDemo: React.FC = () => {
         {error && <p className="text-red-500">{error}</p>}
 
         {!loading && response.length > 0 && (
-          <div className="w-full max-w-7xl bg-white shadow-lg rounded-xl p-6">
+<div className="container mx-auto px-6 py-4">
             <GENAIRenderer
               blocks={response}
               setQuestion={setQuestion}

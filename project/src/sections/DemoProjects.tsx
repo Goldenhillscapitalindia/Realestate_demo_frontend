@@ -8,9 +8,11 @@ import {
     TrendingUp,
     Brain,
     Heart,
+    Home,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
+import { File } from "lucide-react";
 
 const DemoProjects: React.FC = () => {
     const navigate = useNavigate();
@@ -43,7 +45,7 @@ const DemoProjects: React.FC = () => {
                                 </span>
                             </div>
                             <h3 className="text-2xl font-bold text-gray-900 mb-3">
-                                AI-Driven Finance Dashboard
+                                MIDAS Financial Analytics
                             </h3>
                             <p className="text-gray-600 mb-6">
                                 Comprehensive financial analytics with real-time market data,
@@ -52,15 +54,21 @@ const DemoProjects: React.FC = () => {
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center space-x-4 text-sm text-gray-500">
                                     <span className="flex items-center">
-                                        <CheckCircle className="w-4 h-4 mr-1" /> Live Data
+                                        <CheckCircle className="w-4 h-4 mr-1" /> Portfolio Data
                                     </span>
                                     <span className="flex items-center">
                                         <Shield className="w-4 h-4 mr-1" /> Secure
                                     </span>
                                 </div>
-                                <button className="bg-blue-800 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-900 transition-colors group-hover:scale-105 transform">
+                                <a
+                                    href="https://midas.goldenhillsindia.com/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="bg-blue-800 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-900 transition-colors group-hover:scale-105 transform inline-block"
+                                >
                                     View Demo
-                                </button>
+                                </a>
+
                             </div>
                         </div>
 
@@ -72,11 +80,11 @@ const DemoProjects: React.FC = () => {
                                     <Building2 className="w-6 h-6 text-white" />
                                 </div>
                                 <span className="px-3 py-1 bg-green-100 text-green-700 text-sm font-medium rounded-full">
-                                    Real Estate
+                                    AI Assistant
                                 </span>
                             </div>
                             <h3 className="text-2xl font-bold text-gray-900 mb-3">
-                                GID GPT
+                                GID AI Real Estate Assistant
                             </h3>
                             <p className="text-gray-600 mb-6">
                                 Smart property management platform with AI valuations, market
@@ -105,23 +113,22 @@ const DemoProjects: React.FC = () => {
                         <div className="group bg-gradient-to-br from-yellow-50 to-white border border-yellow-100 rounded-2xl p-8 hover:shadow-xl transition-all">
                             <div className="flex items-center justify-between mb-6">
                                 <div className="w-12 h-12 bg-yellow-500 rounded-xl flex items-center justify-center">
-                                    <TrendingUp className="w-6 h-6 text-white" />
+                                    <File className="w-6 h-6 text-white" />
                                 </div>
                                 <span className="px-3 py-1 bg-yellow-100 text-yellow-700 text-sm font-medium rounded-full">
-                                    Investment
+                                    AI summary
                                 </span>
                             </div>
                             <h3 className="text-2xl font-bold text-gray-900 mb-3">
-                                Stock Market Insights Platform
-                            </h3>
+                                S1 Documnet Summarization                            </h3>
                             <p className="text-gray-600 mb-6">
-                                Advanced trading platform with predictive analytics, portfolio
-                                optimization, and automated trading strategies.
+                                AI-driven insights and summaries for S1 filings, helping investors
+                                make informed decisions.
                             </p>
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center space-x-4 text-sm text-gray-500">
                                     <span className="flex items-center">
-                                        <CheckCircle className="w-4 h-4 mr-1" /> Real-time
+                                        <CheckCircle className="w-4 h-4 mr-1" /> AI Powered
                                     </span>
                                     <span className="flex items-center">
                                         <Brain className="w-4 h-4 mr-1" /> AI Insights
@@ -137,23 +144,23 @@ const DemoProjects: React.FC = () => {
                         <div className="group bg-gradient-to-br from-red-50 to-white border border-red-100 rounded-2xl p-8 hover:shadow-xl transition-all">
                             <div className="flex items-center justify-between mb-6">
                                 <div className="w-12 h-12 bg-red-600 rounded-xl flex items-center justify-center">
-                                    <Heart className="w-6 h-6 text-white" />
+                                    <Home className="w-6 h-6 text-white" />
                                 </div>
                                 <span className="px-3 py-1 bg-red-100 text-red-700 text-sm font-medium rounded-full">
-                                    Healthcare
+                                    Real Estate
                                 </span>
                             </div>
                             <h3 className="text-2xl font-bold text-gray-900 mb-3">
-                                Healthcare Data Intelligence
+                                Real Estate Documents Summarization
                             </h3>
                             <p className="text-gray-600 mb-6">
-                                Medical data platform with AI diagnostics, patient management,
-                                and healthcare analytics for better outcomes.
+                                AI-powered document analysis for real estate contracts,
+                                lease agreements, and property records.
                             </p>
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center space-x-4 text-sm text-gray-500">
                                     <span className="flex items-center">
-                                        <CheckCircle className="w-4 h-4 mr-1" /> HIPAA
+                                        <CheckCircle className="w-4 h-4 mr-1" /> AI Powered
                                     </span>
                                     <span className="flex items-center">
                                         <Shield className="w-4 h-4 mr-1" /> Secure

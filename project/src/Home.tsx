@@ -68,7 +68,7 @@ function Home() {
                     href="#contact"
                     className="bg-white text-blue-800 px-8 py-4 rounded-lg font-semibold transition-all transform hover:scale-105 flex items-center justify-center"
                   >
-                    contact us
+                    Contact Us
                     <Play className="ml-2 w-5 h-5" />
                   </a>
                 </div>
