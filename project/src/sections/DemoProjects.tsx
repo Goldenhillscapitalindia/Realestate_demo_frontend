@@ -120,7 +120,7 @@ const DemoProjects: React.FC = () => {
                                 </span>
                             </div>
                             <h3 className="text-2xl font-bold text-gray-900 mb-3">
-                                S1 Documnet Summary                            </h3>
+                                S1 Document Summary                            </h3>
                             <p className="text-gray-600 mb-6">
                                 AI-driven insights and summaries for S1 filings, helping investors
                                 make informed decisions.
