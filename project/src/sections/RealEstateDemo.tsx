@@ -141,7 +141,7 @@ const RealEstateDemo: React.FC = () => {
               handleSubmit();
             }}
             disabled={currentLoading || !currentQuestion.trim()}
-            className="bg-blue-600 text-white px-4 py-2 rounded-full font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50"
+            className="bg-blue-700 text-white px-4 py-2 rounded-full font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50"
           >
             {currentLoading ? "..." : "Ask"}
           </button>
