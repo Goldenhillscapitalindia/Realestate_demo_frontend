@@ -3,6 +3,7 @@ import HomePage from "./Home";
 import RealEstateDemo from "./sections/RealEstateDemo";
 import S1PdfUpload from "./sections/S1PdfUpload";
 import RealEstateUploader from "./sections/RealEstateUploader";
+
 function App() {
   return (
     <Router>

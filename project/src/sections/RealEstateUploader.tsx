@@ -2,129 +2,198 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-const RealEstateUploader: React.FC = () => {
-  const API_URL = import.meta.env.VITE_API_URL;
-  const [files, setFiles] = useState<File[]>([]);
-  const [uploadStatus, setUploadStatus] = useState<string[]>([]);
-  const [loading, setLoading] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const navigate = useNavigate();
- const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  if (e.target.files) {
-    const newFiles = Array.from(e.target.files).filter(file =>
-      ["application/pdf", 
-       "application/vnd.ms-excel", 
-       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"].includes(file.type)
-    );
+import { Block } from "../Components/Utils/ComponentsUtils";
+import RRenderer from "../Realestate_components/RRenderer";
+import { useTheme } from "../sections/ThemeContext";
 
-    // Append new files, avoid duplicates by name
-    const allFiles = [...files];
-    newFiles.forEach(file => {
-      if (!allFiles.some(f => f.name === file.name)) {
-        allFiles.push(file);
-      }
+type FileType = "memorandum" | "t12" | "rent_roll";
+
+const RealEstateUploader: React.FC = () => {
+    const API_URL = import.meta.env.VITE_API_URL;
+    const navigate = useNavigate();
+    const { theme, toggleTheme } = useTheme();
+
+    const [files, setFiles] = useState<Record<FileType, File | null>>({
+        memorandum: null,
+        t12: null,
+        rent_roll: null,
     });
 
-    setFiles(allFiles);
-    setUploadStatus(allFiles.map(() => "")); // reset status
-  }
-};
+    const [status, setStatus] = useState<Record<FileType, string>>({
+        memorandum: "",
+        t12: "",
+        rent_roll: "",
+    });
 
-  const handleUpload = async () => {
-    if (files.length === 0) return;
+    const [loading, setLoading] = useState(false);
+    // const [theme, setTheme] = useState<"light" | "dark">("dark");
 
-    const formData = new FormData();
-    files.forEach(file => formData.append("files", file));
+    const [responseBlocks, setResponseBlocks] = useState<Block[] | null>(null);
 
-    try {
-      setLoading(true);
-      const res = await axios.post(`${API_URL}/api/gid_ai_summary/`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-      setUploadStatus(files.map(() => "Upload successful!"));
-      console.log("Response:", res.data);
-    } catch (error) {
-      console.error(error);
-      setUploadStatus(files.map(() => "Upload failed."));
-    } finally {
-      setLoading(false);
+    const inputRefs: Record<FileType, React.RefObject<HTMLInputElement>> = {
+        memorandum: useRef<HTMLInputElement>(null),
+        t12: useRef<HTMLInputElement>(null),
+        rent_roll: useRef<HTMLInputElement>(null),
+    };
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, type: FileType) => {
+        if (e.target.files?.[0]) {
+            const file = e.target.files[0];
+            if (file.type === "application/pdf") {
+                setFiles((prev) => ({ ...prev, [type]: file }));
+                setStatus((prev) => ({ ...prev, [type]: "" }));
+            } else {
+                setStatus((prev) => ({ ...prev, [type]: "Invalid file type. Only PDF allowed." }));
+            }
+        }
+    };
+
+    const handleUpload = async () => {
+        const formData = new FormData();
+        (Object.keys(files) as FileType[]).forEach((key) => {
+            if (files[key]) formData.append(key, files[key] as File);
+        });
+
+        if ([...formData.keys()].length === 0) return;
+
+        try {
+            setLoading(true);
+            const res = await axios.post(`${API_URL}/api/realestate_upload/`, formData, {
+                headers: { "Content-Type": "multipart/form-data" },
+            });
+
+            // ✅ Capture API response for rendering
+            const apiResponse = res.data?.memorandum?.response ?? [];
+            setResponseBlocks(apiResponse);
+
+            // Update statuses
+            const newStatus: Record<FileType, string> = { ...status };
+            (Object.keys(files) as FileType[]).forEach((key) => {
+                if (files[key]) newStatus[key] = "Uploaded ✅";
+            });
+            setStatus(newStatus);
+        } catch (error) {
+            console.error(error);
+            const newStatus: Record<FileType, string> = { ...status };
+            (Object.keys(files) as FileType[]).forEach((key) => {
+                if (files[key]) newStatus[key] = "Upload failed ❌";
+            });
+            setStatus(newStatus);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // ✅ If response is available → only render GENAIRenderer
+    if (responseBlocks) {
+        return <RRenderer blocks={responseBlocks} />;
     }
-  };
 
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    if (e.dataTransfer.files) {
-      const droppedFiles = Array.from(e.dataTransfer.files).filter(file =>
-        ["application/pdf", 
-         "application/vnd.ms-excel", 
-         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"].includes(file.type)
-      );
-      setFiles(droppedFiles);
-      setUploadStatus(droppedFiles.map(() => ""));
-    }
-  };
-
-  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => e.preventDefault();
-
-  return (
-    <div className="flex justify-center mt-16">
-              <button
-        onClick={() => navigate("/", { state: { scrollTo: "demos" } })}
-        className="fixed top-4 left-4 bg-blue-200 text-black px-4 py-2 rounded-lg 
-             hover:bg-blue-900 hover:text-white transition-colors shadow-md z-50"
-      >
-        ← Back
-      </button>
-      <div className="w-full max-w-lg p-6 bg-white rounded-2xl shadow-lg border border-gray-200">
-        <h2 className="text-2xl font-semibold mb-4 text-center text-gray-800">
-          Upload Real Estate Files
-        </h2>
-
+    return (
         <div
-          className={`border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-colors ${
-            files.length ? "border-green-500 bg-green-50" : "border-gray-300 hover:border-blue-400 hover:bg-blue-50"
-          }`}
-          onDrop={handleDrop}
-          onDragOver={handleDragOver}
-          onClick={() => inputRef.current?.click()}
+            className={`flex justify-center items-center min-h-screen transition-colors ${theme === "dark" ? "bg-gray-900" : "bg-gray-100"
+                }`}
         >
-          {files.length ? (
-            <p className="text-green-700 font-medium">{files.length} file(s) selected</p>
-          ) : (
-            <p className="text-gray-500">Drag & drop PDFs or Excel files here, or click to select</p>
-          )}
-        </div>
+            {/* Back button */}
+            <button
+                onClick={() => navigate("/", { state: { scrollTo: "demos" } })}
+                className={`fixed top-4 left-4 px-4 py-2 rounded-lg shadow-md z-50 ${theme === "dark"
+                    ? "bg-gray-700 text-white hover:bg-gray-600"
+                    : "bg-gray-200 text-black hover:bg-gray-300"
+                    }`}
+            >
+                ← Back
+            </button>
 
-        <input
-          type="file"
-          accept=".pdf, .xls, .xlsx"
-          multiple
-          className="hidden"
-          ref={inputRef}
-          onChange={handleFileChange}
-        />
+            {/* Theme toggle */}
+            <button
+                onClick={toggleTheme}
+                className={`fixed top-4 right-4 px-4 py-2 rounded-lg shadow-md z-50 ${theme === "dark"
+                        ? "bg-blue-600 text-white hover:bg-blue-500"
+                        : "bg-blue-500 text-white hover:bg-blue-600"
+                    }`}
+            >
+                {theme === "dark" ? "☀️ Light Mode" : "🌙 Dark Mode"}
+            </button>
 
-        <button
-          onClick={handleUpload}
-          disabled={loading || files.length === 0}
-          className="mt-6 w-full px-4 py-2 bg-green-600 text-white font-semibold rounded-xl hover:bg-green-700 disabled:opacity-50 transition"
-        >
-          {loading ? "Uploading..." : "Upload All"}
-        </button>
 
-        <div className="mt-4">
-          {files.map((file, idx) => (
-            <div key={idx} className="flex justify-between items-center py-1 border-b border-gray-100">
-              <span>{file.name}</span>
-              <span className={`text-sm font-medium ${
-                uploadStatus[idx].includes("failed") ? "text-red-500" : "text-green-600"
-              }`}>{uploadStatus[idx]}</span>
+            {/* Main card */}
+            <div
+                className={`w-full max-w-2xl p-8 rounded-2xl shadow-xl border transition-colors ${theme === "dark"
+                    ? "bg-gray-900 border-gray-800 text-white"
+                    : "bg-white border-gray-200 text-gray-800"
+                    }`}
+            >
+                <h2 className="text-3xl font-bold mb-6 text-center">
+                    Upload Real Estate Files (PDFs)
+                </h2>
+
+                <div className="grid gap-6">
+                    {renderFileCard("Memorandum", "memorandum")}
+                    {renderFileCard("T12", "t12")}
+                    {renderFileCard("Rent Roll", "rent_roll")}
+                </div>
+
+                <button
+                    onClick={handleUpload}
+                    disabled={loading || (!files.memorandum && !files.t12 && !files.rent_roll)}
+                    className={`mt-8 w-full px-4 py-3 font-semibold rounded-xl transition ${theme === "dark"
+                        ? "bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
+                        : "bg-blue-500 text-white hover:bg-blue-600 disabled:opacity-50"
+                        }`}
+                >
+                    {loading ? "Uploading..." : "Upload Selected"}
+                </button>
             </div>
-          ))}
         </div>
-      </div>
-    </div>
-  );
+    );
+
+    function renderFileCard(label: string, type: FileType) {
+        return (
+            <div
+                className={`p-4 rounded-xl shadow-md border transition-colors ${theme === "dark"
+                    ? "bg-gray-800 border-gray-700 text-white"
+                    : "bg-white border-gray-200 text-gray-800"
+                    }`}
+            >
+                <p className="font-semibold mb-2">{label}</p>
+                <div
+                    className={`border-2 border-dashed rounded-lg p-4 text-center cursor-pointer transition ${files[type]
+                        ? "border-green-400"
+                        : theme === "dark"
+                            ? "border-gray-500 hover:border-blue-400"
+                            : "border-gray-300 hover:border-blue-500"
+                        }`}
+                    onClick={() => inputRefs[type].current?.click()}
+                >
+                    {files[type] ? (
+                        <p className="text-green-500">{files[type]?.name}</p>
+                    ) : (
+                        <p className={`${theme === "dark" ? "text-gray-400" : "text-gray-500"}`}>
+                            Click to upload {label} (PDF only)
+                        </p>
+                    )}
+                </div>
+                <input
+                    type="file"
+                    accept=".pdf"
+                    className="hidden"
+                    ref={inputRefs[type]}
+                    onChange={(e) => handleFileChange(e, type)}
+                />
+                {status[type] && (
+                    <p
+                        className={`mt-2 text-sm ${status[type].includes("failed") || status[type].includes("Invalid")
+                            ? "text-red-400"
+                            : "text-green-500"
+                            }`}
+                    >
+                        {status[type]}
+                    </p>
+                )}
+            </div>
+        );
+    }
 };
 
 export default RealEstateUploader;
