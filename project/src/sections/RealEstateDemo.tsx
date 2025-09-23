@@ -33,7 +33,7 @@ const RealEstateDemo: React.FC = () => {
     }
 
     try {
-      const res = await axios.post(`${API_URL}/api/realestate_ai/`, {
+      const res = await axios.post(`${API_URL}/api/gid_ai_summary/`, {
         question: question.trim(),
         mode,
       });
@@ -152,7 +152,7 @@ const RealEstateDemo: React.FC = () => {
       {mode === "general" && generalResponse.length > 0 && (
         <Paper
           elevation={3}
-          sx={{ mt: 4, width: "100%", p: 3, borderRadius: 3 }}
+          sx={{ mt: 4, width: "70%", p: 3, borderRadius: 3 }}
         >
           {generalError && <p className="text-red-500">{generalError}</p>}
           {generalLoading && <p className="text-gray-500 italic">Loading response...</p>}
@@ -167,7 +167,7 @@ const RealEstateDemo: React.FC = () => {
       {mode === "gid" && gidResponse.length > 0 && (
         <Paper
           elevation={3}
-          sx={{ width: "100%", p: 3, borderRadius: 3 }}
+          sx={{  mt: 4,width: "70%", p: 3, borderRadius: 3 }}
         >
           {gidError && <p className="text-red-500">{gidError}</p>}
           {gidLoading && <p className="text-gray-500 italic">Loading response...</p>}
