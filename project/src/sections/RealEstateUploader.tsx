@@ -1,5 +1,5 @@
 // src/components/RealEstateUploader.tsx
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Block } from "../Components/Utils/ComponentsUtils";
@@ -35,6 +35,18 @@ const RealEstateUploader: React.FC = () => {
         t12: useRef<HTMLInputElement>(null),
         rent_roll: useRef<HTMLInputElement>(null),
     };
+useEffect(() => {
+    const stored = sessionStorage.getItem("responseBlocks");
+    if (stored) {
+        setResponseBlocks(JSON.parse(stored));
+    }
+}, []);
+
+useEffect(() => {
+    if (responseBlocks?.length) {
+        sessionStorage.setItem("responseBlocks", JSON.stringify(responseBlocks));
+    }
+}, [responseBlocks]);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, type: FileType) => {
         if (e.target.files?.[0]) {
@@ -48,46 +60,64 @@ const RealEstateUploader: React.FC = () => {
         }
     };
 
-    const handleUpload = async () => {
-        const formData = new FormData();
-        (Object.keys(files) as FileType[]).forEach((key) => {
-            if (files[key]) formData.append(key, files[key] as File);
+const handleUpload = async () => {
+    const formData = new FormData();
+    (Object.keys(files) as FileType[]).forEach((key) => {
+        if (files[key]) formData.append(key, files[key] as File);
+    });
+
+    if ([...formData.keys()].length === 0) return;
+
+    try {
+        setLoading(true);
+        const res = await axios.post(`${API_URL}/api/realestate_upload/`, formData, {
+            headers: { "Content-Type": "multipart/form-data" },
         });
 
-        if ([...formData.keys()].length === 0) return;
-
-        try {
-            setLoading(true);
-            const res = await axios.post(`${API_URL}/api/realestate_upload/`, formData, {
-                headers: { "Content-Type": "multipart/form-data" },
-            });
-
-            // ✅ Capture API response for rendering
-            const apiResponse = res.data?.memorandum?.response ?? [];
-            setResponseBlocks(apiResponse);
-
-            // Update statuses
-            const newStatus: Record<FileType, string> = { ...status };
-            (Object.keys(files) as FileType[]).forEach((key) => {
-                if (files[key]) newStatus[key] = "Uploaded ✅";
-            });
-            setStatus(newStatus);
-        } catch (error) {
-            console.error(error);
-            const newStatus: Record<FileType, string> = { ...status };
-            (Object.keys(files) as FileType[]).forEach((key) => {
-                if (files[key]) newStatus[key] = "Upload failed ❌";
-            });
-            setStatus(newStatus);
-        } finally {
-            setLoading(false);
+        // ✅ Capture API response for rendering
+        const apiResponse = res.data?.memorandum?.response ?? [];
+        if (apiResponse.length) {
+            setResponseBlocks(apiResponse); // only set if we got data
         }
-    };
+
+        // Update statuses
+        const newStatus: Record<FileType, string> = { ...status };
+        (Object.keys(files) as FileType[]).forEach((key) => {
+            if (files[key]) newStatus[key] = "Uploaded ✅";
+        });
+        setStatus(newStatus);
+    } catch (error) {
+        console.error(error);
+        const newStatus: Record<FileType, string> = { ...status };
+        (Object.keys(files) as FileType[]).forEach((key) => {
+            if (files[key]) newStatus[key] = "Upload failed ❌";
+        });
+        setStatus(newStatus);
+    } finally {
+        setLoading(false);
+    }
+};
+
 
     // ✅ If response is available → only render GENAIRenderer
-    if (responseBlocks) {
-        return <RRenderer blocks={responseBlocks} />;
-    }
+if (responseBlocks?.length) {
+    return (
+        <div className={`min-h-screen transition-colors ${theme === "dark" ? "bg-gray-900" : "bg-gray-100"}`}>
+            <button
+                onClick={() => setResponseBlocks(null)}
+                className={`fixed top-4 left-4 px-4 py-2 rounded-lg shadow-md z-50 ${
+                    theme === "dark"
+                        ? "bg-gray-700 text-white hover:bg-gray-600"
+                        : "bg-gray-200 text-black hover:bg-gray-300"
+                }`}
+            >
+                ← Upload More
+            </button>
+            <RRenderer blocks={responseBlocks} />
+        </div>
+    );
+}
+
 
     return (
         <div
