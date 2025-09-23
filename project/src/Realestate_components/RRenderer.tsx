@@ -53,10 +53,13 @@ const RRenderer: React.FC<{ blocks: Block[] }> = ({ blocks }) => {
 
   const grouped: Record<number, Block[]> = {};
   visibleBlocks.forEach((block) => {
+    if (!block || !block.type || !(block.type in BLOCK_RENDERERS)) return;
+
     const row = Number(block?.row ?? 0);
     if (!grouped[row]) grouped[row] = [];
     grouped[row].push(block);
   });
+
 
   const sortedRows = Object.entries(grouped).sort(([a], [b]) => Number(a) - Number(b));
 
@@ -70,52 +73,52 @@ const RRenderer: React.FC<{ blocks: Block[] }> = ({ blocks }) => {
         transition: "background-color 0.3s ease",
       }}
     >      {sortedRows.map(([rowKey, rowBlocksRaw]) => {
-        const rowBlocks = [...rowBlocksRaw].sort((a, b) => (a.column ?? 1) - (b.column ?? 1));
-        const rowTotalColumns = Math.max(...rowBlocks.map((b) => b.total_columns ?? 1), 1);
-        const baseSpan = Math.floor(12 / rowTotalColumns) || 1;
+      const rowBlocks = [...rowBlocksRaw].sort((a, b) => (a.column ?? 1) - (b.column ?? 1));
+      const rowTotalColumns = Math.max(...rowBlocks.map((b) => b.total_columns ?? 1), 1);
+      const baseSpan = Math.floor(12 / rowTotalColumns) || 1;
 
-        return (
-          <Box
-            key={`row-${rowKey}`}
-            sx={{
-              mb: 2,
-              display: "grid",
-              gridTemplateColumns: { xs: "repeat(1, 1fr)", sm: "repeat(12, 1fr)" },
-              gap: 2,
-            }}
-          >
-            {rowBlocks.map((block, idx) => {
-              const Renderer = BLOCK_RENDERERS[block.type];
-              if (!Renderer) return null;
+      return (
+        <Box
+          key={`row-${rowKey}`}
+          sx={{
+            mb: 2,
+            display: "grid",
+            gridTemplateColumns: { xs: "repeat(1, 1fr)", sm: "repeat(12, 1fr)" },
+            gap: 2,
+          }}
+        >
+          {rowBlocks.map((block, idx) => {
+            const Renderer = BLOCK_RENDERERS[block.type];
+            if (!Renderer) return null;
 
-              const col = Math.max(1, Number(block.column ?? 1));
-              const start = (col - 1) * baseSpan + 1;
-              const end = col === rowTotalColumns ? 13 : start + baseSpan;
-              const gridColumnValue = { xs: "1 / -1", sm: `${start} / ${end}` };
+            const col = Math.max(1, Number(block.column ?? 1));
+            const start = (col - 1) * baseSpan + 1;
+            const end = col === rowTotalColumns ? 13 : start + baseSpan;
+            const gridColumnValue = { xs: "1 / -1", sm: `${start} / ${end}` };
 
-              return (
-                <Box
-                  key={`${rowKey}-${block.type}-${col}-${idx}`}
-                  sx={{
-                    gridColumn: gridColumnValue,
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
+            return (
+              <Box
+                key={`${rowKey}-${block.type}-${col}-${idx}`}
+                sx={{
+                  gridColumn: gridColumnValue,
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: idx * 0.05, duration: 0.3, ease: "easeOut" }}
+                  style={{ flexGrow: 1, display: "flex" }}
                 >
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: idx * 0.05, duration: 0.3, ease: "easeOut" }}
-                    style={{ flexGrow: 1, display: "flex" }}
-                  >
-                    {Renderer(block as any)}
-                  </motion.div>
-                </Box>
-              );
-            })}
-          </Box>
-        );
-      })}
+                  {Renderer(block as any)}
+                </motion.div>
+              </Box>
+            );
+          })}
+        </Box>
+      );
+    })}
     </CardContent>
   );
 };
