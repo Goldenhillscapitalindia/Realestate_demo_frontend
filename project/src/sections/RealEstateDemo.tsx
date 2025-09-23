@@ -33,7 +33,7 @@ const RealEstateDemo: React.FC = () => {
     }
 
     try {
-      const res = await axios.post(`${API_URL}/api/gid_ai_summary/`, {
+      const res = await axios.post(`${API_URL}/api/realestate_ai/`, {
         question: question.trim(),
         mode,
       });
@@ -88,7 +88,7 @@ const RealEstateDemo: React.FC = () => {
 
       {/* </div> */}
 
-      <div className="max-w-7xl w-full bg-white rounded-xl shadow-md p-6">
+      <div className="max-w-7xl w-full bg-blue rounded-xl shadow-md p-6">
         <h1 className="text-2xl font-bold text-gray-900 mb-4 text-center">
           {mode === "general" ? "Global Assistant" : "GID Assistant"}
         </h1>
@@ -110,23 +110,26 @@ const RealEstateDemo: React.FC = () => {
         </div>
 
         {/* Prompt Section */}
-        <div className="flex items-center gap-2 mb-4">
+        <div className="flex items-center gap-2 mb-4 bg">
           <input
             type="text"
             value={currentQuestion}
             onChange={(e) => setCurrentQuestion(e.target.value)}
             placeholder="Ask your question..."
-            className="flex-1 p-3 border border-blue-200 rounded-full focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-800"
+            className="flex-1 p-3 rounded-full focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-800"
+            style={{
+              backgroundColor: "#f8faff", // 👈 light blue-gray background
+              border: "1px solid #dbeafe", // soft blue border
+            }}
             onKeyDown={(e) => {
               if (e.key === "Enter" && currentQuestion.trim()) {
-                // Clear previous response
                 if (mode === "general") setGeneralResponse([]);
                 else setGidResponse([]);
-
                 handleSubmit();
               }
             }}
           />
+
           <button
             onClick={() => {
               if (!currentQuestion.trim()) return;
@@ -152,8 +155,16 @@ const RealEstateDemo: React.FC = () => {
       {mode === "general" && generalResponse.length > 0 && (
         <Paper
           elevation={3}
-          sx={{ mt: 4, width: "70%", p: 3, borderRadius: 3 }}
+          sx={{
+            mt: 4,
+            width: "70%",
+            p: 3,
+            borderRadius: 3,
+            bgcolor: "#f1f5ff", // 👈 light indigo-blue background
+          }}
         >
+
+
           {generalError && <p className="text-red-500">{generalError}</p>}
           {generalLoading && <p className="text-gray-500 italic">Loading response...</p>}
           <GENAIRenderer
@@ -167,7 +178,13 @@ const RealEstateDemo: React.FC = () => {
       {mode === "gid" && gidResponse.length > 0 && (
         <Paper
           elevation={3}
-          sx={{  mt: 4,width: "70%", p: 3, borderRadius: 3 }}
+          sx={{
+            mt: 4,
+            width: "70%",
+            p: 3,
+            borderRadius: 3,
+            bgcolor: "#f1f5ff", // 👈 light indigo-blue background
+          }}
         >
           {gidError && <p className="text-red-500">{gidError}</p>}
           {gidLoading && <p className="text-gray-500 italic">Loading response...</p>}
