@@ -48,20 +48,24 @@ const RRenderer: React.FC<{ blocks: Block[] }> = ({ blocks }) => {
   const [visibleBlocks, setVisibleBlocks] = useState<Block[]>([]);
   const { theme } = useTheme();
 
-  useEffect(() => {
-    setVisibleBlocks([]);
-    let idx = 0;
-    const interval = setInterval(() => {
-      if (idx >= blocks.length) {
-        clearInterval(interval);
-        return;
-      }
-      setVisibleBlocks((prev) => [...prev, blocks[idx]]);
-      idx++;
-    }, 1000);
+useEffect(() => {
+  if (!blocks || blocks.length === 0) return;
 
-    return () => clearInterval(interval);
-  }, [blocks]);
+  setVisibleBlocks([blocks[0]]); // show first immediately
+  let idx = 1; // next block
+
+  const interval = setInterval(() => {
+    if (idx >= blocks.length) {
+      clearInterval(interval);
+      return;
+    }
+    setVisibleBlocks((prev) => [...prev, blocks[idx]]);
+    idx++;
+  }, 1000);
+
+  return () => clearInterval(interval);
+}, [blocks]);
+
 
   const grouped: Record<number, Block[]> = {};
   visibleBlocks.forEach((block) => {
