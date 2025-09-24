@@ -8,6 +8,7 @@ import GENAICardBlock from "./RCardBlock";
 import GENAIChartBlock from "./RChartBlock";
 import GENAITableBlock from "./RTableBlock";
 import RHeatmapBlock from "./RHeatmapBlock";
+import RInfoCard from "./RInfoCard";
 
 import {
   Block,
@@ -17,6 +18,7 @@ import {
   CardBlock,
   ChartBlock,
   HeatmapBlock,
+  InfoCardBlock
 } from "../Realestate_components/Utils/RComponentsUtils";
 import { useTheme } from "../sections/ThemeContext";
 
@@ -30,6 +32,10 @@ const BLOCK_RENDERERS: Record<BlockType, (block: any) => JSX.Element> = {
    heatmap: (block: HeatmapBlock) => (
     <RHeatmapBlock title={block.title} data={block.data} />
   ),
+   info_card: (block: InfoCardBlock) => <RInfoCard title={block.title} value={block.value} description={block.description} />,
+
+  
+
 };
 
 const RRenderer: React.FC<{ blocks: Block[] }> = ({ blocks }) => {
