@@ -79,18 +79,47 @@ const RHeatmapBlock: React.FC<RHeatmapBlockProps> = ({
     ],
   };
 
-  const options: any = {
-    maintainAspectRatio: false,
-    responsive: true,
-    scales: {
-      x: { type: "linear", offset: true, ticks: { stepSize: 1 }, min: -0.5, max: data[0].length - 0.5 },
-      y: { type: "linear", offset: true, ticks: { stepSize: 1 }, min: -0.5, max: data.length - 0.5 },
+const options: any = {
+  maintainAspectRatio: false,
+  responsive: true,
+  scales: {
+    x: {
+      type: "linear",
+      offset: true,
+      ticks: {
+        stepSize: 1,
+        color: "#ffffff", // White x-axis labels
+      },
+      min: -0.5,
+      max: data[0].length - 0.5,
+      grid: {
+        color: "rgba(255,255,255,0.1)", // optional: lighten grid lines
+      },
     },
-    plugins: {
-      legend: { display: false },
-      tooltip: { callbacks: { label: (ctx: any) => `Value: ${ctx.raw.v}` } },
+    y: {
+      type: "linear",
+      offset: true,
+      ticks: {
+        stepSize: 1,
+        color: "#ffffff", // White y-axis labels
+      },
+      min: -0.5,
+      max: data.length - 0.5,
+      grid: {
+        color: "rgba(255,255,255,0.1)", // optional: lighten grid lines
+      },
     },
-  };
+  },
+  plugins: {
+    legend: { display: false },
+    tooltip: {
+      callbacks: {
+        label: (ctx: any) => `Value: ${ctx.raw.v}`,
+      },
+    },
+  },
+};
+
 
   return (
     <Paper
