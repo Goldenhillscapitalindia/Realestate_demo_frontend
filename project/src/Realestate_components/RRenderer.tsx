@@ -34,7 +34,7 @@ table: (block: TableBlock) => (
   chart: (block: ChartBlock) => (
     <GENAIChartBlock chartType={block.chartType} title={block.title} data={block.data} />
   ),
-  heatmap: (block: HeatmapBlock) => <RHeatmapBlock title={block.title} data={block.data} />,
+  heatmap: (block: HeatmapBlock) => <RHeatmapBlock title={block.title} data={block.data} xlabels={[]} ylabels={[]} />,
   info_card: (block: InfoCardBlock) => (
     <RInfoCard
       title={block.title}

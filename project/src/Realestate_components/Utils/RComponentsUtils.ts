@@ -8,6 +8,9 @@ export type BlockType =
 
 
 export interface HeatmapBlock extends BaseBlock {
+  xlabels: string[];
+  ylabels: string[];
+
   type: "heatmap";
   title: string;
   data: number[][];
@@ -62,5 +65,5 @@ export type Block =
   | TableBlock
   | CardBlock
   | ChartBlock
-  | InfoCardBlock 
+  | InfoCardBlock
   | HeatmapBlock;

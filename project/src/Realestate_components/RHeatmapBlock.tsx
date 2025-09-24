@@ -9,50 +9,48 @@ ChartJS.register(LinearScale, Tooltip, Legend);
 export interface RHeatmapBlockProps {
   title: string;
   data: number[][];
+  xlabels: string[];
+  ylabels: string[];
   fixedHeight?: number;
 }
 
-// Predefined gradient pairs (start = low, end = high)
+// Predefined gradient pairs
 const gradients: Array<{ start: string; end: string }> = [
-  { start: "#ffffffff", end: "#B75BCF" }, // Gradient 1
-  { start: "#ffffffff", end: "#76D85D" }, // Gradient 2
-  { start: "#ffffffff", end: "#039AFF" }, // Gradient 3
-  { start: "#ffffffff", end: "#FF03AB" }, // Gradient 4
-  { start: "#ffffffff", end: "#FFFF03" }, // Gradient 5
-  { start: "#ffffffff", end: "#FF4203" }, // Gradient 6
+  { start: "#ffffffff", end: "#B75BCF" },
+  { start: "#ffffffff", end: "#76D85D" },
+  { start: "#ffffffff", end: "#039AFF" },
+  { start: "#ffffffff", end: "#FF03AB" },
+  { start: "#ffffffff", end: "#FFFF03" },
+  { start: "#ffffffff", end: "#FF4203" },
 ];
-
 
 const RHeatmapBlock: React.FC<RHeatmapBlockProps> = ({
   title,
   data,
+  xlabels,
+  ylabels,
   fixedHeight = 380,
 }) => {
   const allValues = data.flat();
   const minValue = Math.min(...allValues);
   const maxValue = Math.max(...allValues);
 
-  // Pick one gradient per render
   const { start: startColor, end: endColor } = useMemo(() => {
     return gradients[Math.floor(Math.random() * gradients.length)];
   }, []);
 
   const interpolateColor = (value: number) => {
     const ratio = (value - minValue) / (maxValue - minValue || 1);
-
     const parseHex = (hex: string) => [
       parseInt(hex.slice(1, 3), 16),
       parseInt(hex.slice(3, 5), 16),
       parseInt(hex.slice(5, 7), 16),
     ];
-
     const [r1, g1, b1] = parseHex(startColor);
     const [r2, g2, b2] = parseHex(endColor);
-
     const r = Math.round(r1 + ratio * (r2 - r1));
     const g = Math.round(g1 + ratio * (g2 - g1));
     const b = Math.round(b1 + ratio * (b2 - b1));
-
     return `rgb(${r},${g},${b})`;
   };
 
@@ -79,47 +77,44 @@ const RHeatmapBlock: React.FC<RHeatmapBlockProps> = ({
     ],
   };
 
-const options: any = {
-  maintainAspectRatio: false,
-  responsive: true,
-  scales: {
-    x: {
-      type: "linear",
-      offset: true,
-      ticks: {
-        stepSize: 1,
-        color: "#ffffff", // White x-axis labels
+  const options: any = {
+    maintainAspectRatio: false,
+    responsive: true,
+    scales: {
+      x: {
+        type: "linear",
+        offset: true,
+        ticks: {
+          stepSize: 1,
+          callback: (val: any) => xlabels[val] || "",
+          color: "#ffffff",
+        },
+        min: -0.5,
+        max: data[0].length - 0.5,
+        grid: { color: "rgba(255,255,255,0.1)" },
       },
-      min: -0.5,
-      max: data[0].length - 0.5,
-      grid: {
-        color: "rgba(255,255,255,0.1)", // optional: lighten grid lines
-      },
-    },
-    y: {
-      type: "linear",
-      offset: true,
-      ticks: {
-        stepSize: 1,
-        color: "#ffffff", // White y-axis labels
-      },
-      min: -0.5,
-      max: data.length - 0.5,
-      grid: {
-        color: "rgba(255,255,255,0.1)", // optional: lighten grid lines
-      },
-    },
-  },
-  plugins: {
-    legend: { display: false },
-    tooltip: {
-      callbacks: {
-        label: (ctx: any) => `Value: ${ctx.raw.v}`,
+      y: {
+        type: "linear",
+        offset: true,
+        ticks: {
+          stepSize: 1,
+          callback: (val: any) => ylabels[val] || "",
+          color: "#ffffff",
+        },
+        min: -0.5,
+        max: data.length - 0.5,
+        grid: { color: "rgba(255,255,255,0.1)" },
       },
     },
-  },
-};
-
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: (ctx: any) => `Value: ${ctx.raw.v}`,
+        },
+      },
+    },
+  };
 
   return (
     <Paper
@@ -135,7 +130,11 @@ const options: any = {
         flexDirection: "column",
       }}
     >
-      <Typography variant="subtitle1" fontWeight={600} sx={{ color: "#e5e7eb", mb: 1, textAlign: "center" }}>
+      <Typography
+        variant="subtitle1"
+        fontWeight={600}
+        sx={{ color: "#e5e7eb", mb: 1, textAlign: "center" }}
+      >
         {title}
       </Typography>
 
