@@ -111,7 +111,7 @@ if (responseBlocks?.length) {
                         : "bg-gray-200 text-black hover:bg-gray-300"
                 }`}
             >
-                ← Upload More
+                ← 
             </button>
             <RRenderer blocks={responseBlocks} />
         </div>

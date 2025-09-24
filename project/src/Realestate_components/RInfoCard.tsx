@@ -12,25 +12,41 @@ const RInfoCard: React.FC<InfoCardProps> = ({ title, value, description }) => {
   return (
     <Box
       sx={{
-        backgroundColor: "#1F2937", // dark card bg
-        color: "#F9FAFB", // light text
+        backgroundColor: "#1E1E2F", // dark card background
+        color: "#F5F5F5",
         borderRadius: 2,
-        padding: 2,
+        padding: 3,
         minWidth: 200,
         display: "flex",
         flexDirection: "column",
-        gap: 0.5,
-        boxShadow: "0 2px 10px rgba(0,0,0,0.2)",
+        alignItems: "center", // center horizontally
+        justifyContent: "center", // optional: center vertically if you set a fixed height
+        gap: 1.5,
+        boxShadow: "0 4px 15px rgba(0, 0, 0, 0.4)",
+        transition: "transform 0.2s",
+        "&:hover": {
+          transform: "translateY(-3px)",
+          boxShadow: "0 6px 20px rgba(0, 0, 0, 0.6)",
+        },
       }}
     >
-      <Typography variant="subtitle2" sx={{ color: "#9CA3AF" }}>
+      <Typography
+        variant="subtitle2"
+        sx={{ color: "#A0A0B0", textTransform: "uppercase", textAlign: "center" }}
+      >
         {title}
       </Typography>
-      <Typography variant="h5" sx={{ fontWeight: 700 }}>
+      <Typography
+        variant="h5"
+        sx={{ fontWeight: 700, color: "#FFFFFF", textAlign: "center" }}
+      >
         {value}
       </Typography>
       {description && (
-        <Typography variant="body2" sx={{ color: "#6B7280" }}>
+        <Typography
+          variant="body2"
+          sx={{ color: "#C0C0D0", textAlign: "center" }}
+        >
           {description}
         </Typography>
       )}
