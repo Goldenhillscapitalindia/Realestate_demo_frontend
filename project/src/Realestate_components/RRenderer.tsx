@@ -8,7 +8,7 @@ import GENAICardBlock from "./RCardBlock";
 import GENAIChartBlock from "./RChartBlock";
 import GENAITableBlock from "./RTableBlock";
 import RInfoCard from "./RInfoCard";
-
+import RHeatmapBlock from "./RHeatmapBlock";
 import {
   Block,
   BlockType,
@@ -16,19 +16,20 @@ import {
   TableBlock,
   CardBlock,
   ChartBlock,
-  InfoCardBlock
+  InfoCardBlock,
+  HeatmapBlock
 } from "../Realestate_components/Utils/RComponentsUtils";
 import { useTheme } from "../sections/ThemeContext";
 
 const BLOCK_RENDERERS: Record<BlockType, (block: any) => JSX.Element> = {
   text: (block: TextBlock) => <GENAITextBlock content={block.content} />,
-table: (block: TableBlock) => (
-  <GENAITableBlock
-    headers={block.headers}
-    rows={block.rows.map(row => row.map(cell => String(cell)))}
-  />
-)
-,  card: (block: CardBlock) => <GENAICardBlock {...block} />,
+  table: (block: TableBlock) => (
+    <GENAITableBlock
+      headers={block.headers}
+      rows={block.rows.map(row => row.map(cell => String(cell)))}
+    />
+  ),
+  card: (block: CardBlock) => <GENAICardBlock {...block} />,
   chart: (block: ChartBlock) => (
     <GENAIChartBlock chartType={block.chartType} title={block.title} data={block.data} />
   ),
@@ -39,7 +40,16 @@ table: (block: TableBlock) => (
       description={block.description}
     />
   ),
+  heatmap: (block: HeatmapBlock) => (
+    <RHeatmapBlock
+      title={block.title}
+      data={block.data}
+      xlabels={block.xlabels}
+      ylabels={block.ylabels}
+    />
+  ),
 };
+
 
 const RRenderer: React.FC<{ blocks: Block[] }> = ({ blocks }) => {
   const [visibleBlocks, setVisibleBlocks] = useState<Block[]>([]);

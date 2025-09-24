@@ -3,7 +3,7 @@ export type BlockType =
   | "table"
   | "card"
   | "chart"
-
+  |  "heatmap"
   | "info_card";
 
 
@@ -50,6 +50,15 @@ export interface ChartBlock extends BaseBlock {
   data: any;
 }
 
+export interface HeatmapBlock extends BaseBlock {
+  type: "heatmap";
+  title: string;
+  xlabels: string[];
+  ylabels: string[];
+  data: number[][];
+}
+
+
 
 
 export type Block =
@@ -57,5 +66,5 @@ export type Block =
   | TableBlock
   | CardBlock
   | ChartBlock
-  | InfoCardBlock ;
-
+  | InfoCardBlock
+  | HeatmapBlock;  // add heatmap block

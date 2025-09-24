@@ -1,15 +1,24 @@
 import React, { useMemo } from "react";
 import { Paper, Typography, Box } from "@mui/material";
 import { Chart } from "react-chartjs-2";
-import { Chart as ChartJS, LinearScale, Tooltip, Legend } from "chart.js";
 import "chartjs-chart-matrix";
+import { Chart as ChartJS, LinearScale, Tooltip, Legend, CategoryScale } from "chart.js";
+import { MatrixController, MatrixElement } from "chartjs-chart-matrix";
 
-ChartJS.register(LinearScale, Tooltip, Legend);
+ChartJS.register(
+  LinearScale,
+  CategoryScale,   // needed for x/y category axes
+  Tooltip,
+  Legend,
+  MatrixController,
+  MatrixElement   // needed to render the matrix cells
+);
 
 export interface RHeatmapBlockProps {
   title: string;
   data: number[][];
-  fixedHeight?: number;
+  xlabels: string[];
+  ylabels: string[];
 }
 
 // Predefined gradient pairs (start = low, end = high)
@@ -22,11 +31,11 @@ const gradients: Array<{ start: string; end: string }> = [
   { start: "#ffffffff", end: "#FF4203" }, // Gradient 6
 ];
 
-
 const RHeatmapBlock: React.FC<RHeatmapBlockProps> = ({
   title,
   data,
-  fixedHeight = 380,
+  xlabels,
+  ylabels,
 }) => {
   const allValues = data.flat();
   const minValue = Math.min(...allValues);
@@ -79,47 +88,42 @@ const RHeatmapBlock: React.FC<RHeatmapBlockProps> = ({
     ],
   };
 
-const options: any = {
-  maintainAspectRatio: false,
-  responsive: true,
-  scales: {
-    x: {
-      type: "linear",
-      offset: true,
-      ticks: {
-        stepSize: 1,
-        color: "#ffffff", // White x-axis labels
+  const options: any = {
+    maintainAspectRatio: false,
+    responsive: true,
+    scales: {
+      x: {
+        type: "category",
+        labels: xlabels,
+        offset: true,
+        ticks: {
+          color: "#ffffff",
+        },
+        grid: {
+          color: "rgba(255,255,255,0.1)",
+        },
       },
-      min: -0.5,
-      max: data[0].length - 0.5,
-      grid: {
-        color: "rgba(255,255,255,0.1)", // optional: lighten grid lines
-      },
-    },
-    y: {
-      type: "linear",
-      offset: true,
-      ticks: {
-        stepSize: 1,
-        color: "#ffffff", // White y-axis labels
-      },
-      min: -0.5,
-      max: data.length - 0.5,
-      grid: {
-        color: "rgba(255,255,255,0.1)", // optional: lighten grid lines
+      y: {
+        type: "category",
+        labels: ylabels,
+        offset: true,
+        ticks: {
+          color: "#ffffff",
+        },
+        grid: {
+          color: "rgba(255,255,255,0.1)",
+        },
       },
     },
-  },
-  plugins: {
-    legend: { display: false },
-    tooltip: {
-      callbacks: {
-        label: (ctx: any) => `Value: ${ctx.raw.v}`,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: (ctx: any) => `Value: ${ctx.raw.v}`,
+        },
       },
     },
-  },
-};
-
+  };
 
   return (
     <Paper
@@ -127,7 +131,6 @@ const options: any = {
       sx={{
         p: 2,
         width: "100%",
-        height: fixedHeight,
         borderRadius: 3,
         background: "#173347",
         boxShadow: 3,
@@ -135,7 +138,11 @@ const options: any = {
         flexDirection: "column",
       }}
     >
-      <Typography variant="subtitle1" fontWeight={600} sx={{ color: "#e5e7eb", mb: 1, textAlign: "center" }}>
+      <Typography
+        variant="subtitle1"
+        fontWeight={600}
+        sx={{ color: "#e5e7eb", mb: 1, textAlign: "center" }}
+      >
         {title}
       </Typography>
 
