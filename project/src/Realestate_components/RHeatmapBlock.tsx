@@ -1,4 +1,3 @@
-// src/components/RHeatmapBlock.tsx
 import React from "react";
 import { Paper, Typography, Box } from "@mui/material";
 import { Chart } from "react-chartjs-2";
@@ -10,8 +9,7 @@ import {
   Legend,
 } from "chart.js";
 import { MatrixController, MatrixElement } from "chartjs-chart-matrix";
-import 'chart.js/auto';               // imports and registers everything
-import 'chartjs-chart-matrix';  
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -45,12 +43,18 @@ const RHeatmapBlock: React.FC<RHeatmapBlockProps> = ({
         ),
         backgroundColor(ctx: any) {
           const value = ctx.dataset.data[ctx.dataIndex].v;
-          if (value < 15) return "rgba(96,165,250,0.6)"; // blue
-          if (value < 25) return "rgba(34,197,94,0.6)"; // green
+          if (value < 2) return "rgba(96,165,250,0.6)"; // blue
+          if (value < 5) return "rgba(34,197,94,0.6)"; // green
           return "rgba(239,68,68,0.6)"; // red
         },
-        width: ({ chart }: any) => chart.chartArea.width / data[0].length - 2,
-        height: ({ chart }: any) => chart.chartArea.height / data.length - 2,
+        width: ({ chart }: any) =>
+          chart.chartArea
+            ? chart.chartArea.width / data[0].length - 2
+            : 20,
+        height: ({ chart }: any) =>
+          chart.chartArea
+            ? chart.chartArea.height / data.length - 2
+            : 20,
       },
     ],
   };
@@ -59,8 +63,20 @@ const RHeatmapBlock: React.FC<RHeatmapBlockProps> = ({
     maintainAspectRatio: false,
     responsive: true,
     scales: {
-      x: { type: "linear", offset: true, ticks: { stepSize: 1 } },
-      y: { type: "linear", offset: true, ticks: { stepSize: 1 } },
+      x: {
+        type: "linear",
+        offset: true,
+        ticks: { stepSize: 1 },
+        min: -0.5,
+        max: data[0].length - 0.5,
+      },
+      y: {
+        type: "linear",
+        offset: true,
+        ticks: { stepSize: 1 },
+        min: -0.5,
+        max: data.length - 0.5,
+      },
     },
     plugins: {
       legend: { display: false },
@@ -89,7 +105,7 @@ const RHeatmapBlock: React.FC<RHeatmapBlockProps> = ({
       <Typography
         variant="subtitle1"
         fontWeight={600}
-        sx={{ color: "#2c387e", mb: 1 }}
+        sx={{ color: "#2c387e", mb: 1, textAlign: "center" }}
       >
         {title}
       </Typography>
