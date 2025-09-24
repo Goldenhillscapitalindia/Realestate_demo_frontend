@@ -14,14 +14,14 @@ export interface RHeatmapBlockProps {
 
 // Predefined gradient pairs (start = low, end = high)
 const gradients: Array<{ start: string; end: string }> = [
-  { start: "#ffffffff", end: "#fd2525ff" }, // Viridis
-  { start: "#ffffffff", end: "#fd7d02" }, // Inferno
-  { start: "#ffffffff", end: "#fde925" }, // Plasma
-  { start: "#ffffffff", end: "#ffff00" }, // Cividis
-  { start: "#ffffffff", end: "#ff4d00" }, // Coolwarm
-  { start: "#ffffffff", end: "#fdf117" }, // Magma
-  { start: "#ffffffff", end: "#00ff00" }, // Green-Blue
+  { start: "#ffffffff", end: "#B75BCF" }, // Gradient 1
+  { start: "#ffffffff", end: "#76D85D" }, // Gradient 2
+  { start: "#ffffffff", end: "#039AFF" }, // Gradient 3
+  { start: "#ffffffff", end: "#FF03AB" }, // Gradient 4
+  { start: "#ffffffff", end: "#FFFF03" }, // Gradient 5
+  { start: "#ffffffff", end: "#FF4203" }, // Gradient 6
 ];
+
 
 const RHeatmapBlock: React.FC<RHeatmapBlockProps> = ({
   title,
