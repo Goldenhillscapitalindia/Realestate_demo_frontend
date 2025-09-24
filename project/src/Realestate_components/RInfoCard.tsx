@@ -1,5 +1,4 @@
-// InfoCard.tsx
-import React from "react";
+import React, { useMemo } from "react";
 import { Box, Typography } from "@mui/material";
 
 export interface InfoCardProps {
@@ -8,11 +7,19 @@ export interface InfoCardProps {
   description?: string;
 }
 
+// Array of colors to pick from
+const valueColors = ["#B75BCF", "#76D85D", "#039AFF", "#FF03AB", "#FFFF03", "#FF4203"];
+
 const RInfoCard: React.FC<InfoCardProps> = ({ title, value, description }) => {
+  // Pick a random color for the value text
+  const valueColor = useMemo(() => {
+    return valueColors[Math.floor(Math.random() * valueColors.length)];
+  }, []);
+
   return (
     <Box
       sx={{
-        backgroundColor: "#173347", // card color
+        backgroundColor: "#173347",
         color: "#FFFFFF",
         borderRadius: 3,
         padding: 3,
@@ -20,7 +27,7 @@ const RInfoCard: React.FC<InfoCardProps> = ({ title, value, description }) => {
         display: "flex",
         flexDirection: "column",
         gap: 1.5,
-        boxShadow: "0 6px 20px rgba(0, 0, 0, 0.7)", // deeper shadow for premium feel
+        boxShadow: "0 6px 20px rgba(0, 0, 0, 0.7)",
         transition: "transform 0.3s, box-shadow 0.3s",
         "&:hover": {
           transform: "translateY(-5px)",
@@ -31,7 +38,7 @@ const RInfoCard: React.FC<InfoCardProps> = ({ title, value, description }) => {
       <Typography
         variant="subtitle2"
         sx={{
-          color: "#7FA6B1", // subtle muted accent
+          color: "#ffffffff",
           textTransform: "uppercase",
           textAlign: "center",
           letterSpacing: 1,
@@ -39,21 +46,23 @@ const RInfoCard: React.FC<InfoCardProps> = ({ title, value, description }) => {
       >
         {title}
       </Typography>
+
       <Typography
         variant="h5"
         sx={{
           fontWeight: 700,
-          color: "#E0F7FA", // bright readable value
+          color: valueColor, // random color applied
           textAlign: "center",
         }}
       >
         {value}
       </Typography>
+
       {description && (
         <Typography
           variant="body2"
           sx={{
-            color: "#A0CFE8", // softer description color
+            color: "#c5e2f1ff",
             textAlign: "center",
           }}
         >
