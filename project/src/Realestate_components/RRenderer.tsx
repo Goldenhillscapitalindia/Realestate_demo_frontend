@@ -6,9 +6,7 @@ import { motion } from "framer-motion";
 import GENAITextBlock from "./RTextBlock";
 import GENAICardBlock from "./RCardBlock";
 import GENAIChartBlock from "./RChartBlock";
-import GENAILinkBlock from "./RLinkBlock";
 import GENAITableBlock from "./RTableBlock";
-import GENAIImageCard from "./RImageCard";
 
 import {
   Block,
@@ -16,21 +14,17 @@ import {
   TextBlock,
   TableBlock,
   CardBlock,
-  LinkBlock,
   ChartBlock,
-  ImageBlock,
-} from "../Components/Utils/ComponentsUtils";
+} from "../Realestate_components/Utils/RComponentsUtils";
 import { useTheme } from "../sections/ThemeContext";
 
 const BLOCK_RENDERERS: Record<BlockType, (block: any) => JSX.Element> = {
   text: (block: TextBlock) => <GENAITextBlock content={block.content} />,
   table: (block: TableBlock) => <GENAITableBlock headers={block.headers} rows={block.rows} />,
   card: (block: CardBlock) => <GENAICardBlock {...block} />,
-  link: (block: LinkBlock) => <GENAILinkBlock text={block.text} url={block.url} />,
   chart: (block: ChartBlock) => (
     <GENAIChartBlock chartType={block.chartType} title={block.title} data={block.data} />
   ),
-  image: (block: ImageBlock) => <GENAIImageCard {...block} />,
 };
 
 const RRenderer: React.FC<{ blocks: Block[] }> = ({ blocks }) => {

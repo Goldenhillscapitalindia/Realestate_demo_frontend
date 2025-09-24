@@ -5,8 +5,15 @@ export type BlockType =
   | "link"
   | "chart"
   | "image"
+  | "video"
+  | "calendar"
+  | "tree"
+  | "suggested_questions";
 
-
+export interface SuggestedQuestionsBlock extends BaseBlock {
+  type: "suggested_questions";
+  questions: string[];
+}
 
 
 export interface BaseBlock {
@@ -53,8 +60,23 @@ export interface ChartBlock extends BaseBlock {
   data: any;
 }
 
+export interface CalendarBlock extends BaseBlock {
+  type: "calendar";
+  title: string;
+  data: {
+    date: string;
+    label: string;
+  }[];
+}
 
-
+export interface TreeBlock extends BaseBlock {
+  type: "tree";
+  title: string;
+  data: {
+    name: string;
+    children?: TreeBlock["data"][];
+  };
+}
 
 
 // Image block
@@ -67,6 +89,13 @@ export interface ImageBlock extends BaseBlock {
 }
 
 // Video block
+export interface VideoBlock extends BaseBlock {
+  type: "video";
+  title: string;
+  description: string;
+  url: string;
+  thumbnail: string;
+}
 
 export type Block =
   | TextBlock
@@ -74,5 +103,9 @@ export type Block =
   | CardBlock
   | LinkBlock
   | ImageBlock
-
+  | VideoBlock
+  | CalendarBlock
+  | TreeBlock
+  | ChartBlock
+  | SuggestedQuestionsBlock;
 
