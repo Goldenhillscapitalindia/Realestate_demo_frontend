@@ -15,16 +15,16 @@ import ReactMarkdown from "react-markdown";
 import { motion } from "framer-motion";
 
 const COLOR_THEMES = [
-  { headerColor: "#1E3A8A", rowHover: "rgba(30, 58, 138, 0.08)" },
-  { headerColor: "#B91C1C", rowHover: "rgba(185, 28, 28, 0.08)" },
-  { headerColor: "#0F766E", rowHover: "rgba(15, 118, 110, 0.08)" },
-  { headerColor: "#6D28D9", rowHover: "rgba(109, 40, 217, 0.08)" },
+  { headerColor: "#4FC3F7", rowHover: "rgba(79,195,247,0.1)" }, // light blue
+  { headerColor: "#FFB74D", rowHover: "rgba(255,183,77,0.1)" }, // amber
+  { headerColor: "#81C784", rowHover: "rgba(129,199,132,0.1)" }, // green
+  { headerColor: "#BA68C8", rowHover: "rgba(186,104,200,0.1)" }, // purple
 ];
 
 const getRandomTheme = () =>
   COLOR_THEMES[Math.floor(Math.random() * COLOR_THEMES.length)];
 
-const GENATableBlock: React.FC<{
+const RTableBlock: React.FC<{
   headers: string[];
   rows: string[][];
   title?: string;
@@ -42,7 +42,7 @@ const GENATableBlock: React.FC<{
         elevation={3}
         sx={{
           borderRadius: 3,
-          bgcolor: "#f5f7fa", // subtle pastel background
+          bgcolor: "#1e1e1e", // dark background
           width: "100%",
           boxSizing: "border-box",
           transition: "transform 0.3s ease, box-shadow 0.3s ease",
@@ -95,7 +95,8 @@ const GENATableBlock: React.FC<{
                         backgroundColor: theme.rowHover,
                         transition: "background-color 0.3s ease",
                       },
-                      backgroundColor: i % 2 === 0 ? "rgba(0,0,0,0.01)" : "transparent", // subtle striping
+                      backgroundColor:
+                        i % 2 === 0 ? "rgba(255,255,255,0.05)" : "transparent", // subtle striping
                     }}
                   >
                     {row.map((cell, j) => (
@@ -105,6 +106,7 @@ const GENATableBlock: React.FC<{
                           fontSize: "0.875rem",
                           verticalAlign: "top",
                           wordBreak: "break-word",
+                          color: "#e0e0e0", // light gray text for dark bg
                         }}
                       >
                         <ReactMarkdown>{cell}</ReactMarkdown>
@@ -121,4 +123,4 @@ const GENATableBlock: React.FC<{
   );
 };
 
-export default GENATableBlock;
+export default RTableBlock;

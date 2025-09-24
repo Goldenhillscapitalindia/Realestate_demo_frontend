@@ -2,7 +2,7 @@ import React from "react";
 import { Card, CardContent, Typography } from "@mui/material";
 import ReactMarkdown from "react-markdown";
 
-const GENAITextBlock: React.FC<{ content: string }> = ({ content }) => {
+const RTextBlock: React.FC<{ content: string }> = ({ content }) => {
   return (
     <Card
       sx={{
@@ -32,4 +32,4 @@ const GENAITextBlock: React.FC<{ content: string }> = ({ content }) => {
   );
 };
 
-export default GENAITextBlock;
+export default RTextBlock;
