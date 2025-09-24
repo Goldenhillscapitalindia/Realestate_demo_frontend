@@ -8,7 +8,7 @@ export interface InfoCardProps {
 }
 
 // Array of colors to pick from
-const valueColors = ["#B75BCF", "#76D85D", "#039AFF", "#FF03AB", "#FFFF03", "#FF4203"];
+const valueColors = ["#b39cfaff", "#76d85d", "#039aff", "#ff8503", "#ffff03", "#03ffea"];
 
 const RInfoCard: React.FC<InfoCardProps> = ({ title, value, description }) => {
   // Pick a random color for the value text
