@@ -7,6 +7,7 @@ import GENAITextBlock from "./RTextBlock";
 import GENAICardBlock from "./RCardBlock";
 import GENAIChartBlock from "./RChartBlock";
 import GENAITableBlock from "./RTableBlock";
+import RHeatmapBlock from "./RHeatmapBlock";
 
 import {
   Block,
@@ -15,6 +16,7 @@ import {
   TableBlock,
   CardBlock,
   ChartBlock,
+  HeatmapBlock,
 } from "../Realestate_components/Utils/RComponentsUtils";
 import { useTheme } from "../sections/ThemeContext";
 
@@ -25,11 +27,15 @@ const BLOCK_RENDERERS: Record<BlockType, (block: any) => JSX.Element> = {
   chart: (block: ChartBlock) => (
     <GENAIChartBlock chartType={block.chartType} title={block.title} data={block.data} />
   ),
+   heatmap: (block: HeatmapBlock) => (
+    <RHeatmapBlock title={block.title} data={block.data} />
+  ),
 };
 
 const RRenderer: React.FC<{ blocks: Block[] }> = ({ blocks }) => {
   const [visibleBlocks, setVisibleBlocks] = useState<Block[]>([]);
   const { theme } = useTheme();
+  
   useEffect(() => {
     setVisibleBlocks([]);
     let idx = 0;
