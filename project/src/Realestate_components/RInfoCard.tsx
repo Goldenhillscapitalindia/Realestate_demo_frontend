@@ -19,8 +19,6 @@ const RInfoCard: React.FC<InfoCardProps> = ({ title, value, description }) => {
         minWidth: 200,
         display: "flex",
         flexDirection: "column",
-        alignItems: "center", // center horizontally
-        justifyContent: "center", // optional: center vertically if you set a fixed height
         gap: 1.5,
         boxShadow: "0 4px 15px rgba(0, 0, 0, 0.4)",
         transition: "transform 0.2s",
