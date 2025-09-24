@@ -4,6 +4,7 @@ import GENAIRenderer from '../Components/GENAIRenderer';
 import { Block } from '../Components/Utils/ComponentsUtils';
 import { useNavigate } from "react-router-dom";
 import { Paper } from "@mui/material";
+import AIThinkingLoader from "../Components/AIThinkingLoader";
 const RealEstateDemo: React.FC = () => {
   const API_URL = import.meta.env.VITE_API_URL;
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ const RealEstateDemo: React.FC = () => {
     }
 
     try {
-      const res = await axios.post(`${API_URL}/api/realestate_ai/`, {
+      const res = await axios.post(`${API_URL}/api/gid_ai_summary/`, {
         question: question.trim(),
         mode,
       });
@@ -149,52 +150,57 @@ const RealEstateDemo: React.FC = () => {
 
       </div>
 
-      {/* Response Section */}
+{/* Response Section */}
+{currentLoading ? (
+  <AIThinkingLoader message="AI is thinking… please hold on" />
+) : (
+  <>
+    {mode === "general" && generalResponse.length > 0 && (
+      <Paper
+        elevation={3}
+        sx={{
+          mt: 4,
+          width: "70%",
+          p: 3,
+          borderRadius: 3,
+          bgcolor: "#f1f5ff",
+        }}
+      >
+        {generalError && <p className="text-red-500">{generalError}</p>}
+        <GENAIRenderer
+          blocks={generalResponse}
+          setQuestion={setGeneralQuestion}
+          handleSubmit={(question?: string) =>
+            handleSuggestionClick(question || generalQuestion)
+          }
+        />
+      </Paper>
+    )}
 
+    {mode === "gid" && gidResponse.length > 0 && (
+      <Paper
+        elevation={3}
+        sx={{
+          mt: 4,
+          width: "70%",
+          p: 3,
+          borderRadius: 3,
+          bgcolor: "#f1f5ff",
+        }}
+      >
+        {gidError && <p className="text-red-500">{gidError}</p>}
+        <GENAIRenderer
+          blocks={gidResponse}
+          setQuestion={setGidQuestion}
+          handleSubmit={(question?: string) =>
+            handleSuggestionClick(question || gidQuestion)
+          }
+        />
+      </Paper>
+    )}
+  </>
+)}
 
-      {mode === "general" && generalResponse.length > 0 && (
-        <Paper
-          elevation={3}
-          sx={{
-            mt: 4,
-            width: "70%",
-            p: 3,
-            borderRadius: 3,
-            bgcolor: "#f1f5ff", // 👈 light indigo-blue background
-          }}
-        >
-
-
-          {generalError && <p className="text-red-500">{generalError}</p>}
-          {generalLoading && <p className="text-gray-500 italic">Loading response...</p>}
-          <GENAIRenderer
-            blocks={generalResponse}
-            setQuestion={setGeneralQuestion}
-            handleSubmit={(question?: string) => handleSuggestionClick(question || generalQuestion)}
-          />
-        </Paper>
-      )}
-
-      {mode === "gid" && gidResponse.length > 0 && (
-        <Paper
-          elevation={3}
-          sx={{
-            mt: 4,
-            width: "70%",
-            p: 3,
-            borderRadius: 3,
-            bgcolor: "#f1f5ff", // 👈 light indigo-blue background
-          }}
-        >
-          {gidError && <p className="text-red-500">{gidError}</p>}
-          {gidLoading && <p className="text-gray-500 italic">Loading response...</p>}
-          <GENAIRenderer
-            blocks={gidResponse}
-            setQuestion={setGidQuestion}
-            handleSubmit={(question?: string) => handleSuggestionClick(question || gidQuestion)}
-          />
-        </Paper>
-      )}
 
     </div>
   );
