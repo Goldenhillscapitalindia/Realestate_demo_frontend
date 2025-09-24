@@ -305,7 +305,7 @@ const S1PdfUpload: React.FC = () => {
             </section>
           </section>
         )}
-        <S1DealSummary data={{
+        {/* <S1DealSummary data={{
         "ticker_name": "MPLT",
         "exchange": "Nasdaq Global Market",
         "company_name": "MapLight Therapeutics, Inc.",
@@ -338,12 +338,12 @@ const S1PdfUpload: React.FC = () => {
         "sponsor_track_record_category": "The sponsor has a strong track record, having raised around $511M from top-tier VC and healthcare investors. Their scientific leadership is highly regarded for successfully translating circuit neuroscience discoveries into clinical applications.",
         "esg_focus_category": "The company's thesis is fundamentally centered on addressing unmet needs and improving quality of life for CNS patients, indicating a core focus on social impact within healthcare. Although there is material attention to employee retention, lab safety, and privacy, broader ESG integration, especially environmental factors, appears peripheral and not central to the overall investment thesis.",
         "ma_opportunities_category": "Although no explicit past M&A activity or specific buyer interest is reported, the strong CNS pipeline and IP position the company well for future strategic acquisitions amid ongoing industry consolidation."
-    }} />
+    }} /> */}
 
         {/* Output */}
         {(stage === "success" && data?.data) && (
           <div ref={outputRef} className="mt-10">
-            {/* <S1DealSummary data={data.data} /> */}
+            <S1DealSummary data={data.data} />
             
             <div className="mt-6 flex gap-3">
               <button
