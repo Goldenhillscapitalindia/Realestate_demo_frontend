@@ -65,28 +65,28 @@ const RHeatmapBlock: React.FC<RHeatmapBlockProps> = ({
     return `rgb(${r},${g},${b})`;
   };
 
-  const formattedData = {
-    datasets: [
-      {
-        label: title,
-        data: data.flatMap((row, i) =>
-          row.map((value, j) => ({
-            x: j,
-            y: i,
-            v: value,
-          }))
-        ),
-        backgroundColor: (ctx: any) => {
-          const value = ctx.dataset.data[ctx.dataIndex].v;
-          return interpolateColor(value);
-        },
-        width: ({ chart }: any) =>
-          chart.chartArea ? chart.chartArea.width / data[0].length - 2 : 20,
-        height: ({ chart }: any) =>
-          chart.chartArea ? chart.chartArea.height / data.length - 2 : 20,
+const formattedData = {
+  datasets: [
+    {
+      label: title,
+      data: data.flatMap((row, i) =>
+        row.map((value, j) => ({
+          x: xlabels[j],   // use label string instead of index
+          y: ylabels[i],   // use label string instead of index
+          v: value,
+        }))
+      ),
+      backgroundColor: (ctx: any) => {
+        const value = ctx.dataset.data[ctx.dataIndex].v;
+        return interpolateColor(value);
       },
-    ],
-  };
+      width: ({ chart }: any) =>
+        chart.chartArea ? chart.chartArea.width / xlabels.length  : 1,
+      height: ({ chart }: any) =>
+        chart.chartArea ? chart.chartArea.height / ylabels.length : 1,
+    },
+  ],
+};
 
   const options: any = {
     maintainAspectRatio: false,
