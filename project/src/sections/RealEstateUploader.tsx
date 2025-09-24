@@ -11,7 +11,7 @@ type FileType = "memorandum" | "t12" | "rent_roll";
 const RealEstateUploader: React.FC = () => {
   const API_URL = import.meta.env.VITE_API_URL;
   const navigate = useNavigate();
-  const { theme, toggleTheme } = useTheme();
+  const { theme } = useTheme();
 
   const [files, setFiles] = useState<Record<FileType, File | null>>({
     memorandum: null,
@@ -26,6 +26,7 @@ const RealEstateUploader: React.FC = () => {
   });
 
   const [loading, setLoading] = useState(false);
+  const [progressMessage, setProgressMessage] = useState(""); // 🔥 new state for engaging messages
 
   const [responseBlocks, setResponseBlocks] = useState<Record<FileType, Block[]>>({
     memorandum: [],
@@ -67,7 +68,13 @@ const RealEstateUploader: React.FC = () => {
 
     try {
       setLoading(true);
-      const res = await axios.post(`${API_URL}/api/realestate_upload/`, formData, {
+
+      setTimeout(() => setProgressMessage("📄 Uploading PDF..."), 10000);
+      setTimeout(() => setProgressMessage("Formatting the data..."), 20000);
+      setTimeout(() => setProgressMessage("Almost you are there..."), 10000);
+
+
+      const res = await axios.post(`${API_URL}/api/upload_documents/`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
@@ -91,8 +98,10 @@ const RealEstateUploader: React.FC = () => {
         if (files[key]) newStatus[key] = "Upload failed ❌";
       });
       setStatus(newStatus);
+      setProgressMessage("❌ Upload failed. Please try again.");
     } finally {
       setLoading(false);
+      setTimeout(() => setProgressMessage(""), 15000); // clear after 15s
     }
   };
 
@@ -115,7 +124,7 @@ const RealEstateUploader: React.FC = () => {
         theme === "dark" ? "bg-gray-900" : "bg-gray-100"
       }`}
     >
-      {/* Back & Theme Buttons */}
+      {/* Back Button */}
       <button
         onClick={() => navigate("/", { state: { scrollTo: "demos" } })}
         className={`fixed top-4 left-4 px-4 py-2 rounded-lg shadow-md z-50 ${
@@ -126,16 +135,6 @@ const RealEstateUploader: React.FC = () => {
       >
         ← Back
       </button>
-      {/* <button
-        onClick={toggleTheme}
-        className={`fixed top-4 right-4 px-4 py-2 rounded-lg shadow-md z-50 ${
-          theme === "dark"
-            ? "bg-blue-600 text-white hover:bg-blue-500"
-            : "bg-blue-500 text-white hover:bg-blue-600"
-        }`}
-      >
-        {theme === "dark" ? "☀️ Light Mode" : "🌙 Dark Mode"}
-      </button> */}
 
       {/* Main Card */}
       <div
@@ -175,6 +174,13 @@ const RealEstateUploader: React.FC = () => {
             ))}
         </div>
 
+        {/* Progress Indicator */}
+        {loading && (
+          <div className="mt-6 text-center animate-pulse">
+            <p className="text-lg font-semibold">{progressMessage}</p>
+          </div>
+        )}
+
         <button
           onClick={handleUpload}
           disabled={loading || (!files.memorandum && !files.t12 && !files.rent_roll)}
@@ -184,7 +190,7 @@ const RealEstateUploader: React.FC = () => {
               : "bg-blue-500 text-white hover:bg-blue-600 disabled:opacity-50"
           }`}
         >
-          {loading ? "Uploading..." : "Upload Selected"}
+          {loading ? "Processing..." : "Upload Selected"}
         </button>
       </div>
     </div>
