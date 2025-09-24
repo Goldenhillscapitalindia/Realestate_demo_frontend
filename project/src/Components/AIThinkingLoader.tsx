@@ -36,7 +36,7 @@ const AIThinkingLoader: React.FC<{ message?: string }> = ({ message }) => {
         variant="h6"
         sx={{ color: "#6A1B9A", fontWeight: 600, letterSpacing: 0.5, mt: 1 }}
       >
-        {message || "AI is thinking… please hold on"}
+        {message || "AI is thinking… please hold on for a moment."}
       </Typography>
     </Paper>
   );
