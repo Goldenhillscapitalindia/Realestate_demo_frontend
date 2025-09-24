@@ -50,10 +50,8 @@ const RRenderer: React.FC<{ blocks: Block[] }> = ({ blocks }) => {
 
 useEffect(() => {
   if (!blocks || blocks.length === 0) return;
-
-  setVisibleBlocks([blocks[0]]); // show first immediately
-  let idx = 1; // next block
-
+setVisibleBlocks([]); // Start with no blocks visible
+  let idx = -1;
   const interval = setInterval(() => {
     if (idx >= blocks.length) {
       clearInterval(interval);
