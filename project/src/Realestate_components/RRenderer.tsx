@@ -7,7 +7,6 @@ import GENAITextBlock from "./RTextBlock";
 import GENAICardBlock from "./RCardBlock";
 import GENAIChartBlock from "./RChartBlock";
 import GENAITableBlock from "./RTableBlock";
-import RHeatmapBlock from "./RHeatmapBlock";
 import RInfoCard from "./RInfoCard";
 
 import {
@@ -17,7 +16,6 @@ import {
   TableBlock,
   CardBlock,
   ChartBlock,
-  HeatmapBlock,
   InfoCardBlock
 } from "../Realestate_components/Utils/RComponentsUtils";
 import { useTheme } from "../sections/ThemeContext";
@@ -34,7 +32,6 @@ table: (block: TableBlock) => (
   chart: (block: ChartBlock) => (
     <GENAIChartBlock chartType={block.chartType} title={block.title} data={block.data} />
   ),
-  heatmap: (block: HeatmapBlock) => <RHeatmapBlock title={block.title} data={block.data} xlabels={[]} ylabels={[]} />,
   info_card: (block: InfoCardBlock) => (
     <RInfoCard
       title={block.title}
