@@ -27,18 +27,17 @@ const RealEstateResponses: React.FC<Props> = ({ responses, onBack }) => {
 
   return (
     <div
-      className={`min-h-screen transition-colors ${
-        theme === "dark" ? "bg-gray-900" : "bg-gray-100"
-      }`}
+      className={`min-h-screen transition-colors`}
+      style={{ backgroundColor: theme === "dark" ? "#09151A" : "#F5F5F5" }}
     >
       {/* Back button */}
       <button
         onClick={onBack}
-        className={`fixed top-4 left-4 px-4 py-2 rounded-lg shadow-md z-50 ${
-          theme === "dark"
-            ? "bg-gray-700 text-white hover:bg-gray-600"
-            : "bg-gray-200 text-black hover:bg-gray-300"
-        }`}
+        className="fixed top-4 left-4 px-4 py-2 rounded-lg shadow-md z-50 transition-transform hover:scale-105"
+        style={{
+          backgroundColor: theme === "dark" ? "#102330" : "#E5E5E5",
+          color: theme === "dark" ? "#E0F7FA" : "#000",
+        }}
       >
         ← Back
       </button>
@@ -46,32 +45,34 @@ const RealEstateResponses: React.FC<Props> = ({ responses, onBack }) => {
       <div className="max-w-6xl mx-auto p-6">
         {/* Tabs */}
         <div className="flex space-x-2 mb-6">
-          {availableTabs.map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`px-4 py-2 rounded-lg font-semibold transition ${
-                activeTab === tab
-                  ? theme === "dark"
-                    ? "bg-blue-600 text-white"
-                    : "bg-blue-500 text-white"
-                  : theme === "dark"
-                  ? "bg-gray-700 text-gray-300 hover:bg-gray-600"
-                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-              }`}
-            >
-              {TAB_LABELS[tab]}
-            </button>
-          ))}
+          {availableTabs.map((tab) => {
+            const isActive = activeTab === tab;
+            return (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className="px-4 py-2 rounded-lg font-semibold transition-colors"
+                style={{
+                  backgroundColor: isActive
+                    ? "#1B4F72"
+                    : theme === "dark"
+                    ? "#102330"
+                    : "#E5E5E5",
+                  color: isActive ? "#E0F7FA" : theme === "dark" ? "#A0CFE8" : "#333",
+                }}
+              >
+                {TAB_LABELS[tab]}
+              </button>
+            );
+          })}
         </div>
 
         {/* Active Tab Content */}
-        <div>
-          <h2
-            className={`text-2xl font-bold mb-4 ${
-              theme === "dark" ? "text-white" : "text-gray-800"
-            }`}
-          >
+        <div
+          className="rounded-lg p-6"
+          style={{ backgroundColor: "#0d1d29" }} // response background
+        >
+          <h2 className="text-2xl font-bold mb-4" style={{ color: "#E0F7FA" }}>
             {TAB_LABELS[activeTab]} Response
           </h2>
           <RRenderer blocks={responses[activeTab]} />

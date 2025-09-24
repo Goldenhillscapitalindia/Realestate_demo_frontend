@@ -79,7 +79,7 @@ setVisibleBlocks([]); // Start with no blocks visible
     <CardContent
       sx={{
         paddingBottom: 0,
-        bgcolor: theme === "dark" ? "grey.900" : "grey.100",
+        // bgcolor: theme === "dark" ? "grey.900" : "grey.100",
         color: theme === "dark" ? "white" : "black",
         minHeight: "100vh",
         transition: "background-color 0.3s ease",
