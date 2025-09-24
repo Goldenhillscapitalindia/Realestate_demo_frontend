@@ -74,7 +74,7 @@ const RealEstateUploader: React.FC = () => {
       setTimeout(() => setProgressMessage("Almost you are there..."), 10000);
 
 
-      const res = await axios.post(`${API_URL}/api/realestate_upload/`, formData, {
+      const res = await axios.post(`${API_URL}/api/upload_documents/`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
