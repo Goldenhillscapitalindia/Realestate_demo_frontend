@@ -34,9 +34,8 @@ export interface TextBlock extends BaseBlock {
 
 // Table block
 export interface TableBlock extends BaseBlock {
-  type: "table";
   headers: string[];
-  rows: string[][];
+  rows: (string | number)[][]; // <- allow numbers
 }
 
 // Card block

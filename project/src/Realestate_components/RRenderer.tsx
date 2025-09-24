@@ -24,8 +24,13 @@ import { useTheme } from "../sections/ThemeContext";
 
 const BLOCK_RENDERERS: Record<BlockType, (block: any) => JSX.Element> = {
   text: (block: TextBlock) => <GENAITextBlock content={block.content} />,
-  table: (block: TableBlock) => <GENAITableBlock headers={block.headers} rows={block.rows} />,
-  card: (block: CardBlock) => <GENAICardBlock {...block} />,
+table: (block: TableBlock) => (
+  <GENAITableBlock
+    headers={block.headers}
+    rows={block.rows.map(row => row.map(cell => String(cell)))}
+  />
+)
+,  card: (block: CardBlock) => <GENAICardBlock {...block} />,
   chart: (block: ChartBlock) => (
     <GENAIChartBlock chartType={block.chartType} title={block.title} data={block.data} />
   ),
