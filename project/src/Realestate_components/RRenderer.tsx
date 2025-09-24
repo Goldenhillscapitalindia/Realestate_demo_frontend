@@ -59,7 +59,7 @@ setVisibleBlocks([]); // Start with no blocks visible
     }
     setVisibleBlocks((prev) => [...prev, blocks[idx]]);
     idx++;
-  }, 1000);
+  }, 500);
 
   return () => clearInterval(interval);
 }, [blocks]);
