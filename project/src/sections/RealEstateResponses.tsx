@@ -42,7 +42,7 @@ const RealEstateResponses: React.FC<Props> = ({ responses, onBack }) => {
         ← Back
       </button>
 
-      <div className="max-w-6xl mx-auto p-6">
+      <div className="max-w-7xl mx-auto p-6">
         {/* Tabs */}
         <div className="flex space-x-2 mb-6">
           {availableTabs.map((tab) => {
