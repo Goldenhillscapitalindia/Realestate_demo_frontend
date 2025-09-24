@@ -12,7 +12,7 @@ const RInfoCard: React.FC<InfoCardProps> = ({ title, value, description }) => {
   return (
     <Box
       sx={{
-        backgroundColor: "#102330", // card color
+        backgroundColor: "#173347", // card color
         color: "#FFFFFF",
         borderRadius: 3,
         padding: 3,

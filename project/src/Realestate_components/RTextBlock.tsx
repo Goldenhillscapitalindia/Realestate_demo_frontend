@@ -6,7 +6,7 @@ const RTextBlock: React.FC<{ content: string }> = ({ content }) => {
   return (
     <Card
       sx={{
-        backgroundColor: "#102330", // dark card background
+        backgroundColor: "#173347", // dark card background
         borderRadius: 3,
         boxShadow: "0 6px 18px rgba(0,0,0,0.5)",
         border: "1px solid #163042", // subtle border for depth

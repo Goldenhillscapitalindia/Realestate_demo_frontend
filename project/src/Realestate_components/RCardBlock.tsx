@@ -10,35 +10,35 @@ const COLOR_PALETTES = [
     textColor: "#e0e0e0",     // light gray
     subtitleColor: "#9ca3af", // cool gray
     borderColor: "#2563eb",   // strong blue accent
-    background: "#102330",    // primary card color
+    background: "#173347",    // primary card color
   },
   {
     titleColor: "#f87171",    // soft red
     textColor: "#e5e5e5",
     subtitleColor: "#b0b0b0",
     borderColor: "#dc2626",
-    background: "#102330",
+    background: "#173347",
   },
   {
     titleColor: "#34d399",    // teal/green
     textColor: "#f0f0f0",
     subtitleColor: "#94a3b8",
     borderColor: "#10b981",
-    background: "#102330",
+    background: "#173347",
   },
   {
     titleColor: "#fbbf24",    // yellow/gold
     textColor: "#f5f5f5",
     subtitleColor: "#d6d6d6",
     borderColor: "#f59e0b",
-    background: "#102330",
+    background: "#173347",
   },
   {
     titleColor: "#a78bfa",    // violet
     textColor: "#e0e0e0",
     subtitleColor: "#bdbdbd",
     borderColor: "#8b5cf6",
-    background: "#102330",
+    background: "#173347",
   },
 ];
 

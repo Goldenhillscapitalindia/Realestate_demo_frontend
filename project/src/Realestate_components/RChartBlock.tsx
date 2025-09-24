@@ -60,7 +60,7 @@ const RChartBlock: React.FC<GENAIChartBlockProps> = ({
         sx={{
           p: 2,
           m: 2,
-          bgcolor: "#102330",
+          bgcolor: "#173347",
           width: "100%",
           borderRadius: 2,
           boxShadow: "0 4px 12px rgba(0,0,0,0.5)",
@@ -128,7 +128,7 @@ const RChartBlock: React.FC<GENAIChartBlockProps> = ({
         width: "100%",
         height: fixedHeight,
         borderRadius: 3,
-        background: "linear-gradient(135deg, #102330, #163042)",
+        background: "linear-gradient(135deg, #173347, #163042)",
         boxShadow: "0 8px 24px rgba(0,0,0,0.4)",
         display: "flex",
         flexDirection: "column",

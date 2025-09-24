@@ -44,7 +44,7 @@ const RTableBlock: React.FC<{
         elevation={3}
         sx={{
           borderRadius: 3,
-          bgcolor: "#102330",
+          bgcolor: "#173347",
           width: "100%",
           boxSizing: "border-box",
           transition: "transform 0.3s ease, box-shadow 0.3s ease",
