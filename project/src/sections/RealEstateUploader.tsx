@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Block } from "../Components/Utils/ComponentsUtils";
+import { Block } from "../Realestate_components/Utils/RComponentsUtils";
 import RRenderer from "../Realestate_components/RRenderer";
 import { useTheme } from "../sections/ThemeContext";
 
