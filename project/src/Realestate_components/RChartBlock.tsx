@@ -87,18 +87,24 @@ const RChartBlock: React.FC<GENAIChartBlockProps> = ({
     };
   }
 
-  const chartOptions: any = {
-    maintainAspectRatio: false,
-    responsive: true,
-    plugins: {
-      legend: { display: true, position: "bottom", labels: { color: "#e0e0e0" } },
-      tooltip: { bodyColor: "#fff", titleColor: "#fff", backgroundColor: "#163042" },
-    },
-    scales: {
-      x: { ticks: { color: "#e0e0e0" }, grid: { color: "#163042" } },
-      y: { ticks: { color: "#e0e0e0" }, grid: { color: "#163042" } },
-    },
-  };
+const chartOptions: any = {
+  maintainAspectRatio: false,
+  responsive: true,
+  plugins: {
+    legend: { display: true, position: "bottom", labels: { color: "#e0e0e0" } },
+    tooltip: { bodyColor: "#fff", titleColor: "#fff", backgroundColor: "#163042" },
+  },
+  // Conditionally include scales only for charts that need them
+  ...(type !== "pie" && type !== "doughnut"
+    ? {
+        scales: {
+          x: { ticks: { color: "#e0e0e0" }, grid: { color: "#163042" } },
+          y: { ticks: { color: "#e0e0e0" }, grid: { color: "#163042" } },
+        },
+      }
+    : {}),
+};
+
 
   if (type === "area") {
     formattedData = {
