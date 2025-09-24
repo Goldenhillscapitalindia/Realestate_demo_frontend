@@ -1,5 +1,4 @@
-// InfoCard.tsx
-import React from "react";
+import React, { useMemo } from "react";
 import { Box, Typography } from "@mui/material";
 
 export interface InfoCardProps {
@@ -8,42 +7,64 @@ export interface InfoCardProps {
   description?: string;
 }
 
+// Array of colors to pick from
+const valueColors = ["#b39cfaff", "#76d85d", "#039aff", "#ff8503", "#ffff03", "#03ffea"];
+
 const RInfoCard: React.FC<InfoCardProps> = ({ title, value, description }) => {
+  // Pick a random color for the value text
+  const valueColor = useMemo(() => {
+    return valueColors[Math.floor(Math.random() * valueColors.length)];
+  }, []);
+
   return (
     <Box
       sx={{
-        backgroundColor: "#1E1E2F", // dark card background
-        color: "#F5F5F5",
-        borderRadius: 2,
+        backgroundColor: "#173347",
+        color: "#FFFFFF",
+        borderRadius: 3,
         padding: 3,
-        minWidth: 200,
+        minWidth: 220,
         display: "flex",
         flexDirection: "column",
         gap: 1.5,
-        boxShadow: "0 4px 15px rgba(0, 0, 0, 0.4)",
-        transition: "transform 0.2s",
+        boxShadow: "0 6px 20px rgba(0, 0, 0, 0.7)",
+        transition: "transform 0.3s, box-shadow 0.3s",
         "&:hover": {
-          transform: "translateY(-3px)",
-          boxShadow: "0 6px 20px rgba(0, 0, 0, 0.6)",
+          transform: "translateY(-5px)",
+          boxShadow: "0 10px 30px rgba(0, 0, 0, 0.8)",
         },
       }}
     >
       <Typography
         variant="subtitle2"
-        sx={{ color: "#A0A0B0", textTransform: "uppercase", textAlign: "center" }}
+        sx={{
+          color: "#ffffffff",
+          textTransform: "uppercase",
+          textAlign: "center",
+          letterSpacing: 1,
+        }}
       >
         {title}
       </Typography>
+
       <Typography
         variant="h5"
-        sx={{ fontWeight: 700, color: "#FFFFFF", textAlign: "center" }}
+        sx={{
+          fontWeight: 700,
+          color: valueColor, // random color applied
+          textAlign: "center",
+        }}
       >
         {value}
       </Typography>
+
       {description && (
         <Typography
           variant="body2"
-          sx={{ color: "#C0C0D0", textAlign: "center" }}
+          sx={{
+            color: "#c5e2f1ff",
+            textAlign: "center",
+          }}
         >
           {description}
         </Typography>

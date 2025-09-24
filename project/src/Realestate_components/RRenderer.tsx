@@ -7,9 +7,8 @@ import GENAITextBlock from "./RTextBlock";
 import GENAICardBlock from "./RCardBlock";
 import GENAIChartBlock from "./RChartBlock";
 import GENAITableBlock from "./RTableBlock";
-import RHeatmapBlock from "./RHeatmapBlock";
 import RInfoCard from "./RInfoCard";
-
+import RHeatmapBlock from "./RHeatmapBlock";
 import {
   Block,
   BlockType,
@@ -17,19 +16,23 @@ import {
   TableBlock,
   CardBlock,
   ChartBlock,
-  HeatmapBlock,
-  InfoCardBlock
+  InfoCardBlock,
+  HeatmapBlock
 } from "../Realestate_components/Utils/RComponentsUtils";
 import { useTheme } from "../sections/ThemeContext";
 
 const BLOCK_RENDERERS: Record<BlockType, (block: any) => JSX.Element> = {
   text: (block: TextBlock) => <GENAITextBlock content={block.content} />,
-  table: (block: TableBlock) => <GENAITableBlock headers={block.headers} rows={block.rows} />,
+  table: (block: TableBlock) => (
+    <GENAITableBlock
+      headers={block.headers}
+      rows={block.rows.map(row => row.map(cell => String(cell)))}
+    />
+  ),
   card: (block: CardBlock) => <GENAICardBlock {...block} />,
   chart: (block: ChartBlock) => (
     <GENAIChartBlock chartType={block.chartType} title={block.title} data={block.data} />
   ),
-  heatmap: (block: HeatmapBlock) => <RHeatmapBlock title={block.title} data={block.data} />,
   info_card: (block: InfoCardBlock) => (
     <RInfoCard
       title={block.title}
@@ -37,26 +40,37 @@ const BLOCK_RENDERERS: Record<BlockType, (block: any) => JSX.Element> = {
       description={block.description}
     />
   ),
+  heatmap: (block: HeatmapBlock) => (
+    <RHeatmapBlock
+      title={block.title}
+      data={block.data}
+      xlabels={block.xlabels}
+      ylabels={block.ylabels}
+    />
+  ),
 };
+
 
 const RRenderer: React.FC<{ blocks: Block[] }> = ({ blocks }) => {
   const [visibleBlocks, setVisibleBlocks] = useState<Block[]>([]);
   const { theme } = useTheme();
 
-  useEffect(() => {
-    setVisibleBlocks([]);
-    let idx = 0;
-    const interval = setInterval(() => {
-      if (idx >= blocks.length) {
-        clearInterval(interval);
-        return;
-      }
-      setVisibleBlocks((prev) => [...prev, blocks[idx]]);
-      idx++;
-    }, 1000);
+useEffect(() => {
+  if (!blocks || blocks.length === 0) return;
+setVisibleBlocks([]); // Start with no blocks visible
+  let idx = -1;
+  const interval = setInterval(() => {
+    if (idx >= blocks.length) {
+      clearInterval(interval);
+      return;
+    }
+    setVisibleBlocks((prev) => [...prev, blocks[idx]]);
+    idx++;
+  }, 500);
 
-    return () => clearInterval(interval);
-  }, [blocks]);
+  return () => clearInterval(interval);
+}, [blocks]);
+
 
   const grouped: Record<number, Block[]> = {};
   visibleBlocks.forEach((block) => {
@@ -72,7 +86,7 @@ const RRenderer: React.FC<{ blocks: Block[] }> = ({ blocks }) => {
     <CardContent
       sx={{
         paddingBottom: 0,
-        bgcolor: theme === "dark" ? "grey.900" : "grey.100",
+        // bgcolor: theme === "dark" ? "grey.900" : "grey.100",
         color: theme === "dark" ? "white" : "black",
         minHeight: "100vh",
         transition: "background-color 0.3s ease",

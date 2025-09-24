@@ -1,12 +1,14 @@
 import React from "react";
 import { Paper, Box, Typography } from "@mui/material";
 import PsychologyAltIcon from "@mui/icons-material/PsychologyAlt";
-
+import thinkingGif from "../assests/thinking.gif";
 const AIThinkingLoader: React.FC<{ message?: string }> = ({ message }) => {
   return (
     <Paper
       elevation={4}
       sx={{
+        mt: 4,          // added margin-top
+        width: "70%",   // added width
         p: 4,
         borderRadius: 4,
         display: "flex",
@@ -26,7 +28,7 @@ const AIThinkingLoader: React.FC<{ message?: string }> = ({ message }) => {
       <PsychologyAltIcon sx={{ fontSize: 48, color: "#6A1B9A" }} />
       <Box
         component="img"
-        src="/images/thinking.gif"
+        src={thinkingGif}
         alt="AI Thinking"
         sx={{ width: 120, height: 120 }}
       />
@@ -34,7 +36,7 @@ const AIThinkingLoader: React.FC<{ message?: string }> = ({ message }) => {
         variant="h6"
         sx={{ color: "#6A1B9A", fontWeight: 600, letterSpacing: 0.5, mt: 1 }}
       >
-        {message || "AI is thinking… please hold on"}
+        {message || "AI is thinking… please hold on for a moment."}
       </Typography>
     </Paper>
   );
