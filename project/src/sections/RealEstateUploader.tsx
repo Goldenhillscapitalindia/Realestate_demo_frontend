@@ -27,7 +27,6 @@ const RealEstateUploader: React.FC = () => {
 
   const [loading, setLoading] = useState(false);
 
-  // Maintain responses keyed by file type
   const [responseBlocks, setResponseBlocks] = useState<Record<FileType, Block[]>>({
     memorandum: [],
     t12: [],
@@ -52,6 +51,12 @@ const RealEstateUploader: React.FC = () => {
     }
   };
 
+  const handleRemoveFile = (type: FileType) => {
+    setFiles((prev) => ({ ...prev, [type]: null }));
+    setStatus((prev) => ({ ...prev, [type]: "" }));
+    if (inputRefs[type].current) inputRefs[type].current.value = ""; // reset input
+  };
+
   const handleUpload = async () => {
     const formData = new FormData();
     (Object.keys(files) as FileType[]).forEach((key) => {
@@ -66,7 +71,6 @@ const RealEstateUploader: React.FC = () => {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      // Capture API responses for each file type
       const newResponses: Record<FileType, Block[]> = {
         memorandum: res.data.memorandum?.response ?? [],
         t12: res.data.t12?.response ?? [],
@@ -75,7 +79,6 @@ const RealEstateUploader: React.FC = () => {
 
       setResponseBlocks(newResponses);
 
-      // Update statuses
       const newStatus: Record<FileType, string> = { ...status };
       (Object.keys(files) as FileType[]).forEach((key) => {
         if (files[key]) newStatus[key] = "Uploaded ✅";
@@ -93,7 +96,6 @@ const RealEstateUploader: React.FC = () => {
     }
   };
 
-  // If responses exist → render response viewer
   if (
     responseBlocks.memorandum.length ||
     responseBlocks.t12.length ||
@@ -102,21 +104,18 @@ const RealEstateUploader: React.FC = () => {
     return (
       <RealEstateResponses
         responses={responseBlocks}
-        onBack={() =>
-          setResponseBlocks({ memorandum: [], t12: [], rent_roll: [] })
-        }
+        onBack={() => setResponseBlocks({ memorandum: [], t12: [], rent_roll: [] })}
       />
     );
   }
 
-  // Render uploader
   return (
     <div
       className={`flex justify-center items-center min-h-screen transition-colors ${
         theme === "dark" ? "bg-gray-900" : "bg-gray-100"
       }`}
     >
-      {/* Back button */}
+      {/* Back & Theme Buttons */}
       <button
         onClick={() => navigate("/", { state: { scrollTo: "demos" } })}
         className={`fixed top-4 left-4 px-4 py-2 rounded-lg shadow-md z-50 ${
@@ -127,9 +126,7 @@ const RealEstateUploader: React.FC = () => {
       >
         ← Back
       </button>
-
-      {/* Theme toggle */}
-      <button
+      {/* <button
         onClick={toggleTheme}
         className={`fixed top-4 right-4 px-4 py-2 rounded-lg shadow-md z-50 ${
           theme === "dark"
@@ -138,9 +135,9 @@ const RealEstateUploader: React.FC = () => {
         }`}
       >
         {theme === "dark" ? "☀️ Light Mode" : "🌙 Dark Mode"}
-      </button>
+      </button> */}
 
-      {/* Main card */}
+      {/* Main Card */}
       <div
         className={`w-full max-w-2xl p-8 rounded-2xl shadow-xl border transition-colors ${
           theme === "dark"
@@ -156,6 +153,26 @@ const RealEstateUploader: React.FC = () => {
           {renderFileCard("Memorandum", "memorandum")}
           {renderFileCard("T12", "t12")}
           {renderFileCard("Rent Roll", "rent_roll")}
+        </div>
+
+        {/* Uploaded Files Preview */}
+        <div className="mt-6 space-y-2">
+          {(Object.keys(files) as FileType[])
+            .filter((key) => files[key])
+            .map((key) => (
+              <div
+                key={key}
+                className="flex items-center justify-between p-2 rounded-lg border text-black bg-blue-100 dark:bg-blue-800 border-gray-300 dark:border-gray-700"
+              >
+                <span className="text-sm">{files[key]?.name}</span>
+                <button
+                  onClick={() => handleRemoveFile(key)}
+                  className="text-red-500 font-bold hover:text-red-700"
+                >
+                  ❌
+                </button>
+              </div>
+            ))}
         </div>
 
         <button
