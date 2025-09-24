@@ -1,12 +1,6 @@
 import React from "react";
 import { Paper, Typography, Box, Divider } from "@mui/material";
-import {
-  Pie,
-  Bar,
-  Line,
-  Scatter,
-  Bubble,
-} from "react-chartjs-2";
+import { Pie, Bar, Line, Scatter, Bubble } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -17,7 +11,7 @@ import {
   ArcElement,
   Tooltip,
   Legend,
-  Filler, // Needed for Area Chart
+  Filler,
 } from "chart.js";
 import ReactMarkdown from "react-markdown";
 
@@ -37,10 +31,10 @@ type GENAIChartBlockProps = {
   chartType: string;
   data: any;
   title: string;
-  fixedHeight?: number; // height in pixels
+  fixedHeight?: number;
 };
 
-const GENAIChartBlock: React.FC<GENAIChartBlockProps> = ({
+const RChartBlock: React.FC<GENAIChartBlockProps> = ({
   chartType,
   data,
   title,
@@ -52,10 +46,10 @@ const GENAIChartBlock: React.FC<GENAIChartBlockProps> = ({
     pie: Pie,
     bar: Bar,
     line: Line,
-    area: Line,         // Area is a Line chart with `fill: true`
+    area: Line,
     scatter: Scatter,
     bubble: Bubble,
-    stackedbar: Bar,    // Stacked bar uses Bar with special options
+    stackedbar: Bar,
   };
 
   const ChartComponent = chartMap[type];
@@ -66,13 +60,13 @@ const GENAIChartBlock: React.FC<GENAIChartBlockProps> = ({
         sx={{
           p: 2,
           m: 2,
-          bgcolor: "#fff",
+          bgcolor: "#102330",
           width: "100%",
           borderRadius: 2,
-          boxShadow: 2,
+          boxShadow: "0 4px 12px rgba(0,0,0,0.5)",
         }}
       >
-        <Typography variant="body2" sx={{ color: "#d32f2f" }}>
+        <Typography variant="body2" sx={{ color: "#f87171" }}>
           Unsupported chart type: <strong>{chartType}</strong>
         </Typography>
       </Paper>
@@ -93,23 +87,26 @@ const GENAIChartBlock: React.FC<GENAIChartBlockProps> = ({
     };
   }
 
-  // Set custom options
   const chartOptions: any = {
     maintainAspectRatio: false,
     responsive: true,
     plugins: {
-      legend: { display: true, position: "bottom" },
+      legend: { display: true, position: "bottom", labels: { color: "#e0e0e0" } },
+      tooltip: { bodyColor: "#fff", titleColor: "#fff", backgroundColor: "#163042" },
+    },
+    scales: {
+      x: { ticks: { color: "#e0e0e0" }, grid: { color: "#163042" } },
+      y: { ticks: { color: "#e0e0e0" }, grid: { color: "#163042" } },
     },
   };
 
   if (type === "area") {
-    // Ensure all datasets in area chart have fill: true
     formattedData = {
       ...data,
       datasets: data.datasets.map((ds: any) => ({
         ...ds,
         fill: true,
-        backgroundColor: ds.backgroundColor || "rgba(96,165,250,0.4)",
+        backgroundColor: ds.backgroundColor || "rgba(96,165,250,0.3)",
         borderColor: ds.borderColor || "#60a5fa",
         tension: 0.3,
       })),
@@ -118,12 +115,8 @@ const GENAIChartBlock: React.FC<GENAIChartBlockProps> = ({
 
   if (type === "stackedbar") {
     chartOptions.scales = {
-      x: {
-        stacked: true,
-      },
-      y: {
-        stacked: true,
-      },
+      x: { stacked: true, ticks: { color: "#e0e0e0" }, grid: { color: "#163042" } },
+      y: { stacked: true, ticks: { color: "#e0e0e0" }, grid: { color: "#163042" } },
     };
   }
 
@@ -135,8 +128,8 @@ const GENAIChartBlock: React.FC<GENAIChartBlockProps> = ({
         width: "100%",
         height: fixedHeight,
         borderRadius: 3,
-        background: "linear-gradient(135deg, #f5f7fa, #e4ecf7)",
-        boxShadow: 3,
+        background: "linear-gradient(135deg, #102330, #163042)",
+        boxShadow: "0 8px 24px rgba(0,0,0,0.4)",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
@@ -145,17 +138,17 @@ const GENAIChartBlock: React.FC<GENAIChartBlockProps> = ({
       <Typography
         variant="subtitle1"
         fontWeight={600}
-        sx={{ color: "#2c387e", mb: 1 }}
+        sx={{ color: "#e0e0e0", mb: 1 }}
       >
         <ReactMarkdown>{title}</ReactMarkdown>
       </Typography>
 
-      <Divider sx={{ mb: 1 }} />
+      <Divider sx={{ mb: 1, borderColor: "#163042" }} />
 
       <Box
         sx={{
           width: "100%",
-          height: `calc(${fixedHeight}px - 64px)`, // leave room for title & divider
+          height: `calc(${fixedHeight}px - 64px)`,
           position: "relative",
         }}
       >
@@ -165,4 +158,4 @@ const GENAIChartBlock: React.FC<GENAIChartBlockProps> = ({
   );
 };
 
-export default GENAIChartBlock;
+export default RChartBlock;

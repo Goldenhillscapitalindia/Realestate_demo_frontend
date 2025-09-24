@@ -14,11 +14,13 @@ import {
 import ReactMarkdown from "react-markdown";
 import { motion } from "framer-motion";
 
+// Dark-mode color themes using requested colors
 const COLOR_THEMES = [
-  { headerColor: "#4FC3F7", rowHover: "rgba(79,195,247,0.1)" }, // light blue
-  { headerColor: "#FFB74D", rowHover: "rgba(255,183,77,0.1)" }, // amber
-  { headerColor: "#81C784", rowHover: "rgba(129,199,132,0.1)" }, // green
-  { headerColor: "#BA68C8", rowHover: "rgba(186,104,200,0.1)" }, // purple
+  { headerColor: "#60a5fa", rowHover: "#163042" }, // blue accent
+  { headerColor: "#f87171", rowHover: "#163042" }, // red accent
+  { headerColor: "#34d399", rowHover: "#163042" }, // green accent
+  { headerColor: "#fbbf24", rowHover: "#163042" }, // yellow/gold
+  { headerColor: "#a78bfa", rowHover: "#163042" }, // violet
 ];
 
 const getRandomTheme = () =>
@@ -42,11 +44,11 @@ const RTableBlock: React.FC<{
         elevation={3}
         sx={{
           borderRadius: 3,
-          bgcolor: "#1e1e1e", // dark background
+          bgcolor: "#102330",
           width: "100%",
           boxSizing: "border-box",
           transition: "transform 0.3s ease, box-shadow 0.3s ease",
-          "&:hover": { transform: "scale(1.01)", boxShadow: 5 },
+          "&:hover": { transform: "scale(1.01)", boxShadow: "0 12px 24px rgba(0,0,0,0.6)" },
         }}
       >
         {title && (
@@ -59,6 +61,7 @@ const RTableBlock: React.FC<{
             sx={{ pb: 0 }}
           />
         )}
+
         <CardContent sx={{ pt: title ? 1 : 2 }}>
           <Box sx={{ width: "100%", overflowX: "auto" }}>
             <Table
@@ -86,6 +89,7 @@ const RTableBlock: React.FC<{
                   ))}
                 </TableRow>
               </TableHead>
+
               <TableBody>
                 {rows.map((row, i) => (
                   <TableRow
@@ -96,7 +100,7 @@ const RTableBlock: React.FC<{
                         transition: "background-color 0.3s ease",
                       },
                       backgroundColor:
-                        i % 2 === 0 ? "rgba(255,255,255,0.05)" : "transparent", // subtle striping
+                        i % 2 === 0 ? "#163042" : "transparent", // subtle striping
                     }}
                   >
                     {row.map((cell, j) => (
@@ -106,7 +110,7 @@ const RTableBlock: React.FC<{
                           fontSize: "0.875rem",
                           verticalAlign: "top",
                           wordBreak: "break-word",
-                          color: "#e0e0e0", // light gray text for dark bg
+                          color: "#e0e0e0", // light gray for dark background
                         }}
                       >
                         <ReactMarkdown>{cell}</ReactMarkdown>
