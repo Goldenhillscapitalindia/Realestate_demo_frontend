@@ -100,7 +100,7 @@ const RHeatmapBlock: React.FC<RHeatmapBlockProps> = ({
         width: "100%",
         height: fixedHeight,
         borderRadius: 3,
-        background: "linear-gradient(135deg, #111827, #1f2937)",
+        background: "#173347",
         boxShadow: 3,
         display: "flex",
         flexDirection: "column",
