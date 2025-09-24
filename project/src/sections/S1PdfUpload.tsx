@@ -2,6 +2,7 @@
 import React, { useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import S1DealSummary from "./S1DealData";
 
 /**
  * S1PdfUpload
@@ -92,14 +93,18 @@ const S1PdfUpload: React.FC = () => {
       setMessage("");
       setProgress(0);
 
-      const res = await axios.post(`${API_URL}/api/document_data_extraction/`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-        onUploadProgress: (evt) => {
-          if (!evt.total) return;
-          const percent = Math.round((evt.loaded * 100) / evt.total);
-          setProgress(percent);
-        },
-      });
+      const res = await axios.post(
+        `${API_URL}/api/document_data_extraction/`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+          onUploadProgress: (evt) => {
+            if (!evt.total) return;
+            const percent = Math.round((evt.loaded * 100) / evt.total);
+            setProgress(percent);
+          },
+        }
+      );
 
       setResponseData(res.data);
       setStage("success");
@@ -140,8 +145,8 @@ const S1PdfUpload: React.FC = () => {
             Upload SEC Filing (S-1 / F-1 / 424B)
           </h1>
           <p className="mt-2 text-slate-600">
-            Drop the original SEC PDF. We’ll send it to our extractor (LlamaCloud)
-            and return a structured summary for your IPO analysis.
+            Drop the original SEC PDF. We’ll send it to our extractor
+            (LlamaCloud) and return a structured summary for your IPO analysis.
           </p>
           <div className="mt-3 flex flex-wrap gap-2">
             {["S-1", "F-1", "424B", "Prospectus"].map((chip) => (
@@ -203,7 +208,9 @@ const S1PdfUpload: React.FC = () => {
                 role="button"
                 tabIndex={0}
                 onClick={openPicker}
-                onKeyDown={(e) => (e.key === "Enter" || e.key === " " ? openPicker() : null)}
+                onKeyDown={(e) =>
+                  e.key === "Enter" || e.key === " " ? openPicker() : null
+                }
                 onDrop={handleDrop}
                 onDragOver={handleDragOver}
                 className={[
@@ -232,7 +239,9 @@ const S1PdfUpload: React.FC = () => {
                         </svg>
                       </div>
                       <div>
-                        <div className="font-medium text-slate-800">{file.name}</div>
+                        <div className="font-medium text-slate-800">
+                          {file.name}
+                        </div>
                         <div className="text-xs text-slate-500">
                           {formatBytes(file.size)} • application/pdf
                         </div>
@@ -311,7 +320,9 @@ const S1PdfUpload: React.FC = () => {
                 <div className="flex items-center gap-3">
                   <button
                     onClick={resetAll}
-                    disabled={stage === "uploading" || (!file && stage === "idle")}
+                    disabled={
+                      stage === "uploading" || (!file && stage === "idle")
+                    }
                     className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 disabled:opacity-50"
                   >
                     Reset
@@ -389,41 +400,15 @@ const S1PdfUpload: React.FC = () => {
                     </div>
                     <div>
                       <div className="font-semibold text-emerald-800">
-                        Extraction started
+                        Extraction Done
                       </div>
                       <p className="mt-1 text-sm text-emerald-700">
-                        Your document was accepted. We’ll parse the filing and
-                        return a structured summary (company overview, offering
-                        details, risk factors, proceeds, use of funds, etc.).
+                        Your document was accepted. The document is parsed the
+                        filing and return a structured summary (company
+                        overview, offering details, risk factors, proceeds, use
+                        of funds, etc.).
                       </p>
                       {/* Optional peek into response */}
-                      {responseData && (
-                        <details className="mt-3 text-sm">
-                          <summary className="cursor-pointer text-emerald-700 underline">
-                            View raw response payload (debug)
-                          </summary>
-                          <pre className="mt-2 max-h-64 overflow-auto rounded-lg bg-white p-3 text-xs text-slate-700 border border-slate-200">
-{JSON.stringify(responseData, null, 2)}
-                          </pre>
-                        </details>
-                      )}
-                      <div className="mt-4 flex flex-wrap gap-3">
-                        <button
-                          onClick={() =>
-                            navigate("/", { state: { scrollTo: "demos" } })
-                          }
-                          className="rounded-lg border border-emerald-300 bg-white px-3 py-1.5 text-sm font-medium text-emerald-800 hover:bg-emerald-100"
-                        >
-                          Go to Home
-                        </button>
-                        {/* Example: Navigate to a summary page if you have one */}
-                        {/* <button
-                          onClick={() => navigate("/ipo/s1/summary", { state: { data: responseData } })}
-                          className="rounded-lg bg-emerald-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-emerald-700"
-                        >
-                          View Extracted Summary
-                        </button> */}
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -473,15 +458,26 @@ const S1PdfUpload: React.FC = () => {
                 Pro tips for best extraction
               </h3>
               <ul className="mt-3 grid list-disc gap-2 pl-5 text-sm text-slate-600 md:grid-cols-2">
-                <li>Prefer the official SEC PDF (EDGAR) over third-party scans.</li>
+                <li>
+                  Prefer the official SEC PDF (EDGAR) over third-party scans.
+                </li>
                 <li>Avoid password-protected PDFs.</li>
-                <li>Keep file names concise (e.g., <em>Company_S1_2025.pdf</em>).</li>
-                <li>Double-check that the PDF opens correctly on your system.</li>
+                <li>
+                  Keep file names concise (e.g., <em>Company_S1_2025.pdf</em>).
+                </li>
+                <li>
+                  Double-check that the PDF opens correctly on your system.
+                </li>
               </ul>
             </div>
           </section>
         </div>
       </main>
+      {stage === "success" && responseData?.data && (
+        <div className="mt-10">
+          <S1DealSummary data={responseData.data} />
+        </div>
+      )}
     </div>
   );
 };
