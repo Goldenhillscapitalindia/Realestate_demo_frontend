@@ -58,52 +58,56 @@ const RealEstateUploader: React.FC = () => {
     if (inputRefs[type].current) inputRefs[type].current.value = ""; // reset input
   };
 
-  const handleUpload = async () => {
-    const formData = new FormData();
-    (Object.keys(files) as FileType[]).forEach((key) => {
-      if (files[key]) formData.append(key, files[key] as File);
+const handleUpload = async () => {
+  const formData = new FormData();
+  (Object.keys(files) as FileType[]).forEach((key) => {
+    if (files[key]) formData.append(key, files[key] as File);
+  });
+
+  if ([...formData.keys()].length === 0) return;
+
+  try {
+    setLoading(true);
+
+    // Sequence of status updates
+    setProgressMessage(" Uploading the PDF...");
+    setTimeout(() => setProgressMessage(" Reading the PDF data..."), 10000);      // after 10s
+    setTimeout(() => setProgressMessage(" Extracting data from PDF..."), 20000); // after 20s
+    setTimeout(() => setProgressMessage(" Formatting the data..."), 30000);      // after 30s
+    setTimeout(() => setProgressMessage(" Almost you are there..."), 50000);     // after 50s
+
+    const res = await axios.post(`${API_URL}/api/upload_documents/`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
     });
 
-    if ([...formData.keys()].length === 0) return;
+    const newResponses: Record<FileType, Block[]> = {
+      memorandum: res.data.memorandum?.response ?? [],
+      t12: res.data.t12?.response ?? [],
+      rent_roll: res.data.rent_roll?.response ?? [],
+    };
 
-    try {
-      setLoading(true);
+    setResponseBlocks(newResponses);
 
-      setTimeout(() => setProgressMessage("📄 Uploading PDF..."), 10000);
-      setTimeout(() => setProgressMessage("Formatting the data..."), 20000);
-      setTimeout(() => setProgressMessage("Almost you are there..."), 10000);
-
-
-      const res = await axios.post(`${API_URL}/api/upload_documents/`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-
-      const newResponses: Record<FileType, Block[]> = {
-        memorandum: res.data.memorandum?.response ?? [],
-        t12: res.data.t12?.response ?? [],
-        rent_roll: res.data.rent_roll?.response ?? [],
-      };
-
-      setResponseBlocks(newResponses);
-
-      const newStatus: Record<FileType, string> = { ...status };
-      (Object.keys(files) as FileType[]).forEach((key) => {
-        if (files[key]) newStatus[key] = "Uploaded ✅";
-      });
-      setStatus(newStatus);
-    } catch (error) {
-      console.error(error);
-      const newStatus: Record<FileType, string> = { ...status };
-      (Object.keys(files) as FileType[]).forEach((key) => {
-        if (files[key]) newStatus[key] = "Upload failed ❌";
-      });
-      setStatus(newStatus);
-      setProgressMessage("❌ Upload failed. Please try again.");
-    } finally {
+    const newStatus: Record<FileType, string> = { ...status };
+    (Object.keys(files) as FileType[]).forEach((key) => {
+      if (files[key]) newStatus[key] = "Uploaded ✅";
+    });
+    setStatus(newStatus);
+  } catch (error) {
+    console.error(error);
+    const newStatus: Record<FileType, string> = { ...status };
+    (Object.keys(files) as FileType[]).forEach((key) => {
+      if (files[key]) newStatus[key] = "Upload failed ❌";
+    });
+    setStatus(newStatus);
+    setProgressMessage("❌ Upload failed. Please try again.");
+  } finally {
+    setTimeout(() => {
+      setProgressMessage("");
       setLoading(false);
-      setTimeout(() => setProgressMessage(""), 15000); // clear after 15s
-    }
-  };
+    }, 70000); // clear after ~70s total
+  }
+};
 
   if (
     responseBlocks.memorandum.length ||
@@ -120,29 +124,26 @@ const RealEstateUploader: React.FC = () => {
 
   return (
     <div
-      className={`flex justify-center items-center min-h-screen transition-colors ${
-        theme === "dark" ? "bg-gray-900" : "bg-gray-100"
-      }`}
+      className={`flex justify-center items-center min-h-screen transition-colors ${theme === "dark" ? "bg-gray-900" : "bg-gray-100"
+        }`}
     >
       {/* Back Button */}
       <button
         onClick={() => navigate("/", { state: { scrollTo: "demos" } })}
-        className={`fixed top-4 left-4 px-4 py-2 rounded-lg shadow-md z-50 ${
-          theme === "dark"
+        className={`fixed top-4 left-4 px-4 py-2 rounded-lg shadow-md z-50 ${theme === "dark"
             ? "bg-gray-700 text-white hover:bg-gray-600"
             : "bg-gray-200 text-black hover:bg-gray-300"
-        }`}
+          }`}
       >
         ← Back
       </button>
 
       {/* Main Card */}
       <div
-        className={`w-full max-w-2xl p-8 rounded-2xl shadow-xl border transition-colors ${
-          theme === "dark"
+        className={`w-full max-w-2xl p-8 rounded-2xl shadow-xl border transition-colors ${theme === "dark"
             ? "bg-gray-900 border-gray-800 text-white"
             : "bg-white border-gray-200 text-gray-800"
-        }`}
+          }`}
       >
         <h2 className="text-3xl font-bold mb-6 text-center">
           Upload Real Estate Files (PDFs)
@@ -184,11 +185,10 @@ const RealEstateUploader: React.FC = () => {
         <button
           onClick={handleUpload}
           disabled={loading || (!files.memorandum && !files.t12 && !files.rent_roll)}
-          className={`mt-8 w-full px-4 py-3 font-semibold rounded-xl transition ${
-            theme === "dark"
+          className={`mt-8 w-full px-4 py-3 font-semibold rounded-xl transition ${theme === "dark"
               ? "bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
               : "bg-blue-500 text-white hover:bg-blue-600 disabled:opacity-50"
-          }`}
+            }`}
         >
           {loading ? "Processing..." : "Upload Selected"}
         </button>
@@ -199,21 +199,19 @@ const RealEstateUploader: React.FC = () => {
   function renderFileCard(label: string, type: FileType) {
     return (
       <div
-        className={`p-4 rounded-xl shadow-md border transition-colors ${
-          theme === "dark"
+        className={`p-4 rounded-xl shadow-md border transition-colors ${theme === "dark"
             ? "bg-gray-800 border-gray-700 text-white"
             : "bg-white border-gray-200 text-gray-800"
-        }`}
+          }`}
       >
         <p className="font-semibold mb-2">{label}</p>
         <div
-          className={`border-2 border-dashed rounded-lg p-4 text-center cursor-pointer transition ${
-            files[type]
+          className={`border-2 border-dashed rounded-lg p-4 text-center cursor-pointer transition ${files[type]
               ? "border-green-400"
               : theme === "dark"
-              ? "border-gray-500 hover:border-blue-400"
-              : "border-gray-300 hover:border-blue-500"
-          }`}
+                ? "border-gray-500 hover:border-blue-400"
+                : "border-gray-300 hover:border-blue-500"
+            }`}
           onClick={() => inputRefs[type].current?.click()}
         >
           {files[type] ? (
@@ -233,11 +231,10 @@ const RealEstateUploader: React.FC = () => {
         />
         {status[type] && (
           <p
-            className={`mt-2 text-sm ${
-              status[type].includes("failed") || status[type].includes("Invalid")
+            className={`mt-2 text-sm ${status[type].includes("failed") || status[type].includes("Invalid")
                 ? "text-red-400"
                 : "text-green-500"
-            }`}
+              }`}
           >
             {status[type]}
           </p>
