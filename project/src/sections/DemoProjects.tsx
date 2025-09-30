@@ -174,9 +174,9 @@ const DemoProjects: React.FC = () => {
                                 </button>
                             </div>
                         </div>
-                        {/* <div className="md:col-span-2">
+                        <div className="md:col-span-2">
                             <VideoShowcase />
-                        </div>                     */}
+                        </div>                    
                         </div>
                 </div>
             </div>
