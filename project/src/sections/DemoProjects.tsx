@@ -174,10 +174,43 @@ const DemoProjects: React.FC = () => {
                                 </button>
                             </div>
                         </div>
+                        {/* market radar demo */}
+                        <div className="group bg-gradient-to-br from-green-50 to-white border border-green-100 rounded-2xl p-8 hover:shadow-xl transition-all">
+                            <div className="flex items-center justify-between mb-6">
+                                <div className="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center">
+                                    <Building2 className="w-6 h-6 text-white" />
+                                </div>
+                                <span className="px-3 py-1 bg-green-100 text-green-700 text-sm font-medium rounded-full">
+                                    AI Assistant
+                                </span>
+                            </div>
+                            <h3 className="text-2xl font-bold text-gray-900 mb-3">
+                                Market Radar
+                            </h3>
+                            <p className="text-gray-600 mb-6">
+                                Market Radar demo insights                             </p>
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center space-x-4 text-sm text-gray-500">
+                                    <span className="flex items-center">
+                                        <CheckCircle className="w-4 h-4 mr-1" /> AI Powered
+                                    </span>
+                                    <span className="flex items-center">
+                                        <Users className="w-4 h-4 mr-1" /> Multi-user
+                                    </span>
+                                </div>
+
+                                <button
+                                    onClick={() => navigate("/market_radar")}
+                                    className="bg-green-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700 transition-colors group-hover:scale-105 transform"
+                                >
+                                    View Demo
+                                </button>
+                            </div>
+                        </div>
                         <div className="md:col-span-2">
                             <VideoShowcase />
-                        </div>                    
                         </div>
+                    </div>
                 </div>
             </div>
         </section>
