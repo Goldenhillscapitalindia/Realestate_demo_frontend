@@ -182,13 +182,13 @@ const DemoProjects: React.FC = () => {
                                     <Home className="w-6 h-6 text-white" />
                                 </div>
                                 <span className="px-3 py-1 bg-red-100 text-red-700 text-sm font-medium rounded-full">
-                                 Market Radar
+                                    Market Radar
                                 </span>
                             </div>
                             <h3 className="text-2xl font-bold text-gray-900 mb-3">
-Market Radar insights                 </h3>
+                                Market Radar insights                 </h3>
                             <p className="text-gray-600 mb-6">
-market radar data           </p>
+                                market radar data           </p>
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center space-x-4 text-sm text-gray-500">
                                     <span className="flex items-center">
@@ -207,8 +207,8 @@ market radar data           </p>
                         </div>
                         <div className="md:col-span-2">
                             <VideoShowcase />
-                        </div>                    
                         </div>
+                    </div>
                 </div>
             </div>
         </section>

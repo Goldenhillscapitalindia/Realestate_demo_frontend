@@ -4,6 +4,7 @@ import axios from "axios";
 type RawMarketRadarItem = {
   region?: string;
   submarket?: string;
+  submarketname?: string;
   market_pulse?: string;
   marketPulse?: string;
   pulse?: string;
@@ -57,8 +58,9 @@ const MarketRadar: React.FC = () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await axios.get(`${API_URL}/api/market_radar_data`);
-        const rows = Array.isArray(response.data) ? response.data : response.data?.data ?? [];
+        const response = await axios.get(`${API_URL}/api/market_radar_data_test/`);
+        const payload = response.data?.data ?? response.data ?? [];
+        const rows = Array.isArray(payload) ? payload : [payload];
         const normalized = normalizeItems(rows);
         if (!active) return;
         setData(normalized);
@@ -370,7 +372,7 @@ const normalizeItems = (items: RawMarketRadarItem[]): MarketRadarItem[] =>
 
       return {
         region: String(item.region ?? "Unknown"),
-        submarket: String(item.submarket ?? "Unknown"),
+        submarket: String(item.submarket ?? item.submarketname ?? "Unknown"),
         marketPulse: String(item.market_pulse ?? item.marketPulse ?? item.pulse ?? "Mixed"),
         latitude: Number(latitude),
         longitude: Number(longitude),
