@@ -11,7 +11,6 @@ import HealthIndicatorsSection from "./market-radar-view/components/HealthIndica
 import KeyTrendsSection from "./market-radar-view/components/KeyTrendsSection";
 import MarketRadarViewHeader from "./market-radar-view/components/MarketRadarViewHeader";
 import StatusFooter from "./market-radar-view/components/StatusFooter";
-import SupplyDemandCard from "./market-radar-view/components/SupplyDemandCard";
 import VacancyRentSupplyGrid from "./market-radar-view/components/VacancyRentSupplyGrid";
 
 const MarketRadarView: React.FC = () => {
@@ -69,14 +68,9 @@ const MarketRadarView: React.FC = () => {
           onBack={() => navigate(-1)}
         />
         <HealthIndicatorsSection indicators={viewData.healthIndicators} />
-        <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
-          <KeyTrendsSection trends={viewData.keyTrends} />
-          <SupplyDemandCard
-            ratio={viewData.supplyDemand.ratio}
-            insight={viewData.supplyDemand.insight}
-          />
-        </div>
+        <KeyTrendsSection trends={viewData.keyTrends} />
         <VacancyRentSupplyGrid
+          supplyDemand={viewData.supplyDemand}
           vacancy={viewData.vacancyDynamics}
           rent={viewData.rentPerformance}
           supply={viewData.supplyPipeline}
