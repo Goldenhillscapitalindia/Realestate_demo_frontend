@@ -18,7 +18,7 @@ function App() {
         <Route path="/s1document" element={<S1PdfUpload />} />
         <Route path="/realestatepdfupload" element={<RealEstateUploader />} />
         <Route path="/market_radar" element={<MarketRadar />} />
-        <Route path="/market_radar_view/:submarket" element={<MarketRadarView />} />
+        <Route path="/market_radar_view/:sub_market_name" element={<MarketRadarView />} />
 
       </Routes>
     </Router>

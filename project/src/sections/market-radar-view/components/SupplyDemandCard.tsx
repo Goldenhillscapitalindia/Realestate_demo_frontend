@@ -1,8 +1,18 @@
 import React from "react";
 
 type SupplyDemandCardProps = {
-  ratio: number;
+  ratio: number | string;
   insight: string;
+};
+
+const formatRatio = (ratio: number | string) => {
+  if (typeof ratio === "number" && Number.isFinite(ratio)) {
+    return ratio.toFixed(2);
+  }
+  if (typeof ratio === "string" && ratio.trim().length) {
+    return ratio;
+  }
+  return "N/A";
 };
 
 const SupplyDemandCard: React.FC<SupplyDemandCardProps> = ({ ratio, insight }) => (
@@ -24,7 +34,7 @@ const SupplyDemandCard: React.FC<SupplyDemandCardProps> = ({ ratio, insight }) =
         }}
       >
         Demand : Supply&nbsp;&nbsp;
-        <span className="text-lg">{ratio.toFixed(2)}</span>
+        <span className="text-lg">{formatRatio(ratio)}</span>
       </div>
     </div>
     <div className="mt-4 rounded-xl border border-cyan-400/40 bg-[#0B1220] px-4 py-3 text-sm text-slate-300">

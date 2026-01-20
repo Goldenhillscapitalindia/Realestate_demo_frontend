@@ -19,7 +19,7 @@ const MarketRadarHighlights: React.FC<MarketRadarHighlightsProps> = ({ pulseCoun
         <h3 className="text-base font-semibold text-cyan-200">AI Market Pulse</h3>
       </div>
       <p className="mt-3 text-sm leading-relaxed text-slate-300">
-        AI detects shifts in absorption efficiency and pricing pressure across key submarkets.
+        AI detects shifts in absorption efficiency and pricing pressure across key sub_market_names.
         Track improving momentum and areas under stress in near real time.
       </p>
     </div>

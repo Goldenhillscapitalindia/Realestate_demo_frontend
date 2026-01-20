@@ -26,7 +26,9 @@ const MarketRadar: React.FC = () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await axios.get(`${API_URL}/api/market_radar_data_test/`);
+        const response = await axios.post(`${API_URL}/api/get_market_radar_data/`, {
+            fetch: "all" ,
+        });
         const payload = response.data?.data ?? response.data ?? [];
         const rows = Array.isArray(payload) ? payload : [payload];
         const normalized = normalizeItems(rows);
@@ -108,8 +110,10 @@ const MarketRadar: React.FC = () => {
               data={data}
               loading={loading}
               error={error}
-              onSelectSubmarket={(item) =>
-                navigate(`/market_radar_view/${encodeURIComponent(item)}`)
+              onSelectsub_market_name={(item) =>
+                navigate(`/market_radar_view/${encodeURIComponent(item.sub_market_name)}`, {
+                  state: { region: item.region },
+                })
               }
             />
           </div>

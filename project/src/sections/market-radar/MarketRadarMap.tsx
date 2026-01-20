@@ -40,7 +40,7 @@ const MarketRadarMap: React.FC<MarketRadarMapProps> = ({ data, mapCenter, mapBou
           const color = PULSE_COLORS[pulseKey]?.dot ?? "#21C7D9";
           return (
             <CircleMarker
-              key={`${item.submarket}-${idx}`}
+              key={`${item.sub_market_name}-${idx}`}
               center={[item.latitude, item.longitude]}
               radius={7}
               pathOptions={{
@@ -51,7 +51,7 @@ const MarketRadarMap: React.FC<MarketRadarMapProps> = ({ data, mapCenter, mapBou
               }}
             >
               <Tooltip direction="top" offset={[0, -8]} opacity={0.9}>
-                {item.submarket} ({item.region})
+                {item.sub_market_name} ({item.region})
               </Tooltip>
             </CircleMarker>
           );

@@ -2,19 +2,20 @@ import { EMPTY_VIEW_DATA } from "./constants";
 import type {
   HealthIndicator,
   MarketRadarApiResponse,
+  MarketRadarApiWrapper,
   MarketRadarViewData,
   TrendCard,
 } from "./types";
 
 export const buildViewData = (
   payload: Partial<MarketRadarViewData> | null,
-  submarket: string
+  sub_market_name: string
 ): MarketRadarViewData => {
   const safePayload = payload ?? {};
   return {
     ...EMPTY_VIEW_DATA,
     ...safePayload,
-    submarket: safePayload.submarket ?? submarket ?? EMPTY_VIEW_DATA.submarket,
+    sub_market_name: safePayload.sub_market_name ?? sub_market_name ?? EMPTY_VIEW_DATA.sub_market_name,
     region: safePayload.region ?? EMPTY_VIEW_DATA.region,
     pulseLabel: safePayload.pulseLabel ?? EMPTY_VIEW_DATA.pulseLabel,
     pulseKey: safePayload.pulseKey ?? EMPTY_VIEW_DATA.pulseKey,
@@ -30,12 +31,49 @@ export const buildViewData = (
   };
 };
 
+const normalizesub_market_name = (value: string) => value.trim().toLowerCase();
+
+const extractAnswer = (
+  payload: MarketRadarApiResponse | MarketRadarApiWrapper
+): MarketRadarApiResponse | null => {
+  if ("market_radar_resp" in payload && payload.market_radar_resp?.answer?.length) {
+    return payload.market_radar_resp.answer[0];
+  }
+  return payload as MarketRadarApiResponse;
+};
+
+const resolvePayload = (
+  payload: MarketRadarApiResponse | MarketRadarApiWrapper | MarketRadarApiWrapper[] | null,
+  sub_market_nameParam: string
+): { answer: MarketRadarApiResponse | null; wrapper?: MarketRadarApiWrapper | null } => {
+  if (!payload) return { answer: null, wrapper: null };
+  if (Array.isArray(payload)) {
+    const normalizedParam = normalizesub_market_name(sub_market_nameParam);
+    const match = payload.find((item) => {
+      const candidate =
+        item.sub_market_name ??
+        item.market_radar_resp?.answer?.[0]?.header?.sub_market_name ??
+        item.market_radar_resp?.answer?.[0]?.header?.submarket ??
+        "";
+      return normalizesub_market_name(String(candidate)) === normalizedParam;
+    });
+    const wrapper = match ?? payload[0];
+    return { answer: extractAnswer(wrapper), wrapper };
+  }
+  if ("market_radar_resp" in payload) {
+    return { answer: extractAnswer(payload), wrapper: payload };
+  }
+  return { answer: extractAnswer(payload) };
+};
+
 export const normalizeApiPayload = (
-  payload: MarketRadarApiResponse | null,
-  submarketParam: string
+  payload: MarketRadarApiResponse | MarketRadarApiWrapper | MarketRadarApiWrapper[] | null,
+  sub_market_nameParam: string
 ): MarketRadarViewData => {
-  if (!payload) return buildViewData(null, submarketParam);
-  const status = payload.header?.status_tag?.toLowerCase();
+  const resolved = resolvePayload(payload, sub_market_nameParam);
+  if (!resolved.answer) return buildViewData(null, sub_market_nameParam);
+  const { answer, wrapper } = resolved;
+  const status = answer.header?.status_tag?.toLowerCase();
   const pulseKey =
     status === "strong" || status === "improving" || status === "mixed" || status === "weakening"
       ? status
@@ -48,48 +86,48 @@ export const normalizeApiPayload = (
     capital: "#2ED573",
   };
 
-  const healthIndicators: HealthIndicator[] = payload.market_health_indicators
+  const healthIndicators: HealthIndicator[] = answer.market_health_indicators
     ? [
         {
           label: "Demand Strength",
-          score: payload.market_health_indicators?.demand_strength?.score ?? 0,
+          score: answer.market_health_indicators?.demand_strength?.score ?? 0,
           color: indicatorColors.demand,
         },
         {
           label: "Supply Risk",
-          score: payload.market_health_indicators?.supply_risk?.score ?? 0,
+          score: answer.market_health_indicators?.supply_risk?.score ?? 0,
           color: indicatorColors.supply,
         },
         {
           label: "Vacancy Pressure",
-          score: payload.market_health_indicators?.vacancy_pressure?.score ?? 0,
+          score: answer.market_health_indicators?.vacancy_pressure?.score ?? 0,
           color: indicatorColors.vacancy,
         },
         {
           label: "Capital Liquidity",
-          score: payload.market_health_indicators?.capital_liquidity?.score ?? 0,
+          score: answer.market_health_indicators?.capital_liquidity?.score ?? 0,
           color: indicatorColors.capital,
         },
       ]
     : [];
 
-  const keyTrends: TrendCard[] = payload.key_trends
+  const keyTrends: TrendCard[] = answer.key_trends
     ? [
         {
           label: "Vacancy Trend (12M)",
-          delta: payload.key_trends?.vacancy_trend_12m ?? "",
+          delta: answer.key_trends?.vacancy_trend_12m ?? "",
           data: [],
           color: "#2ED573",
         },
         {
           label: "Rent Growth vs 5-Yr Avg",
-          delta: payload.key_trends?.rent_growth_vs_5yr_avg ?? "",
+          delta: answer.key_trends?.rent_growth_vs_5yr_avg ?? "",
           data: [],
           color: "#21C7D9",
         },
         {
           label: "Absorption Trend",
-          delta: payload.key_trends?.absorption_trend ?? "",
+          delta: answer.key_trends?.absorption_trend ?? "",
           data: [],
           color: "#21C7D9",
         },
@@ -98,69 +136,72 @@ export const normalizeApiPayload = (
 
   return buildViewData(
     {
-      submarket: payload.header?.submarket,
-      region: payload.header?.metro,
-      pulseLabel: payload.header?.status_tag
-        ? payload.header.status_tag.charAt(0).toUpperCase() +
-          payload.header.status_tag.slice(1).toLowerCase()
+      sub_market_name:
+        wrapper?.sub_market_name ??
+        answer.header?.sub_market_name ??
+        answer.header?.submarket,
+      region: wrapper?.region ?? answer.header?.metro,
+      pulseLabel: answer.header?.status_tag
+        ? answer.header.status_tag.charAt(0).toUpperCase() +
+          answer.header.status_tag.slice(1).toLowerCase()
         : undefined,
       pulseKey,
       healthIndicators,
       keyTrends,
       supplyDemand: {
-        ratio: payload.supply_demand_balance?.demand_supply_ratio ?? 0,
-        insight: payload.supply_demand_balance?.ai_insight ?? "",
+        ratio: answer.supply_demand_balance?.demand_supply_ratio ?? 0,
+        insight: answer.supply_demand_balance?.ai_insight ?? "",
       },
       vacancyDynamics: {
-        currentVacancy: payload.vacancy_dynamics?.current_vacancy ?? "",
-        yoyChange: payload.vacancy_dynamics?.yoy_change ?? "",
-        narrative: payload.vacancy_dynamics?.ai_insight ?? "",
+        currentVacancy: answer.vacancy_dynamics?.current_vacancy ?? "",
+        yoyChange: answer.vacancy_dynamics?.yoy_change ?? "",
+        narrative: answer.vacancy_dynamics?.ai_insight ?? "",
       },
       rentPerformance: {
-        avgAsking: payload.rent_performance?.avg_asking_rent ?? "",
-        growthYoy: payload.rent_performance?.rent_growth_yoy ?? "",
-        fiveYearAvg: payload.rent_performance?.rent_growth_5yr_avg ?? "",
-        narrative: payload.rent_performance?.ai_insight ?? "",
+        avgAsking: answer.rent_performance?.avg_asking_rent ?? "",
+        growthYoy: answer.rent_performance?.rent_growth_yoy ?? "",
+        fiveYearAvg: answer.rent_performance?.rent_growth_5yr_avg ?? "",
+        narrative: answer.rent_performance?.ai_insight ?? "",
       },
       supplyPipeline: {
-        underConstruction: payload.supply_pipeline_risk?.under_construction_pct_inventory ?? "",
-        narrative: payload.supply_pipeline_risk?.ai_insight ?? "",
+        underConstruction: answer.supply_pipeline_risk?.under_construction_pct_inventory ?? "",
+        narrative: answer.supply_pipeline_risk?.ai_insight ?? "",
       },
       capitalMarkets: {
-        capRate: payload.capital_markets_health?.cap_rate ?? "",
-        spread: payload.capital_markets_health?.cap_rate_spread_vs_metro ?? "",
-        salesVolume: payload.capital_markets_health?.sales_volume_12m ?? "",
-        fiveYearAvgVolume: payload.capital_markets_health?.sales_volume_5yr_avg ?? "",
-        pricePerUnit: payload.capital_markets_health?.price_per_unit ?? "",
-        leasedAtSale: payload.capital_markets_health?.pct_leased_at_sale ?? "",
-        narrative: payload.capital_markets_health?.ai_insight ?? "",
+        capRate: answer.capital_markets_health?.cap_rate ?? "",
+        spread: answer.capital_markets_health?.cap_rate_spread_vs_metro ?? "",
+        salesVolume: answer.capital_markets_health?.sales_volume_12m ?? "",
+        fiveYearAvgVolume: answer.capital_markets_health?.sales_volume_5yr_avg ?? "",
+        pricePerUnit: answer.capital_markets_health?.price_per_unit ?? "",
+        leasedAtSale: answer.capital_markets_health?.pct_leased_at_sale ?? "",
+        narrative: answer.capital_markets_health?.ai_insight ?? "",
       },
       aiOutcome: {
-        confidence: payload.ai_expected_market_outcome?.confidence_level
-          ? `${payload.ai_expected_market_outcome.confidence_level} Confidence`
+        confidence: answer.ai_expected_market_outcome?.confidence_level
+          ? `${answer.ai_expected_market_outcome.confidence_level} Confidence`
           : "",
         upside: {
-          vacancy: payload.ai_expected_market_outcome?.upside?.vacancy ?? "",
-          rentGrowth: payload.ai_expected_market_outcome?.upside?.rent_growth ?? "",
-          absorptionDelta: payload.ai_expected_market_outcome?.upside?.absorption_delta ?? "",
+          vacancy: answer.ai_expected_market_outcome?.upside?.vacancy ?? "",
+          rentGrowth: answer.ai_expected_market_outcome?.upside?.rent_growth ?? "",
+          absorptionDelta: answer.ai_expected_market_outcome?.upside?.absorption_delta ?? "",
         },
         base: {
-          vacancy: payload.ai_expected_market_outcome?.base?.vacancy ?? "",
-          rentGrowth: payload.ai_expected_market_outcome?.base?.rent_growth ?? "",
-          absorptionDelta: payload.ai_expected_market_outcome?.base?.absorption_delta ?? "",
+          vacancy: answer.ai_expected_market_outcome?.base?.vacancy ?? "",
+          rentGrowth: answer.ai_expected_market_outcome?.base?.rent_growth ?? "",
+          absorptionDelta: answer.ai_expected_market_outcome?.base?.absorption_delta ?? "",
         },
         downside: {
-          vacancy: payload.ai_expected_market_outcome?.downside?.vacancy ?? "",
-          rentGrowth: payload.ai_expected_market_outcome?.downside?.rent_growth ?? "",
-          absorptionDelta: payload.ai_expected_market_outcome?.downside?.absorption_delta ?? "",
+          vacancy: answer.ai_expected_market_outcome?.downside?.vacancy ?? "",
+          rentGrowth: answer.ai_expected_market_outcome?.downside?.rent_growth ?? "",
+          absorptionDelta: answer.ai_expected_market_outcome?.downside?.absorption_delta ?? "",
         },
       },
       decisionSupport: {
-        positives: payload.decision_support?.positives ?? [],
-        negatives: payload.decision_support?.negatives ?? [],
-        watch: payload.decision_support?.what_to_watch ?? [],
+        positives: answer.decision_support?.positives ?? [],
+        negatives: answer.decision_support?.negatives ?? [],
+        watch: answer.decision_support?.what_to_watch ?? [],
       },
     },
-    submarketParam
+    sub_market_nameParam
   );
 };

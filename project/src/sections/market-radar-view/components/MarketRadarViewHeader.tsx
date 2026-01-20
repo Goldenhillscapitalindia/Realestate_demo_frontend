@@ -1,7 +1,7 @@
 import React from "react";
 
 type MarketRadarViewHeaderProps = {
-  submarket: string;
+  sub_market_name: string;
   region: string;
   pulseLabel: string;
   pulseDot: string;
@@ -9,7 +9,7 @@ type MarketRadarViewHeaderProps = {
 };
 
 const MarketRadarViewHeader: React.FC<MarketRadarViewHeaderProps> = ({
-  submarket,
+  sub_market_name,
   region,
   pulseLabel,
   pulseDot,
@@ -33,7 +33,7 @@ const MarketRadarViewHeader: React.FC<MarketRadarViewHeaderProps> = ({
         </button>
         <div>
           <div className="flex items-center gap-3">
-            <h2 className="text-xl font-semibold text-white font-bold">{submarket}</h2>
+            <h2 className="text-xl font-semibold text-white font-bold">{sub_market_name}</h2>
             <span
               className="rounded-full px-2.5 py-1 text-xs font-semibold uppercase tracking-[0.12em]"
               style={{

@@ -7,23 +7,23 @@ type MarketRadarTableProps = {
   data: MarketRadarItem[];
   loading: boolean;
   error: string | null;
-  onSelectSubmarket: (submarket: string) => void;
+  onSelectsub_market_name: (item: MarketRadarItem) => void;
 };
 
 const MarketRadarTable: React.FC<MarketRadarTableProps> = ({
   data,
   loading,
   error,
-  onSelectSubmarket,
+  onSelectsub_market_name,
 }) => (
   <div className="space-y-3">
-    <p className="text-sm font-semibold text-slate-200">Submarket Pulse Table</p>
+    <p className="text-sm font-semibold text-slate-200">sub_market_name Pulse Table</p>
     <div className="max-h-[420px] overflow-hidden rounded-2xl border border-white/10">
       <div className="max-h-[420px] overflow-auto">
         <table className="w-full text-left text-sm text-slate-200">
           <thead className="sticky top-0 bg-[#0B1220] text-xs uppercase tracking-[0.15em] text-slate-500">
             <tr>
-              <th className="px-4 py-3">Submarket</th>
+              <th className="px-4 py-3">sub_market_name</th>
               <th className="px-4 py-3">Region</th>
               <th className="px-4 py-3">Market Pulse</th>
             </tr>
@@ -34,19 +34,19 @@ const MarketRadarTable: React.FC<MarketRadarTableProps> = ({
               const color = PULSE_COLORS[pulseKey]?.dot ?? "#21C7D9";
               return (
                 <tr
-                  key={`${item.submarket}-${idx}`}
+                  key={`${item.sub_market_name}-${idx}`}
                   className="cursor-pointer border-t border-white/5 transition hover:bg-white/5"
-                  onClick={() => onSelectSubmarket(item.submarket)}
+                  onClick={() => onSelectsub_market_name(item)}
                   onKeyDown={(event) => {
                     if (event.key === "Enter" || event.key === " ") {
                       event.preventDefault();
-                      onSelectSubmarket(item.submarket);
+                      onSelectsub_market_name(item);
                     }
                   }}
                   role="button"
                   tabIndex={0}
                 >
-                  <td className="px-4 py-3 text-slate-100">{item.submarket}</td>
+                  <td className="px-4 py-3 text-slate-100">{item.sub_market_name}</td>
                   <td className="px-4 py-3 text-slate-400">{item.region}</td>
                   <td className="px-4 py-3">
                     <span

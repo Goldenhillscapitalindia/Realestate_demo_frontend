@@ -17,11 +17,14 @@ export const normalizeItems = (items: RawMarketRadarItem[]): MarketRadarItem[] =
         item.coordinates?.longitude ??
         item.coordinates?.lng ??
         item.coordinates?.langitude;
+      const statusTag = item.market_radar_resp?.answer?.[0]?.header?.status_tag;
 
       return {
         region: String(item.region ?? "Unknown"),
-        submarket: String(item.submarket ?? item.submarketname ?? "Unknown"),
-        marketPulse: String(item.market_pulse ?? item.marketPulse ?? item.pulse ?? "Mixed"),
+        sub_market_name: String(item.sub_market_name ?? item.sub_market_name ?? item.sub_market_namename ?? "Unknown"),
+        marketPulse: String(
+          statusTag ?? item.market_pulse ?? item.marketPulse ?? item.pulse ?? "Mixed"
+        ),
         latitude: Number(latitude),
         longitude: Number(longitude),
       };

@@ -1,7 +1,7 @@
 import type { MarketRadarViewData } from "./types";
 
 export const EMPTY_VIEW_DATA: MarketRadarViewData = {
-  submarket: "",
+  sub_market_name: "",
   region: "",
   pulseLabel: "",
   pulseKey: "mixed",

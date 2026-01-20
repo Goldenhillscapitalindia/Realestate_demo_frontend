@@ -12,14 +12,14 @@ export type TrendCard = {
 };
 
 export type MarketRadarViewData = {
-  submarket: string;
+  sub_market_name: string;
   region: string;
   pulseLabel: string;
   pulseKey: "strong" | "improving" | "mixed" | "weakening";
   healthIndicators: HealthIndicator[];
   keyTrends: TrendCard[];
   supplyDemand: {
-    ratio: number;
+    ratio: number | string;
     insight: string;
   };
   vacancyDynamics: {
@@ -73,6 +73,7 @@ export type MarketRadarViewData = {
 
 export type MarketRadarApiResponse = {
   header?: {
+    sub_market_name?: string;
     submarket?: string;
     metro?: string;
     status_tag?: string;
@@ -138,5 +139,14 @@ export type MarketRadarApiResponse = {
     positives?: string[];
     negatives?: string[];
     what_to_watch?: string[];
+  };
+};
+
+export type MarketRadarApiWrapper = {
+  sub_market_name?: string;
+  sub_market_name?: string;
+  region?: string;
+  market_radar_resp?: {
+    answer?: MarketRadarApiResponse[];
   };
 };

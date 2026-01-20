@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import type { MarketRadarViewData } from "./market-radar-view/types";
 import { PULSE_STYLES } from "./market-radar-view/constants";
 import { buildViewData, normalizeApiPayload } from "./market-radar-view/utils";
@@ -14,8 +14,10 @@ import StatusFooter from "./market-radar-view/components/StatusFooter";
 import VacancyRentSupplyGrid from "./market-radar-view/components/VacancyRentSupplyGrid";
 
 const MarketRadarView: React.FC = () => {
-  const { submarket = "" } = useParams();
+  const { sub_market_name = "" } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
+  const region = (location.state as { region?: string } | null)?.region ?? "";
   const API_URL = import.meta.env.VITE_API_URL;
 
   const [data, setData] = useState<MarketRadarViewData | null>(null);
@@ -28,12 +30,15 @@ const MarketRadarView: React.FC = () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await axios.post(`${API_URL}/api/market_radar_view/`, {
-          submarket,
+        const response = await axios.post(`${API_URL}/api/get_market_radar_data/`, {
+          sub_market_name,
+          region,
+          fetch: "specific" ,
+
         });
         const payload = response.data?.data ?? response.data;
         if (!active) return;
-        setData(normalizeApiPayload(payload, submarket));
+        setData(normalizeApiPayload(payload, sub_market_name));
       } catch (err) {
         console.error(err);
         if (!active) return;
@@ -48,11 +53,11 @@ const MarketRadarView: React.FC = () => {
     return () => {
       active = false;
     };
-  }, [API_URL, submarket]);
+  }, [API_URL, sub_market_name, region]);
 
   const viewData = useMemo(
-    () => buildViewData(data, submarket),
-    [data, submarket]
+    () => buildViewData(data, sub_market_name),
+    [data, sub_market_name]
   );
 
   const pulseStyle = PULSE_STYLES[viewData.pulseKey];
@@ -61,7 +66,7 @@ const MarketRadarView: React.FC = () => {
     <section className="min-h-screen px-6 py-10" style={{ backgroundColor: "#060B14" }}>
       <div className="mx-auto max-w-6xl space-y-8">
         <MarketRadarViewHeader
-          submarket={viewData.submarket}
+          sub_market_name={viewData.sub_market_name}
           region={viewData.region}
           pulseLabel={viewData.pulseLabel}
           pulseDot={pulseStyle.dot}
