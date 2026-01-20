@@ -274,7 +274,7 @@ const MarketRadarView: React.FC = () => {
               </div> */}
               <div>
                 <div className="flex items-center gap-3">
-                  <h2 className="text-xl font-semibold text-slate-100">{viewData.submarket}</h2>
+                  <h2 className="text-xl font-semibold text-white font-bold">{viewData.submarket}</h2>
                   <span
                     className="rounded-full px-2.5 py-1 text-xs font-semibold uppercase tracking-[0.12em]"
                     style={{
@@ -308,7 +308,7 @@ const MarketRadarView: React.FC = () => {
               "linear-gradient(135deg, rgba(9,16,30,0.98) 0%, rgba(9,19,32,0.98) 100%)",
           }}
         >
-          <h3 className="text-sm font-semibold text-slate-100">Market Health Indicators</h3>
+          <h3 className="text-m font-bold text-white">Market Health Indicators</h3>
           <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {viewData.healthIndicators.map((indicator) => (
               <Gauge key={indicator.label} indicator={indicator} />
@@ -318,7 +318,7 @@ const MarketRadarView: React.FC = () => {
 
         <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
           <div className="space-y-4">
-            <h3 className="text-sm font-semibold text-slate-100">Key Trends</h3>
+             <h3 className="text-m font-bold text-white">Key Trends</h3>
             <div className="grid gap-4 md:grid-cols-3">
               {viewData.keyTrends.map((trend) => (
                 <TrendCardBlock key={trend.label} trend={trend} />
@@ -332,7 +332,7 @@ const MarketRadarView: React.FC = () => {
                 "linear-gradient(135deg, rgba(9,16,30,0.98) 0%, rgba(9,19,32,0.98) 100%)",
             }}
           >
-            <h3 className="text-sm font-semibold text-slate-100">Supply-Demand Balance</h3>
+            <h3 className="text-m font-bold text-white">Supply-Demand Balance</h3>
             <div className="mt-4 flex items-center justify-center">
               <div
                 className="rounded-full px-5 py-2 text-sm font-semibold"
