@@ -3,6 +3,7 @@ import { CircleMarker, MapContainer, TileLayer, Tooltip, useMap } from "react-le
 import "leaflet/dist/leaflet.css";
 import axios from "axios";
 import type { LatLngBoundsExpression, LatLngExpression } from "leaflet";
+import { useNavigate } from "react-router-dom";
 
 type RawMarketRadarItem = {
   region?: string;
@@ -49,6 +50,7 @@ const MarketRadar: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     let active = true;
@@ -275,7 +277,18 @@ const MarketRadar: React.FC = () => {
                         return (
                           <tr
                             key={`${item.submarket}-${idx}`}
-                            className="border-t border-white/5 hover:bg-white/5"
+                            className="cursor-pointer border-t border-white/5 transition hover:bg-white/5"
+                            onClick={() =>
+                              navigate(`/market_radar_view/${encodeURIComponent(item.submarket)}`)
+                            }
+                            onKeyDown={(event) => {
+                              if (event.key === "Enter" || event.key === " ") {
+                                event.preventDefault();
+                                navigate(`/market_radar_view/${encodeURIComponent(item.submarket)}`);
+                              }
+                            }}
+                            role="button"
+                            tabIndex={0}
                           >
                             <td className="px-4 py-3 text-slate-100">{item.submarket}</td>
                             <td className="px-4 py-3 text-slate-400">{item.region}</td>
