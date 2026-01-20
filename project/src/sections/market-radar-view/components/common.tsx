@@ -18,10 +18,10 @@ export const Gauge: React.FC<{ indicator: HealthIndicator }> = ({ indicator }) =
           <span className="text-lg font-semibold" style={{ color: indicator.color }}>
             {indicator.score.toFixed(1)}
           </span>
-          <span className="text-[10px] uppercase tracking-[0.22em] text-slate-500">AI Score</span>
+          {/* <span className="text-[10px] uppercase tracking-[0.22em] text-slate-500">AI Score</span> */}
         </div>
       </div>
-      <p className="text-xs text-slate-400">{indicator.label}</p>
+      <p className="text-xs text-white">{indicator.label}</p>
     </div>
   );
 };
@@ -98,7 +98,7 @@ export const MetricCard: React.FC<{ label: string; value: string; isDelta?: bool
 
   return (
     <div className="rounded-xl border border-white/10 bg-[#0B1220] px-4 py-3">
-      <p className="text-[10px] uppercase tracking-[0.2em] text-slate-500">{label}</p>
+      <p className="text-[10px] uppercase tracking-[0.2em] text-slate-400">{label}</p>
       <p className="mt-2 text-lg font-semibold" style={{ color: isDelta ? color : "#E2E8F0" }}>
         {value}
       </p>
@@ -118,7 +118,7 @@ export const SectionHeading: React.FC<{ label: string; icon: string; accent: str
   icon,
   accent,
 }) => (
-  <div className="flex items-center gap-2 text-sm font-semibold">
+  <div className="flex items-center gap-2 text-m font-semibold">
     <span className={accent}>{icon}</span>
     <span className="text-slate-100">{label}</span>
   </div>

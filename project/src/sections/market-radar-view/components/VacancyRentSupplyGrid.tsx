@@ -20,15 +20,15 @@ const VacancyRentSupplyGrid: React.FC<VacancyRentSupplyGridProps> = ({
     <div className="grid gap-6 lg:grid-cols-2">
       <SupplyDemandCard ratio={supplyDemand.ratio} insight={supplyDemand.insight} />
       <div className="space-y-4">
-        <SectionHeading label="Vacancy Dynamics" accent="text-cyan-300" icon="[]" />
         <div
           className="rounded-2xl border border-white/10 p-4"
           style={{
             background:
               "linear-gradient(135deg, rgba(9,16,30,0.98) 0%, rgba(9,19,32,0.98) 100%)",
           }}
-        >
-          <div className="grid gap-3 sm:grid-cols-2">
+        > <SectionHeading label="Vacancy Dynamics" accent="text-cyan-300" icon="" />
+
+          <div className="grid gap-3 sm:grid-cols-2 mt-2">
             <MetricCard label="Current Vacancy" value={vacancy.currentVacancy} />
             <MetricCard label="YoY Change" value={vacancy.yoyChange} isDelta />
           </div>
