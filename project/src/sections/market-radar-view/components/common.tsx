@@ -165,11 +165,16 @@ export const OutcomeCard: React.FC<{
   data: MarketRadarViewData["aiOutcome"]["upside"];
 }> = ({ title, color, data }) => (
   <div
-    className="rounded-2xl border border-white/10 px-4 py-3"
-    style={{ backgroundColor: "#0B1220", borderColor: `${color}55` }}
+    className="rounded-2xl border border-white/10 px-4 py-4 shadow-[0_10px_30px_rgba(2,6,23,0.5)]"
+    style={{
+      backgroundColor: "#0B1220",
+      borderTop: `2px solid ${color}`,
+    }}
   >
-    <div className="flex items-center gap-2 text-sm font-semibold" style={{ color }}>
-      <span>[]</span>
+    <div className="flex items-center gap-2 text-sm font-semibold text-slate-100">
+      <span className="text-lg" style={{ color }}>
+        ~
+      </span>
       <span>{title}</span>
     </div>
     <div className="mt-2 space-y-1 text-xs text-slate-400">
@@ -195,20 +200,26 @@ export const DecisionCard: React.FC<{ title: string; color: string; items: strin
   items,
 }) => (
   <div
-    className="rounded-2xl border border-white/10 px-4 py-4"
+    className="rounded-2xl border border-white/10 px-5 py-4"
     style={{
       background:
         "linear-gradient(135deg, rgba(9,16,30,0.98) 0%, rgba(9,19,32,0.98) 100%)",
+      borderLeft: `2px solid ${color}`,
     }}
   >
-    <div className="flex items-center gap-2 text-sm font-semibold" style={{ color }}>
-      <span>*</span>
+    <div className="flex items-center gap-3 text-sm font-semibold text-slate-100">
+      <span
+        className="flex h-5 w-5 items-center justify-center rounded-full"
+        style={{ border: `1px solid ${color}` }}
+      >
+        <span className="h-2 w-2 rounded-full" style={{ backgroundColor: color }} />
+      </span>
       <span>{title}</span>
     </div>
     <ul className="mt-3 space-y-2 text-xs text-slate-300">
       {items.map((item) => (
-        <li key={item} className="flex gap-2">
-          <span style={{ color }}>*</span>
+        <li key={item} className="flex gap-3">
+          <span className="mt-1 h-2 w-2 rounded-full" style={{ backgroundColor: color }} />
           <span>{item}</span>
         </li>
       ))}

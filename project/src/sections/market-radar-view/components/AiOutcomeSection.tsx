@@ -28,9 +28,11 @@ const AiOutcomeSection: React.FC<AiOutcomeSectionProps> = ({ data }) => (
       </span>
     </div>
 
-    <div className="mt-5 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-      <OutcomeChart />
-      <div className="grid gap-4">
+    <div className="mt-6 space-y-6">
+      <div className="flex items-center justify-center">
+        <OutcomeChart />
+      </div>
+      <div className="grid gap-4 lg:grid-cols-3">
         <OutcomeCard title="Upside" color="#2ED573" data={data.upside} />
         <OutcomeCard title="Base" color="#21C7D9" data={data.base} />
         <OutcomeCard title="Downside" color="#FF5A4A" data={data.downside} />
