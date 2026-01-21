@@ -1,6 +1,29 @@
 import React, { useId, useState } from "react";
+import {
+  BarElement,
+  CategoryScale,
+  Chart as ChartJS,
+  Filler,
+  Legend,
+  LineElement,
+  LinearScale,
+  PointElement,
+  Tooltip,
+} from "chart.js";
 import { AlertCircle, Check, Eye, Sparkles } from "lucide-react";
+import { Bar, Line } from "react-chartjs-2";
 import type { HealthIndicator, MarketRadarViewData, TrendCard } from "../types";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  LineElement,
+  PointElement,
+  Tooltip,
+  Legend,
+  Filler
+);
 
 export const Gauge: React.FC<{ indicator: HealthIndicator }> = ({ indicator }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -83,7 +106,9 @@ export const Gauge: React.FC<{ indicator: HealthIndicator }> = ({ indicator }) =
 };
 
 export const TrendCardBlock: React.FC<{ trend: TrendCard }> = ({ trend }) => {
-  const deltaColor = trend.delta.startsWith("-") ? "#FF5A4A" : "#0aaf4fff";
+  const deltaValue = typeof trend.deltaValue === "number" ? trend.deltaValue : null;
+  const isNegative = deltaValue !== null ? deltaValue < 0 : trend.delta.trim().startsWith("-");
+  const deltaColor = isNegative ? "#FF5A4A" : "#0aaf4fff";
 
   return (
     <div
@@ -97,10 +122,122 @@ export const TrendCardBlock: React.FC<{ trend: TrendCard }> = ({ trend }) => {
         <span className="text-[15px] text-indigo-800 text-center">{trend.label}</span>
         <span className="text-[13px] " style={{ color: deltaColor }}>{trend.delta}</span>
       </div>
-      <div className="mt-3 h-12">
-        <Sparkline data={trend.data} color={trend.color} />
+      <div className="mt-3 h-20">
+        <TrendChart trend={trend} />
       </div>
     </div>
+  );
+};
+
+const TrendChart: React.FC<{ trend: TrendCard }> = ({ trend }) => {
+  if (!trend.chartType || trend.chartType === "sparkline") {
+    if (!trend.data || trend.data.length < 2) {
+      return <p className="text-xs text-slate-400">Not available</p>;
+    }
+    return <Sparkline data={trend.data} color={trend.color} />;
+  }
+
+  if (!trend.data || trend.data.length === 0) {
+    return <p className="text-xs text-slate-400">Not available</p>;
+  }
+
+  const labels = trend.labels ?? trend.data.map((_, idx) => `Value ${idx + 1}`);
+  const baseDataset = {
+    data: trend.data,
+    backgroundColor: trend.color,
+    borderColor: trend.color,
+    borderWidth: 2,
+  };
+
+  if (trend.chartType === "bar") {
+    return (
+      <Bar
+        data={{
+          labels,
+          datasets: [
+            {
+              ...baseDataset,
+              borderRadius: 6,
+              barThickness: 12,
+            },
+          ],
+        }}
+        options={{
+          indexAxis: "y",
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+          },
+          scales: {
+            x: {
+              grid: { color: "rgba(148,163,184,0.25)" },
+              ticks: { color: "#64748B", font: { size: 10 } },
+            },
+            y: {
+              grid: { display: false },
+              ticks: { color: "#334155", font: { size: 10 } },
+            },
+          },
+        }}
+      />
+    );
+  }
+
+  const isVacancyTrend = trend.label.toLowerCase().includes("vacancy trend");
+  const seriesData =
+    trend.data.length >= 2
+      ? trend.data
+      : (() => {
+          const base = typeof trend.deltaValue === "number" ? trend.deltaValue : 0;
+          return [base + 1.6, base + 1.1, base + 0.8, base + 0.4, base + 0.2, base];
+        })();
+
+  return (
+    <Line
+      data={{
+        labels: labels.length === seriesData.length ? labels : seriesData.map((_, i) => `${i + 1}`),
+        datasets: [
+          {
+            ...baseDataset,
+            data: seriesData,
+            fill: true,
+            tension: 0.35,
+            borderWidth: 2,
+            pointRadius: isVacancyTrend ? seriesData.map((_, idx) => (idx === seriesData.length - 1 ? 3 : 0)) : 0,
+            pointBackgroundColor: trend.color,
+            backgroundColor: (context) => {
+              if (!isVacancyTrend) return "rgba(46, 213, 115, 0.18)";
+              const chart = context.chart;
+              const { ctx, chartArea } = chart;
+              if (!chartArea) return "rgba(0,0,0,0.25)";
+              const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+              gradient.addColorStop(0, "rgba(0,0,0,0.65)");
+              gradient.addColorStop(1, "rgba(0,0,0,0.05)");
+              return gradient;
+            },
+          },
+        ],
+      }}
+      options={{
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { enabled: !isVacancyTrend },
+        },
+        scales: {
+          x: {
+            grid: { display: false },
+            ticks: { display: !isVacancyTrend, color: "#64748B", font: { size: 10 } },
+          },
+          y: {
+            grid: { color: isVacancyTrend ? "rgba(148,163,184,0.12)" : "rgba(148,163,184,0.25)" },
+            ticks: { display: !isVacancyTrend, color: "#64748B", font: { size: 10 } },
+          },
+        },
+      }}
+    />
   );
 };
 

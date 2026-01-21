@@ -66,6 +66,23 @@ const resolvePayload = (
   return { answer: extractAnswer(payload) };
 };
 
+const parseNumber = (value: unknown): number | null => {
+  if (typeof value === "number" && Number.isFinite(value)) return value;
+  if (typeof value !== "string") return null;
+  const trimmed = value.trim();
+  if (!trimmed || trimmed.toLowerCase() === "not available" || trimmed.toLowerCase() === "na") {
+    return null;
+  }
+  const parsed = Number(trimmed.replace(/[% ,]/g, ""));
+  return Number.isFinite(parsed) ? parsed : null;
+};
+
+const formatPercent = (value: number | null): string =>
+  value === null ? "N/A" : `${value.toFixed(1)}%`;
+
+const formatUnits = (value: number | null): string =>
+  value === null ? "N/A" : value.toLocaleString();
+
 export const normalizeApiPayload = (
   payload: MarketRadarApiResponse | MarketRadarApiWrapper | MarketRadarApiWrapper[] | null,
   sub_market_nameParam: string
@@ -120,26 +137,79 @@ export const normalizeApiPayload = (
     : [];
 
   const keyTrends: TrendCard[] = answer.key_trends
-    ? [
-        {
-          label: "Vacancy Trend (12M)",
-          delta: answer.key_trends?.vacancy_trend_12m ?? "",
-          data: [],
-          color: "#2ED573",
-        },
-        {
-          label: "Rent Growth vs 5-Yr Avg",
-          delta: answer.key_trends?.rent_growth_vs_5yr_avg ?? "",
-          data: [],
-          color: "#21C7D9",
-        },
-        {
-          label: "Absorption Trend",
-          delta: answer.key_trends?.absorption_trend ?? "",
-          data: [],
-          color: "#21C7D9",
-        },
-      ]
+    ? (() => {
+        const rentGrowthComparison = answer.key_trends?.rent_growth_comparison;
+        const absorptionVsDeliveries = answer.key_trends?.absorption_vs_deliveries;
+        const vacancyTrendValue = parseNumber(
+          answer.key_trends?.vacancy_trend_12m_pct_pts ?? answer.key_trends?.vacancy_trend_12m
+        );
+
+        const hasStructuredData =
+          Boolean(rentGrowthComparison) ||
+          Boolean(absorptionVsDeliveries) ||
+          answer.key_trends?.vacancy_trend_12m_pct_pts !== undefined;
+
+        if (hasStructuredData) {
+          const rentYoy = parseNumber(rentGrowthComparison?.rent_growth_yoy_pct);
+          const rentAvg = parseNumber(rentGrowthComparison?.rent_growth_5yr_avg_pct);
+          const rentHasData = rentYoy !== null || rentAvg !== null;
+
+          const delivered = parseNumber(absorptionVsDeliveries?.delivered_12m_units);
+          const absorbed = parseNumber(absorptionVsDeliveries?.absorption_12m_units);
+          const absorptionHasData = delivered !== null || absorbed !== null;
+
+          return [
+            {
+              label: "Rent Growth vs 5-Yr Avg",
+              delta: `YoY ${formatPercent(rentYoy)}`,
+              deltaValue: rentYoy,
+              data: rentHasData ? [rentYoy ?? 0, rentAvg ?? 0] : [],
+              labels: ["YoY", "5-Yr Avg"],
+              color: "#21C7D9",
+              chartType: "bar",
+            },
+            {
+              label: "Absorption Trend",
+              delta: `Absorbed ${formatUnits(absorbed)}`,
+              deltaValue: absorbed,
+              data: absorptionHasData ? [absorbed ?? 0, delivered ?? 0] : [],
+              labels: ["Absorbed", "Delivered"],
+              color: "#4070f4ff",
+              chartType: "bar",
+            },
+            {
+              label: "Vacancy Trend (12M)",
+              delta: vacancyTrendValue === null ? "N/A" : `${vacancyTrendValue.toFixed(1)} pts`,
+              deltaValue: vacancyTrendValue,
+              data: vacancyTrendValue === null ? [] : [vacancyTrendValue, vacancyTrendValue],
+              labels: ["12M Ago", "Now"],
+              color: "#2ED573",
+              chartType: "line",
+            },
+          ];
+        }
+
+        return [
+          {
+            label: "Vacancy Trend (12M)",
+            delta: answer.key_trends?.vacancy_trend_12m ?? "",
+            data: [],
+            color: "#2ED573",
+          },
+          {
+            label: "Rent Growth vs 5-Yr Avg",
+            delta: answer.key_trends?.rent_growth_vs_5yr_avg ?? "",
+            data: [],
+            color: "#21C7D9",
+          },
+          {
+            label: "Absorption Trend",
+            delta: answer.key_trends?.absorption_trend ?? "",
+            data: [],
+            color: "#21C7D9",
+          },
+        ];
+      })()
     : [];
 
   return buildViewData(

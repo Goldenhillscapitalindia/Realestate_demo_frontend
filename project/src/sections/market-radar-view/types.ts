@@ -9,8 +9,11 @@ export type HealthIndicator = {
 export type TrendCard = {
   label: string;
   delta: string;
+  deltaValue?: number | null;
   data: number[];
   color: string;
+  chartType?: "sparkline" | "bar" | "line";
+  labels?: string[];
 };
 
 export type MarketRadarViewData = {
@@ -90,6 +93,15 @@ export type MarketRadarApiResponse = {
     vacancy_trend_12m?: string;
     rent_growth_vs_5yr_avg?: string;
     absorption_trend?: string;
+    rent_growth_comparison?: {
+      rent_growth_yoy_pct?: number | string;
+      rent_growth_5yr_avg_pct?: number | string;
+    };
+    absorption_vs_deliveries?: {
+      delivered_12m_units?: number | string;
+      absorption_12m_units?: number | string;
+    };
+    vacancy_trend_12m_pct_pts?: number | string;
   };
   supply_demand_balance?: {
     demand_supply_ratio?: number;
