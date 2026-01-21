@@ -1,5 +1,6 @@
 import React from "react";
 import { PULSE_COLORS } from "./constants";
+import { Sparkles } from "lucide-react";
 
 type MarketRadarHighlightsProps = {
   pulseCounts: Record<string, number>;
@@ -15,7 +16,7 @@ const MarketRadarHighlights: React.FC<MarketRadarHighlightsProps> = ({ pulseCoun
       }}
     >
       <div className="flex items-center gap-2">
-        <span className="text-violet-500">*</span>
+    <Sparkles size={16} className="mr-2 inline-block text-violet-500" />
         <h3 className="text-base font-semibold text-slate-900">AI Market Pulse</h3>
       </div>
       <p className="mt-3 text-sm leading-relaxed text-slate-600">
@@ -30,7 +31,7 @@ const MarketRadarHighlights: React.FC<MarketRadarHighlightsProps> = ({ pulseCoun
           "linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(245,247,255,0.98) 100%)",
       }}
     >
-      <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Market Pulse</p>
+      <p className="text-s text-black">Market Pulse</p>
       <div className="mt-4 grid grid-cols-2 gap-3 text-sm text-slate-700">
         {Object.keys(PULSE_COLORS).map((key) => (
           <div key={key} className="flex items-center gap-2">

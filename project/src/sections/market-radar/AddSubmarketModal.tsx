@@ -132,8 +132,8 @@ const AddSubmarketModal: React.FC<AddSubmarketModalProps> = ({
               <option value="" disabled>
                 Select type
               </option>
-              <option value="multifamily">multifamily</option>
-              <option value="industrial">industrial</option>
+              <option value="multi_family">Multi_Family</option>
+              <option value="Industrial">Industrial</option>
             </select>
           </label>
 

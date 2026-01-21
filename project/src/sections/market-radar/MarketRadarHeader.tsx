@@ -1,3 +1,4 @@
+import { Sparkle, Sparkles, Wifi, WifiIcon } from "lucide-react";
 import React from "react";
 
 const MarketRadarHeader: React.FC = () => (
@@ -12,30 +13,11 @@ const MarketRadarHeader: React.FC = () => (
       <div className="flex items-center gap-3 text-slate-900">
         <div
           className="flex h-9 w-9 items-center justify-center rounded-full"
-          style={{
-            background:
-              "linear-gradient(135deg, rgba(167,139,250,0.25) 0%, rgba(59,130,246,0.15) 100%)",
-            border: "1px solid rgba(124, 58, 237, 0.35)",
-          }}
         >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-            <path
-              d="M12 4C8.1 4 5 7.1 5 11c0 3.9 3.1 7 7 7"
-              stroke="#7C3AED"
-              strokeWidth="1.6"
-              strokeLinecap="round"
-            />
-            <path
-              d="M12 8c-2.2 0-4 1.8-4 4s1.8 4 4 4"
-              stroke="#38BDF8"
-              strokeWidth="1.6"
-              strokeLinecap="round"
-            />
-            <circle cx="12" cy="12" r="1.5" fill="#6366F1" />
-          </svg>
+    <Wifi size={23} className="mr-2 inline-block text-violet-500" />
         </div>
         <div>
-          <p className="text-sm uppercase tracking-[0.2em] text-slate-500">Market Signal Radar</p>
+          {/* <p className="text-sm uppercase tracking-[0.2em] text-slate-500">Market Signal Radar</p> */}
           <h2 className="text-xl font-semibold text-slate-900">Market Signal Radar</h2>
         </div>
       </div>
