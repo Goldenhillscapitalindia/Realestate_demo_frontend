@@ -145,7 +145,7 @@ const MarketRadar: React.FC = () => {
             />
           </div>
         </div>
-        <MarketRadarFooter count={data.length} lastUpdated={lastUpdated} />
+        {/* <MarketRadarFooter count={data.length} lastUpdated={lastUpdated} /> */}
       </div>
       <AddSubmarketModal
         open={isAddOpen}

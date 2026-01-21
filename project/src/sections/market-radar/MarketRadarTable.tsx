@@ -108,6 +108,14 @@ const MarketRadarTable: React.FC<MarketRadarTableProps> = ({
           </table>
         </div>
       </div>
+            <div className="flex gap-3 rounded-full border border-slate-200 bg-white/70 px-10 py-1 text-m text-slate-600">
+              {Object.keys(PULSE_COLORS).map((key) => (
+                <div key={key} className="flex items-center gap-1.5">
+                  <span className="h-2 w-2 rounded-full" style={{ backgroundColor: PULSE_COLORS[key].dot }} />
+                  <span>{PULSE_COLORS[key].label}</span>
+                </div>
+              ))}
+            </div>
       {error && <p className="text-xs text-red-500">{error}</p>}
     </div>
   );
