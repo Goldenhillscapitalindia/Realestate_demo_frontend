@@ -79,11 +79,11 @@ export const normalizeApiPayload = (
       ? status
       : undefined;
 
-  const indicatorColors = {
-    demand: "#0aaf4fff",
-    supply: "#21C7D9",
-    vacancy: "#0aaf4fff",
-    capital: "#0aaf4fff",
+  const resolveIndicatorColor = (score?: number): string => {
+    const value = typeof score === "number" ? score : 0;
+    if (value < 4) return "#FF5A4A";
+    if (value < 7) return "#4070f4ff";
+    return "#0aaf4fff";
   };
 
   const healthIndicators: HealthIndicator[] = answer.market_health_indicators
@@ -91,28 +91,28 @@ export const normalizeApiPayload = (
         {
           label: "Demand Strength",
           score: answer.market_health_indicators?.demand_strength?.score ?? 0,
-          color: indicatorColors.demand,
+          color: resolveIndicatorColor(answer.market_health_indicators?.demand_strength?.score),
           direction: answer.market_health_indicators?.demand_strength?.direction ?? "",
           explanation: answer.market_health_indicators?.demand_strength?.explanation ?? [],
         },
         {
           label: "Supply Risk",
           score: answer.market_health_indicators?.supply_risk?.score ?? 0,
-          color: indicatorColors.supply,
+          color: resolveIndicatorColor(answer.market_health_indicators?.supply_risk?.score),
           direction: answer.market_health_indicators?.supply_risk?.direction ?? "",
           explanation: answer.market_health_indicators?.supply_risk?.explanation ?? [],
         },
         {
           label: "Vacancy Pressure",
           score: answer.market_health_indicators?.vacancy_pressure?.score ?? 0,
-          color: indicatorColors.vacancy,
+          color: resolveIndicatorColor(answer.market_health_indicators?.vacancy_pressure?.score),
           direction: answer.market_health_indicators?.vacancy_pressure?.direction ?? "",
           explanation: answer.market_health_indicators?.vacancy_pressure?.explanation ?? [],
         },
         {
           label: "Capital Liquidity",
           score: answer.market_health_indicators?.capital_liquidity?.score ?? 0,
-          color: indicatorColors.capital,
+          color: resolveIndicatorColor(answer.market_health_indicators?.capital_liquidity?.score),
           direction: answer.market_health_indicators?.capital_liquidity?.direction ?? "",
           explanation: answer.market_health_indicators?.capital_liquidity?.explanation ?? [],
         },
