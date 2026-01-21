@@ -80,10 +80,10 @@ export const normalizeApiPayload = (
       : undefined;
 
   const indicatorColors = {
-    demand: "#2ED573",
+    demand: "#0aaf4fff",
     supply: "#21C7D9",
-    vacancy: "#2ED573",
-    capital: "#2ED573",
+    vacancy: "#0aaf4fff",
+    capital: "#0aaf4fff",
   };
 
   const healthIndicators: HealthIndicator[] = answer.market_health_indicators
