@@ -16,7 +16,7 @@ const HealthIndicatorsSection: React.FC<HealthIndicatorsSectionProps> = ({ indic
   >
     <div className="flex items-center justify-between gap-4">
       <h3 className="text-xl font-bold text-slate-900">Market Health Indicators</h3>
-      <span className="text-s font-semibold text-red-400">
+      <span className="text-s font-semibold text-blue-700">
         Click score to view explanation
       </span>
     </div>

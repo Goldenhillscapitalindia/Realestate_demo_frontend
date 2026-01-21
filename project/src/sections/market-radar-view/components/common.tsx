@@ -29,17 +29,18 @@ export const Gauge: React.FC<{ indicator: HealthIndicator }> = ({ indicator }) =
             backgroundColor: "#FFFFFF",
             border: "1px solid rgba(148,163,184,0.35)",
           }}
-        >
+        >          <p className="text-xl font-semibold" style={{ color: indicator.color }}>
+          {direction || "—"}
+        </p>
           <span className="text-lg font-semibold" style={{ color: indicator.color }}>
             {indicator.score.toFixed(1)}
           </span>
+
         </div>
       </button>
       <div className="text-center">
         <p className="text-s text-black">{indicator.label}</p>
-        <p className="mt-1 text-xl font-semibold" style={{ color: indicator.color }}>
-          {direction || "—"}
-        </p>
+
       </div>
       {hasExplanation && isOpen ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
