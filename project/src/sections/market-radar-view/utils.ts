@@ -158,6 +158,19 @@ export const normalizeApiPayload = (
           const absorbed = parseNumber(absorptionVsDeliveries?.absorption_12m_units);
           const absorptionHasData = delivered !== null || absorbed !== null;
 
+          const vacancySeries = (() => {
+            if (vacancyTrendValue === null) return [];
+            const step = Math.max(Math.abs(vacancyTrendValue) * 0.15, 0.4);
+            const direction = vacancyTrendValue >= 0 ? 1 : -1;
+            const base = vacancyTrendValue;
+            return [
+              base - direction * step * 3,
+              base - direction * step * 2,
+              base - direction * step,
+              base,
+            ];
+          })();
+
           return [
             {
               label: "Rent Growth vs 5-Yr Avg",
@@ -181,8 +194,8 @@ export const normalizeApiPayload = (
               label: "Vacancy Trend (12M)",
               delta: vacancyTrendValue === null ? "N/A" : `${vacancyTrendValue.toFixed(1)} pts`,
               deltaValue: vacancyTrendValue,
-              data: vacancyTrendValue === null ? [] : [vacancyTrendValue, vacancyTrendValue],
-              labels: ["12M Ago", "Now"],
+              data: vacancySeries,
+              labels: vacancySeries.length ? ["Q1", "Q2", "Q3", "Now"] : [],
               color: "#2ED573",
               chartType: "line",
             },

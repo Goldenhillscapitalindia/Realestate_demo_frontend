@@ -122,7 +122,7 @@ export const TrendCardBlock: React.FC<{ trend: TrendCard }> = ({ trend }) => {
         <span className="text-[15px] text-indigo-800 text-center">{trend.label}</span>
         <span className="text-[13px] " style={{ color: deltaColor }}>{trend.delta}</span>
       </div>
-      <div className="mt-3 h-20">
+      <div className="mt-3 h-28">
         <TrendChart trend={trend} />
       </div>
     </div>
@@ -185,6 +185,7 @@ const TrendChart: React.FC<{ trend: TrendCard }> = ({ trend }) => {
   }
 
   const isVacancyTrend = trend.label.toLowerCase().includes("vacancy trend");
+  const lineColor = isVacancyTrend ? "#22d3ee" : trend.color;
   const seriesData =
     trend.data.length >= 2
       ? trend.data
@@ -204,8 +205,9 @@ const TrendChart: React.FC<{ trend: TrendCard }> = ({ trend }) => {
             fill: true,
             tension: 0.35,
             borderWidth: 2,
+            borderColor: lineColor,
             pointRadius: isVacancyTrend ? seriesData.map((_, idx) => (idx === seriesData.length - 1 ? 3 : 0)) : 0,
-            pointBackgroundColor: trend.color,
+            pointBackgroundColor: lineColor,
             backgroundColor: (context) => {
               if (!isVacancyTrend) return "rgba(46, 213, 115, 0.18)";
               const chart = context.chart;
@@ -213,7 +215,7 @@ const TrendChart: React.FC<{ trend: TrendCard }> = ({ trend }) => {
               if (!chartArea) return "rgba(0,0,0,0.25)";
               const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
               gradient.addColorStop(0, "rgba(0,0,0,0.65)");
-              gradient.addColorStop(1, "rgba(0,0,0,0.05)");
+              gradient.addColorStop(1, "rgba(0,0,0,0.0)");
               return gradient;
             },
           },
@@ -228,11 +230,13 @@ const TrendChart: React.FC<{ trend: TrendCard }> = ({ trend }) => {
         },
         scales: {
           x: {
+            display: !isVacancyTrend,
             grid: { display: false },
             ticks: { display: !isVacancyTrend, color: "#64748B", font: { size: 10 } },
           },
           y: {
-            grid: { color: isVacancyTrend ? "rgba(148,163,184,0.12)" : "rgba(148,163,184,0.25)" },
+            display: !isVacancyTrend,
+            grid: { color: "rgba(148,163,184,0.25)" },
             ticks: { display: !isVacancyTrend, color: "#64748B", font: { size: 10 } },
           },
         },
