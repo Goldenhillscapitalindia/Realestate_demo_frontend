@@ -185,7 +185,9 @@ const TrendChart: React.FC<{ trend: TrendCard }> = ({ trend }) => {
   }
 
   const isVacancyTrend = trend.label.toLowerCase().includes("vacancy trend");
-  const lineColor = isVacancyTrend ? "#22d3ee" : trend.color;
+  const vacancyIsNegative =
+    isVacancyTrend && (typeof trend.deltaValue === "number" ? trend.deltaValue < 0 : trend.delta.trim().startsWith("-"));
+  const lineColor = isVacancyTrend ? (vacancyIsNegative ? "#FF5A4A" : "#2ED573") : trend.color;
   const seriesData =
     trend.data.length >= 2
       ? trend.data
@@ -214,8 +216,9 @@ const TrendChart: React.FC<{ trend: TrendCard }> = ({ trend }) => {
               const { ctx, chartArea } = chart;
               if (!chartArea) return "rgba(0,0,0,0.25)";
               const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
-              gradient.addColorStop(0, "rgba(0,0,0,0.65)");
-              gradient.addColorStop(1, "rgba(0,0,0,0.0)");
+              const topColor = vacancyIsNegative ? "255,90,74" : "46,213,115";
+              gradient.addColorStop(0, `rgba(${topColor},0.55)`);
+              gradient.addColorStop(1, `rgba(${topColor},0.0)`);
               return gradient;
             },
           },
@@ -397,6 +400,20 @@ export const DecisionCard: React.FC<{ title: string; color: string; items: strin
   items,
 }) => {
   const normalized = title.trim().toLowerCase();
+  const borderTint = (() => {
+    if (!color.startsWith("#") || color.length !== 7) return color;
+    const r = parseInt(color.slice(1, 3), 16);
+    const g = parseInt(color.slice(3, 5), 16);
+    const b = parseInt(color.slice(5, 7), 16);
+    return `rgba(${r}, ${g}, ${b}, 0.25)`;
+  })();
+  const fillTint = (() => {
+    if (!color.startsWith("#") || color.length !== 7) return "rgba(255,255,255,0.98)";
+    const r = parseInt(color.slice(1, 3), 16);
+    const g = parseInt(color.slice(3, 5), 16);
+    const b = parseInt(color.slice(5, 7), 16);
+    return `rgba(${r}, ${g}, ${b}, 0.08)`;
+  })();
   const icon =
     normalized === "positives" ? (
       <Check size={14} color={color} />
@@ -410,8 +427,8 @@ export const DecisionCard: React.FC<{ title: string; color: string; items: strin
     <div
       className="rounded-2xl border border-slate-200 px-5 py-4 shadow-[0_10px_24px_rgba(15,23,42,0.06)]"
       style={{
-        background:
-          "linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(245,248,255,0.98) 100%)",
+        background: fillTint,
+        borderColor: borderTint,
         borderLeft: `3px solid ${color}`,
       }}
     >

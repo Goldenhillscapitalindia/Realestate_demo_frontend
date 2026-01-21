@@ -54,9 +54,9 @@ const MarketRadarTable: React.FC<MarketRadarTableProps> = ({
       <div className="max-h-[420px] overflow-hidden rounded-2xl border border-slate-200 shadow-[0_16px_40px_rgba(15,23,42,0.06)]">
         <div className="max-h-[420px] overflow-auto">
           <table className="w-full text-left text-sm text-slate-700">
-            <thead className="sticky top-0 bg-slate-50 text-xs uppercase tracking-[0.15em] text-slate-500">
+            <thead className="sticky top-0 bg-blue-50 text-m  text-indigo-500">
               <tr>
-                <th className="px-4 py-3">submarket name</th>
+                <th className="px-4 py-3">Submarket Name</th>
                 <th className="px-4 py-3">Region</th>
                 <th className="px-4 py-3">Market Pulse</th>
               </tr>

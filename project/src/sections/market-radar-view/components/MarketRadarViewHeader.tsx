@@ -16,18 +16,15 @@ const MarketRadarViewHeader: React.FC<MarketRadarViewHeaderProps> = ({
   onBack,
 }) => (
   <div
-    className="rounded-2xl border border-slate-200 px-6 py-4 shadow-[0_16px_40px_rgba(15,23,42,0.08)]"
-    style={{
-      background:
-        "linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(244,247,255,0.98) 100%)",
-    }}
+    className="rounded-2xl border border-blue-200 px-6 py-4 shadow-[0_16px_40px_rgba(15,23,42,0.08)] bg-indigo-100"
+
   >
     <div className="flex flex-wrap items-center justify-between gap-4">
       <div className="flex items-center gap-4 text-slate-900">
         <button
           type="button"
           onClick={onBack}
-          className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 text-slate-500 transition hover:border-slate-300 hover:text-slate-900"
+          className="flex h-10 w-10 items-center justify-center rounded-full border border-purple-500 text-purple-500 transition hover:border-slate-300 hover:text-slate-900"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
             <path
