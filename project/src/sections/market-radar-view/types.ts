@@ -2,6 +2,8 @@ export type HealthIndicator = {
   label: string;
   score: number;
   color: string;
+  direction?: string;
+  explanation?: string[];
 };
 
 export type TrendCard = {

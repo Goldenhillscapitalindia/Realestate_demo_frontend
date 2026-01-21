@@ -92,21 +92,29 @@ export const normalizeApiPayload = (
           label: "Demand Strength",
           score: answer.market_health_indicators?.demand_strength?.score ?? 0,
           color: indicatorColors.demand,
+          direction: answer.market_health_indicators?.demand_strength?.direction ?? "",
+          explanation: answer.market_health_indicators?.demand_strength?.explanation ?? [],
         },
         {
           label: "Supply Risk",
           score: answer.market_health_indicators?.supply_risk?.score ?? 0,
           color: indicatorColors.supply,
+          direction: answer.market_health_indicators?.supply_risk?.direction ?? "",
+          explanation: answer.market_health_indicators?.supply_risk?.explanation ?? [],
         },
         {
           label: "Vacancy Pressure",
           score: answer.market_health_indicators?.vacancy_pressure?.score ?? 0,
           color: indicatorColors.vacancy,
+          direction: answer.market_health_indicators?.vacancy_pressure?.direction ?? "",
+          explanation: answer.market_health_indicators?.vacancy_pressure?.explanation ?? [],
         },
         {
           label: "Capital Liquidity",
           score: answer.market_health_indicators?.capital_liquidity?.score ?? 0,
           color: indicatorColors.capital,
+          direction: answer.market_health_indicators?.capital_liquidity?.direction ?? "",
+          explanation: answer.market_health_indicators?.capital_liquidity?.explanation ?? [],
         },
       ]
     : [];

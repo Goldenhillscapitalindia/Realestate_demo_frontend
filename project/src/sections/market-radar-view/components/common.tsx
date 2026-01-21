@@ -1,14 +1,28 @@
-import React, { useId } from "react";
+import React, { useId, useState } from "react";
 import { AlertCircle, Check, Eye, Sparkles } from "lucide-react";
 import type { HealthIndicator, MarketRadarViewData, TrendCard } from "../types";
 
 export const Gauge: React.FC<{ indicator: HealthIndicator }> = ({ indicator }) => {
+  const [isOpen, setIsOpen] = useState(false);
   const percentage = Math.min(Math.max(indicator.score / 10, 0), 1);
   const background = `conic-gradient(${indicator.color} ${percentage * 360}deg, rgba(148,163,184,0.2) 0deg)`;
+  const hasExplanation = Boolean(indicator.explanation?.length);
+  const direction = indicator.direction?.trim();
 
   return (
     <div className="flex flex-col items-center gap-3">
-      <div className="flex h-24 w-24 items-center justify-center rounded-full p-2" style={{ background }}>
+      <button
+        type="button"
+        className={`flex h-24 w-24 items-center justify-center rounded-full p-2 ${
+          hasExplanation ? "cursor-pointer" : "cursor-default"
+        }`}
+        style={{ background }}
+        onClick={() => {
+          if (hasExplanation) setIsOpen((prev) => !prev);
+        }}
+        aria-expanded={hasExplanation ? isOpen : undefined}
+        aria-disabled={!hasExplanation}
+      >
         <div
           className="flex h-full w-full flex-col items-center justify-center rounded-full text-center"
           style={{
@@ -19,10 +33,50 @@ export const Gauge: React.FC<{ indicator: HealthIndicator }> = ({ indicator }) =
           <span className="text-lg font-semibold" style={{ color: indicator.color }}>
             {indicator.score.toFixed(1)}
           </span>
-          {/* <span className="text-[10px] uppercase tracking-[0.22em] text-slate-500">AI Score</span> */}
         </div>
+      </button>
+      <div className="text-center">
+        <p className="text-s text-black">{indicator.label}</p>
+        <p className="mt-1 text-xl font-semibold" style={{ color: indicator.color }}>
+          {direction || "—"}
+        </p>
       </div>
-      <p className="text-s text-black">{indicator.label}</p>
+      {hasExplanation && isOpen ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+          <button
+            type="button"
+            className="absolute inset-0 cursor-pointer bg-slate-900/40"
+            onClick={() => setIsOpen(false)}
+            aria-label="Close explanation"
+          />
+          <div
+            className="relative w-full max-w-md rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_24px_50px_rgba(15,23,42,0.18)]"
+            role="dialog"
+            aria-modal="true"
+          >
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="text-[13px]  text-blue-500">Explanation</p>
+                <p className="mt-2 text-sm font-semibold text-slate-900">{indicator.label}</p>
+              </div>
+              <button
+                type="button"
+                className="rounded-full border border-blue-200 px-2 py-1 text-xs font-semibold text-blue-500 hover:bg-blue-50"
+                onClick={() => setIsOpen(false)}
+              >
+                Close
+              </button>
+            </div>
+            <ul className="mt-4 space-y-3 text-[13px] text-slate-600">
+              {indicator.explanation?.map((item) => (
+                <li key={item} className="leading-relaxed">
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 };
