@@ -7,6 +7,7 @@ type MarketRadarTableProps = {
   data: MarketRadarItem[];
   loading: boolean;
   error: string | null;
+  onAddSubmarket: () => void;
   onSelectsub_market_name: (item: MarketRadarItem) => void;
 };
 
@@ -14,6 +15,7 @@ const MarketRadarTable: React.FC<MarketRadarTableProps> = ({
   data,
   loading,
   error,
+  onAddSubmarket,
   onSelectsub_market_name,
 }) => {
   const [query, setQuery] = useState("");
@@ -31,14 +33,23 @@ const MarketRadarTable: React.FC<MarketRadarTableProps> = ({
   return (
     <div className="space-y-3">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <p className="text-sm font-semibold text-slate-200">SubMarket Pulse</p>
-        <input
-          type="text"
-          value={query}
-          onChange={(event) => setQuery(event.target.value)}
-          placeholder="Search submarket or region"
-          className="h-9 w-full rounded-full border border-white/10 bg-[#0B1220] px-4 text-xs text-slate-200 placeholder:text-slate-500 focus:border-white/30 focus:outline-none sm:w-64"
-        />
+        <p className="text-m font-semibold text-slate-200">SubMarket Pulse</p>
+        <div className="flex w-full flex-wrap items-center justify-end gap-3 sm:w-auto">
+          <input
+            type="text"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="Search submarket or region"
+            className="h-9 w-full rounded-full border border-white/10 bg-[#0B1220] px-4 text-xs text-slate-200 placeholder:text-slate-500 focus:border-white/30 focus:outline-none sm:w-64"
+          />
+          <button
+            type="button"
+            onClick={onAddSubmarket}
+            className="h-9 rounded-full border border-cyan-400/50 bg-cyan-400/10 px-4 text-xs font-semibold text-cyan-100 hover:border-cyan-300/70"
+          >
+            Add Submarket +
+          </button>
+        </div>
       </div>
       <div className="max-h-[420px] overflow-hidden rounded-2xl border border-white/10">
         <div className="max-h-[420px] overflow-auto">

@@ -8,6 +8,7 @@ import MarketRadarHeader from "./market-radar/MarketRadarHeader";
 import MarketRadarHighlights from "./market-radar/MarketRadarHighlights";
 import MarketRadarMap from "./market-radar/MarketRadarMap";
 import MarketRadarTable from "./market-radar/MarketRadarTable";
+import AddSubmarketModal from "./market-radar/AddSubmarketModal";
 import { normalizeItems, normalizePulseKey } from "./market-radar/utils";
 import type { MarketRadarItem } from "./market-radar/types";
 
@@ -18,6 +19,9 @@ const MarketRadar: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+  const [isAddOpen, setIsAddOpen] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -92,6 +96,22 @@ const MarketRadar: React.FC = () => {
     [mapCenter.lat, mapCenter.lng]
   );
 
+  const handleUpload = async (payload: FormData) => {
+    setUploading(true);
+    setUploadError(null);
+    try {
+      await axios.post(`${API_URL}/api/market_radar_upload/`, payload, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      setIsAddOpen(false);
+    } catch (err) {
+      console.error(err);
+      setUploadError("Unable to upload submarket.");
+    } finally {
+      setUploading(false);
+    }
+  };
+
   return (
     <section className="min-h-screen px-6 py-10" style={{ backgroundColor: "#060B14" }}>
       <div className="mx-auto max-w-6xl space-y-6">
@@ -110,6 +130,7 @@ const MarketRadar: React.FC = () => {
               data={data}
               loading={loading}
               error={error}
+              onAddSubmarket={() => setIsAddOpen(true)}
               onSelectsub_market_name={(item) =>
                 navigate(`/market_radar_view/${encodeURIComponent(item.sub_market_name)}`, {
                   state: { region: item.region },
@@ -120,6 +141,13 @@ const MarketRadar: React.FC = () => {
         </div>
         <MarketRadarFooter count={data.length} lastUpdated={lastUpdated} />
       </div>
+      <AddSubmarketModal
+        open={isAddOpen}
+        loading={uploading}
+        error={uploadError}
+        onClose={() => setIsAddOpen(false)}
+        onSubmit={handleUpload}
+      />
     </section>
   );
 };
