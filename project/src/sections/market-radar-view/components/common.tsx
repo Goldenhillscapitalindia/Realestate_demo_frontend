@@ -298,8 +298,8 @@ export const MetricCard: React.FC<{ label: string; value: string; isDelta?: bool
 
   return (
     <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
-      <p className="text-[14px] text-indigo-800 text-center">{label}</p>
-      <p className="mt-2 text-lg font-semibold text-center" style={{ color: isDelta ? color : "#0F172A" }}>
+      <p className="text-[15px] text-[#2015b1] text-center">{label}</p>
+      <p className="mt-2 text-2xl font-semibold text-center" style={{ color: isDelta ? color : "#0F172A" }}>
         {value}
       </p>
     </div>
