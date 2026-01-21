@@ -2,6 +2,7 @@ import React from "react";
 import type { MarketRadarViewData } from "../types";
 import { MetricCard, NarrativeCard, SectionHeading } from "./common";
 import SupplyDemandCard from "./SupplyDemandCard";
+import { Building2, DollarSign, LineChart, TrendingDown, Unlink } from "lucide-react";
 
 type VacancyRentSupplyGridProps = {
   supplyDemand: MarketRadarViewData["supplyDemand"];
@@ -30,16 +31,8 @@ const VacancyRentSupplyGrid: React.FC<VacancyRentSupplyGridProps> = ({
           <SectionHeading
             label="Vacancy Dynamics"
             accent="text-violet-500"
-            icon={
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                <path
-                  d="M12 3l1.7 4.3L18 9l-4.3 1.7L12 15l-1.7-4.3L6 9l4.3-1.7L12 3z"
-                  stroke="currentColor"
-                  strokeWidth="1.4"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            }
+             icon={<Building2 size={20} />}
+
           />
 
           <div className="grid gap-3 sm:grid-cols-2 mt-2">
@@ -56,16 +49,8 @@ const VacancyRentSupplyGrid: React.FC<VacancyRentSupplyGridProps> = ({
         <SectionHeading
           label="Rent Performance"
           accent="text-emerald-500"
-          icon={
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M12 4v16M8 7.5c0-1.7 1.8-3 4-3s4 1.3 4 3-1.8 3-4 3-4 1.3-4 3 1.8 3 4 3 4-1.3 4-3"
-                stroke="currentColor"
-                strokeWidth="1.4"
-                strokeLinecap="round"
-              />
-            </svg>
-          }
+          icon={<DollarSign size={20} />}
+
         />
         <div
           className="rounded-2xl border border-slate-200 p-4 shadow-[0_12px_30px_rgba(15,23,42,0.06)]"
@@ -87,18 +72,8 @@ const VacancyRentSupplyGrid: React.FC<VacancyRentSupplyGridProps> = ({
         <SectionHeading
           label="Supply Pipeline Risk"
           accent="text-cyan-500"
-          icon={
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M4 14c3-4 6-4 9-2s6 2 7-3"
-                stroke="currentColor"
-                strokeWidth="1.4"
-                strokeLinecap="round"
-              />
-              <circle cx="6" cy="14" r="1.5" fill="currentColor" />
-              <circle cx="13" cy="12" r="1.5" fill="currentColor" />
-            </svg>
-          }
+          icon={<TrendingDown   size={20} />}
+
         />
         <div
           className="rounded-2xl border border-slate-200 p-4 shadow-[0_12px_30px_rgba(15,23,42,0.06)]"

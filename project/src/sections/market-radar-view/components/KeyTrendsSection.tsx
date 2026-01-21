@@ -8,7 +8,7 @@ type KeyTrendsSectionProps = {
 
 const KeyTrendsSection: React.FC<KeyTrendsSectionProps> = ({ trends }) => (
   <div className="space-y-4">
-    <h3 className="text-m font-bold text-slate-900">Key Trends</h3>
+    <h3 className="text-xl font-bold text-slate-900">Key Trends</h3>
     <div className="grid gap-4 md:grid-cols-3">
       {trends.map((trend) => (
         <TrendCardBlock key={trend.label} trend={trend} />

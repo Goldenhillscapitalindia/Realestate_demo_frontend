@@ -1,4 +1,5 @@
 import React from "react";
+import { Landmark } from "lucide-react";
 import type { MarketRadarViewData } from "../types";
 import { MetricCard, NarrativeCard, SectionHeading } from "./common";
 
@@ -11,17 +12,7 @@ const CapitalMarketsSection: React.FC<CapitalMarketsSectionProps> = ({ data }) =
     <SectionHeading
       label="Capital Markets Health"
       accent="text-indigo-500"
-      icon={
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-          <path
-            d="M4 10h16M6 10V7.5a2.5 2.5 0 012.5-2.5h7A2.5 2.5 0 0118 7.5V10"
-            stroke="currentColor"
-            strokeWidth="1.4"
-            strokeLinecap="round"
-          />
-          <path d="M6 10v8M12 10v8M18 10v8" stroke="currentColor" strokeWidth="1.4" />
-        </svg>
-      }
+      icon={<Landmark size={20} />}
     />
     <div
       className="rounded-2xl border border-slate-200 p-5 shadow-[0_16px_40px_rgba(15,23,42,0.06)]"

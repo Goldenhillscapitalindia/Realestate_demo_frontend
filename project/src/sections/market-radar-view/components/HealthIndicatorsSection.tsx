@@ -14,7 +14,7 @@ const HealthIndicatorsSection: React.FC<HealthIndicatorsSectionProps> = ({ indic
         "linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(245,248,255,0.98) 100%)",
     }}
   >
-    <h3 className="text-m font-bold text-slate-900">Market Health Indicators</h3>
+    <h3 className="text-xl font-bold text-slate-900">Market Health Indicators</h3>
     <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
       {indicators.map((indicator) => (
         <Gauge key={indicator.label} indicator={indicator} />

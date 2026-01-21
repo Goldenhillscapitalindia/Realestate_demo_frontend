@@ -1,5 +1,5 @@
 import React, { useId } from "react";
-import { AlertCircle, Check, Eye } from "lucide-react";
+import { AlertCircle, Check, Eye, Sparkles } from "lucide-react";
 import type { HealthIndicator, MarketRadarViewData, TrendCard } from "../types";
 
 export const Gauge: React.FC<{ indicator: HealthIndicator }> = ({ indicator }) => {
@@ -22,13 +22,13 @@ export const Gauge: React.FC<{ indicator: HealthIndicator }> = ({ indicator }) =
           {/* <span className="text-[10px] uppercase tracking-[0.22em] text-slate-500">AI Score</span> */}
         </div>
       </div>
-      <p className="text-xs text-slate-600">{indicator.label}</p>
+      <p className="text-s text-black">{indicator.label}</p>
     </div>
   );
 };
 
 export const TrendCardBlock: React.FC<{ trend: TrendCard }> = ({ trend }) => {
-  const deltaColor = trend.delta.startsWith("-") ? "#FF5A4A" : "#2ED573";
+  const deltaColor = trend.delta.startsWith("-") ? "#FF5A4A" : "#0aaf4fff";
 
   return (
     <div
@@ -39,8 +39,8 @@ export const TrendCardBlock: React.FC<{ trend: TrendCard }> = ({ trend }) => {
       }}
     >
       <div className="flex items-center justify-between text-xs text-slate-500">
-        <span className="uppercase tracking-[0.15em]">{trend.label}</span>
-        <span style={{ color: deltaColor }}>{trend.delta}</span>
+        <span className="text-[15px] text-indigo-800 text-center">{trend.label}</span>
+        <span className="text-[13px] " style={{ color: deltaColor }}>{trend.delta}</span>
       </div>
       <div className="mt-3 h-12">
         <Sparkline data={trend.data} color={trend.color} />
@@ -95,12 +95,12 @@ export const MetricCard: React.FC<{ label: string; value: string; isDelta?: bool
   value,
   isDelta,
 }) => {
-  const color = isDelta && value.trim().startsWith("-") ? "#FF5A4A" : "#2ED573";
+  const color = isDelta && value.trim().startsWith("-") ? "#FF5A4A" : "#0ca14bff";
 
   return (
     <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
-      <p className="text-[10px] uppercase tracking-[0.2em] text-slate-500">{label}</p>
-      <p className="mt-2 text-lg font-semibold" style={{ color: isDelta ? color : "#0F172A" }}>
+      <p className="text-[14px] text-indigo-800 text-center">{label}</p>
+      <p className="mt-2 text-lg font-semibold text-center" style={{ color: isDelta ? color : "#0F172A" }}>
         {value}
       </p>
     </div>
@@ -109,8 +109,8 @@ export const MetricCard: React.FC<{ label: string; value: string; isDelta?: bool
 
 export const NarrativeCard: React.FC<{ text: string }> = ({ text }) => (
   <div className="mt-4 rounded-xl border border-violet-300/50 bg-violet-50/60 px-4 py-3 text-sm text-slate-600">
-    <span className="mr-2 text-violet-500">*</span>
-    {text}
+    <Sparkles size={16} className="mr-2 inline-block text-violet-500" />
+   <span className="text-[15px]">{text}</span> 
   </div>
 );
 
@@ -121,7 +121,7 @@ export const SectionHeading: React.FC<{ label: string; icon: React.ReactNode; ac
 }) => (
   <div className="flex items-center gap-2 text-m font-semibold">
     <span className={accent}>{icon}</span>
-    <span className="text-slate-900">{label}</span>
+    <span className="text-xl text-slate-900">{label}</span>
   </div>
 );
 
@@ -130,8 +130,8 @@ export const OutcomeChart: React.FC = () => (
     <svg width="260" height="140" viewBox="0 0 260 140">
       <defs>
         <linearGradient id="outcome-up" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stopColor="#2ED573" stopOpacity="0.2" />
-          <stop offset="100%" stopColor="#2ED573" stopOpacity="0.9" />
+          <stop offset="0%" stopColor="#0ca14bff" stopOpacity="0.2" />
+          <stop offset="100%" stopColor="#0ca14bff" stopOpacity="0.9" />
         </linearGradient>
         <linearGradient id="outcome-base" x1="0" y1="0" x2="1" y2="0">
           <stop offset="0%" stopColor="#21C7D9" stopOpacity="0.3" />
@@ -150,7 +150,7 @@ export const OutcomeChart: React.FC = () => (
       <text x="10" y="74" fill="#64748B" fontSize="10">
         Now
       </text>
-      <text x="230" y="30" fill="#2ED573" fontSize="10">
+      <text x="230" y="30" fill="#0ca14bff" fontSize="10">
         Upside
       </text>
       <text x="230" y="112" fill="#FF5A4A" fontSize="10">

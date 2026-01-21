@@ -144,7 +144,6 @@ export type MarketRadarApiResponse = {
 
 export type MarketRadarApiWrapper = {
   sub_market_name?: string;
-  sub_market_name?: string;
   region?: string;
   market_radar_resp?: {
     answer?: MarketRadarApiResponse[];
