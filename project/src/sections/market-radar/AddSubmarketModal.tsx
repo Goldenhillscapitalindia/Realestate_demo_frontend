@@ -123,13 +123,18 @@ const AddSubmarketModal: React.FC<AddSubmarketModalProps> = ({
 
           <label className="text-xs text-slate-300">
             Construction Type
-            <input
-              type="text"
+            <select
               value={constructionType}
               onChange={(event) => setConstructionType(event.target.value)}
               className="mt-2 w-full rounded-lg border border-white/10 bg-[#0B1220] px-3 py-2 text-sm text-slate-100 focus:border-white/30 focus:outline-none"
               required
-            />
+            >
+              <option value="" disabled>
+                Select type
+              </option>
+              <option value="multifamily">multifamily</option>
+              <option value="industrial">industrial</option>
+            </select>
           </label>
 
           <div className="grid gap-4 sm:grid-cols-2">
