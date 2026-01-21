@@ -178,7 +178,7 @@ export const normalizeApiPayload = (
               deltaValue: rentYoy,
               data: rentHasData ? [rentYoy ?? 0, rentAvg ?? 0] : [],
               labels: ["YoY", "5-Yr Avg"],
-              color: "#21C7D9",
+              color: "#f7813cff",
               chartType: "bar",
             },
             {
@@ -187,7 +187,7 @@ export const normalizeApiPayload = (
               deltaValue: absorbed,
               data: absorptionHasData ? [absorbed ?? 0, delivered ?? 0] : [],
               labels: ["Absorbed", "Delivered"],
-              color: "#4070f4ff",
+              color: "#a853daff",
               chartType: "bar",
             },
             {
