@@ -63,7 +63,13 @@ const MarketRadarView: React.FC = () => {
   const pulseStyle = PULSE_STYLES[viewData.pulseKey];
 
   return (
-    <section className="min-h-screen px-6 py-10" style={{ backgroundColor: "#060B14" }}>
+    <section
+      className="min-h-screen px-6 py-10 text-slate-900"
+      style={{
+        background:
+          "linear-gradient(180deg, rgba(248,250,255,1) 0%, rgba(240,244,255,1) 100%)",
+      }}
+    >
       <div className="mx-auto max-w-6xl space-y-8">
         <MarketRadarViewHeader
           sub_market_name={viewData.sub_market_name}

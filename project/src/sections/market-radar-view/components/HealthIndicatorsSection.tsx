@@ -8,13 +8,13 @@ type HealthIndicatorsSectionProps = {
 
 const HealthIndicatorsSection: React.FC<HealthIndicatorsSectionProps> = ({ indicators }) => (
   <div
-    className="rounded-2xl border border-white/10 p-6"
+    className="rounded-2xl border border-slate-200 p-6 shadow-[0_16px_40px_rgba(15,23,42,0.06)]"
     style={{
       background:
-        "linear-gradient(135deg, rgba(9,16,30,0.98) 0%, rgba(9,19,32,0.98) 100%)",
+        "linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(245,248,255,0.98) 100%)",
     }}
   >
-    <h3 className="text-m font-bold text-white">Market Health Indicators</h3>
+    <h3 className="text-m font-bold text-slate-900">Market Health Indicators</h3>
     <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
       {indicators.map((indicator) => (
         <Gauge key={indicator.label} indicator={indicator} />

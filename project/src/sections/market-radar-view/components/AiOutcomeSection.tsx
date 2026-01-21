@@ -8,19 +8,19 @@ type AiOutcomeSectionProps = {
 
 const AiOutcomeSection: React.FC<AiOutcomeSectionProps> = ({ data }) => (
   <div
-    className="rounded-2xl border border-white/10 p-6"
+    className="rounded-2xl border border-slate-200 p-6 shadow-[0_16px_40px_rgba(15,23,42,0.06)]"
     style={{
       background:
-        "linear-gradient(135deg, rgba(9,16,30,0.98) 0%, rgba(9,19,32,0.98) 100%)",
+        "linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(245,248,255,0.98) 100%)",
     }}
   >
     <div className="flex items-center justify-between">
-      <h3 className="text-sm font-semibold text-slate-100">AI Expected Market Outcome</h3>
+      <h3 className="text-xl font-semibold text-slate-900">AI Expected Market Outcome</h3>
       <span
         className="rounded-full px-3 py-1 text-xs font-semibold"
         style={{
-          backgroundColor: "rgba(46, 213, 115, 0.2)",
-          border: "1px solid rgba(46, 213, 115, 0.4)",
+          backgroundColor: "rgba(46, 213, 115, 0.12)",
+          border: "1px solid rgba(46, 213, 115, 0.35)",
           color: "#2ED573",
         }}
       >

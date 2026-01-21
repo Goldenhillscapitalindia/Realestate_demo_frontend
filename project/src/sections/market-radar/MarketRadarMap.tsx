@@ -15,8 +15,8 @@ type MarketRadarMapProps = {
 const MarketRadarMap: React.FC<MarketRadarMapProps> = ({ data, mapCenter, mapBounds }) => (
   <div className="space-y-3">
     <div className="flex items-center justify-between">
-      <p className="text-sm font-semibold text-slate-200">Market Radar Map</p>
-      <div className="flex gap-2 rounded-full border border-white/10 px-3 py-1 text-xs text-slate-300">
+      <p className="text-sm font-semibold text-slate-900">Market Radar Map</p>
+      <div className="flex gap-2 rounded-full border border-slate-200 bg-white/70 px-3 py-1 text-xs text-slate-600">
         {Object.keys(PULSE_COLORS).map((key) => (
           <div key={key} className="flex items-center gap-1.5">
             <span className="h-2 w-2 rounded-full" style={{ backgroundColor: PULSE_COLORS[key].dot }} />
@@ -26,8 +26,8 @@ const MarketRadarMap: React.FC<MarketRadarMapProps> = ({ data, mapCenter, mapBou
       </div>
     </div>
     <div
-      className="relative h-[420px] overflow-hidden rounded-2xl border border-white/10"
-      style={{ backgroundColor: "#0B1220" }}
+      className="relative h-[420px] overflow-hidden rounded-2xl border border-slate-200 shadow-[0_16px_40px_rgba(15,23,42,0.06)]"
+      style={{ backgroundColor: "#F8FAFC" }}
     >
       <MapContainer className="h-full w-full" center={mapCenter} zoom={4} zoomControl={true}>
         <MapViewUpdater center={mapCenter} bounds={mapBounds} />
@@ -44,7 +44,7 @@ const MarketRadarMap: React.FC<MarketRadarMapProps> = ({ data, mapCenter, mapBou
               center={[item.latitude, item.longitude]}
               radius={7}
               pathOptions={{
-                color: "#0B1220",
+                color: "#FFFFFF",
                 weight: 2,
                 fillColor: color,
                 fillOpacity: 1,

@@ -113,15 +113,21 @@ const MarketRadar: React.FC = () => {
   };
 
   return (
-    <section className="min-h-screen px-6 py-10" style={{ backgroundColor: "#060B14" }}>
+    <section
+      className="min-h-screen px-6 py-10 text-slate-900"
+      style={{
+        background:
+          "linear-gradient(180deg, rgba(248,250,255,1) 0%, rgba(240,244,255,1) 100%)",
+      }}
+    >
       <div className="mx-auto max-w-6xl space-y-6">
         <MarketRadarHeader />
         <MarketRadarHighlights pulseCounts={pulseCounts} />
         <div
-          className="rounded-2xl border border-white/10 p-6"
+          className="rounded-2xl border border-slate-200 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)]"
           style={{
             background:
-              "linear-gradient(135deg, rgba(9,16,30,0.98) 0%, rgba(9,19,32,0.98) 100%)",
+              "linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(248,250,255,0.98) 100%)",
           }}
         >
           <div className="grid gap-6 lg:grid-cols-[1.6fr_1fr]">
