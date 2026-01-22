@@ -29,7 +29,7 @@ const MarketRadarHighlights: React.FC<MarketRadarHighlightsProps> = ({ pulseCoun
     ? "Below the U.S. average, supporting tenant cost competitiveness."
     : "Below the U.S. average, supporting affordability and renter demand.";
 
-  const demandSupplyTitle = isIndustrial ? "Demand–Supply Balance" : "Demand vs Supply";
+  const demandSupplyTitle = "Demand-Supply Balance";
   const demandSupply = isIndustrial
     ? "Net absorption < new deliveries (last 12 months)"
     : "Demand > Supply (last 12 months)";
@@ -40,6 +40,33 @@ const MarketRadarHighlights: React.FC<MarketRadarHighlightsProps> = ({ pulseCoun
   const marketCycleDesc = isIndustrial
     ? "Conditions are normalizing as development slows and leasing gradually improves."
     : "Construction is moderating and market conditions are steadily improving.";
+
+  const summaryCards = [
+    {
+      title: "Market Size",
+      icon: <Building2 size={16} className="text-indigo-600" />,
+      value: marketSize,
+      description: marketSizeDesc,
+    },
+    {
+      title: "Vacancy",
+      icon: <Home size={16} className="text-emerald-600" />,
+      value: vacancyLabel,
+      description: vacancyDesc,
+    },
+    {
+      title: "Average Rent",
+      icon: <DollarSign size={16} className="text-blue-600" />,
+      value: avgRent,
+      description: avgRentDesc,
+    },
+    {
+      title: demandSupplyTitle,
+      icon: <Scale size={16} className="text-amber-600" />,
+      value: demandSupply,
+      description: demandSupplyDesc,
+    },
+  ];
 
   return (
     <div className="space-y-6">
@@ -58,67 +85,19 @@ const MarketRadarHighlights: React.FC<MarketRadarHighlightsProps> = ({ pulseCoun
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <div className="relative rounded-2xl p-[1px] bg-gradient-to-r from-indigo-500/40 via-purple-500/30 to-blue-500/40">
+        {summaryCards.map((card) => (
           <div
-            className="rounded-2xl border border-slate-200 p-4 shadow-[0_10px_24px_rgba(15,23,42,0.06)] bg-white"
-            style={{
-              background:
-                "linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(245,247,255,0.98) 100%)",
-            }}
+            key={card.title}
+            className="rounded-2xl border border-violet-200/80 bg-gradient-to-r from-indigo-500/10 via-purple-500/8 to-blue-500/10 p-4 shadow-[0_10px_24px_rgba(15,23,42,0.06)]"
           >
             <div className="flex items-center gap-2 text-m font-semibold text-slate-900">
-              <Building2 size={16} className="text-indigo-600" />
-              Market Size
+              {card.icon}
+              {card.title}
             </div>
-            <p className="mt-3 text-sm font-semibold text-slate-900">{marketSize}</p>
-            <p className="mt-2 text-xs leading-relaxed text-slate-600">{marketSizeDesc}</p>
+            <p className="mt-3 text-sm font-semibold text-slate-900">{card.value}</p>
+            <p className="mt-2 text-xs leading-relaxed text-slate-600">{card.description}</p>
           </div>
-        </div>
-
-        <div
-          className="rounded-2xl border border-slate-200 p-4 shadow-[0_10px_24px_rgba(15,23,42,0.06)]"
-          style={{
-            background:
-              "linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(245,247,255,0.98) 100%)",
-          }}
-        >
-          <div className="flex items-center gap-2 text-m font-semibold text-slate-900">
-            <Home size={16} className="text-emerald-600" />
-            Vacancy
-          </div>
-          <p className="mt-3 text-sm font-semibold text-slate-900">{vacancyLabel}</p>
-          <p className="mt-2 text-xs leading-relaxed text-slate-600">{vacancyDesc}</p>
-        </div>
-
-        <div
-          className="rounded-2xl border border-slate-200 p-4 shadow-[0_10px_24px_rgba(15,23,42,0.06)]"
-          style={{
-            background:
-              "linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(245,247,255,0.98) 100%)",
-          }}
-        >
-          <div className="flex items-center gap-2 text-m font-semibold text-slate-900">
-            <DollarSign size={16} className="text-blue-600" />
-            Average Rent
-          </div>
-          <p className="mt-3 text-sm font-semibold text-slate-900">{avgRent}</p>
-          <p className="mt-2 text-xs leading-relaxed text-slate-600">{avgRentDesc}</p>
-        </div>
-
-        <div
-          className="rounded-2xl border border-slate-200 p-4 shadow-[0_10px_24px_rgba(15,23,42,0.06)]"
-          style={{
-            background:
-              "linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(245,247,255,0.98) 100%)",
-          }}
-        >
-          <div className="flex items-center gap-2 text-m font-semibold text-slate-900">
-            <Scale size={16} className="text-amber-600" />
-            {demandSupplyTitle}
-          </div>
-          <p className="mt-3 text-sm font-semibold text-slate-900">{demandSupply}</p>
-          <p className="mt-2 text-xs leading-relaxed text-slate-600">{demandSupplyDesc}</p>
-        </div>
+        ))}
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[1.1fr_1fr]">
@@ -129,8 +108,8 @@ const MarketRadarHighlights: React.FC<MarketRadarHighlightsProps> = ({ pulseCoun
               "linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(245,247,255,0.98) 100%)",
           }}
         >
-          <p className="text-m text-black  font-semibold">Market Cycle</p>
-          <p className="mt-3 text-sm font-semibold text-slate-900">Late Expansion → Stabilization</p>
+          <p className="text-m text-black font-semibold">Market Cycle</p>
+          <p className="mt-3 text-sm font-semibold text-slate-900">Late Expansion - Stabilization</p>
           <p className="mt-2 text-xs leading-relaxed text-slate-600">{marketCycleDesc}</p>
         </div>
 
@@ -141,7 +120,7 @@ const MarketRadarHighlights: React.FC<MarketRadarHighlightsProps> = ({ pulseCoun
               "linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(245,247,255,0.98) 100%)",
           }}
         >
-          <p className="text-s text-black  font-semibold">Market Pulse</p>
+          <p className="text-s text-black font-semibold">Market Pulse</p>
           <div className="mt-4 grid grid-cols-2 gap-3 text-sm text-slate-700">
             {Object.keys(PULSE_COLORS).map((key) => (
               <div key={key} className="flex items-center gap-2">
