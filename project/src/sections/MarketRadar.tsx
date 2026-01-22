@@ -127,7 +127,7 @@ const MarketRadar: React.FC = () => {
       }}
     >
       <div className="mx-auto max-w-6xl space-y-6">
-        <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <button
             type="button"
             className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-400 hover:text-slate-900"
@@ -135,7 +135,7 @@ const MarketRadar: React.FC = () => {
           >
             ← Back
           </button>
-          <div className="flex gap-2 rounded-full border border-slate-200 bg-white/80 p-1 shadow-sm">
+          <div className="flex flex-1 justify-center gap-2 ">
             {["Multifamily", "Industrial"].map((tab) => {
               const isActive = assetType === tab;
               return (
@@ -145,8 +145,8 @@ const MarketRadar: React.FC = () => {
                   onClick={() => setAssetType(tab as "Multifamily" | "Industrial")}
                   className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
                     isActive
-                      ? "bg-slate-900 text-white shadow-sm"
-                      : "text-slate-600 hover:text-slate-900"
+                      ? "bg-blue-900 text-white shadow-sm"
+                      : "text-slate-600 hover:text-slate-900 bg-slate-200"
                   }`}
                 >
                   {tab}
