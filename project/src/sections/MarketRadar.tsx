@@ -26,6 +26,10 @@ const MarketRadar: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, []);
+
+  useEffect(() => {
     let active = true;
     const fetchData = async () => {
       setLoading(true);

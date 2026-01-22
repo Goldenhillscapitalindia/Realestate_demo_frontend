@@ -28,6 +28,10 @@ const MarketRadarView: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, []);
+
+  useEffect(() => {
     let active = true;
     const fetchData = async () => {
       setLoading(true);
