@@ -169,7 +169,7 @@ const MarketRadar: React.FC = () => {
               onAddSubmarket={() => setIsAddOpen(true)}
               onSelectsub_market_name={(item) =>
                 navigate(`/market_radar_view/${encodeURIComponent(item.sub_market_name)}`, {
-                  state: { region: item.region },
+                  state: { region: item.region, assetType },
                 })
               }
             />

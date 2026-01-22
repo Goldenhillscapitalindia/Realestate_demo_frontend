@@ -18,6 +18,9 @@ const MarketRadarView: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const region = (location.state as { region?: string } | null)?.region ?? "";
+  const assetType =
+    (location.state as { assetType?: "Multifamily" | "Industrial" } | null)?.assetType ??
+    "Multifamily";
   const API_URL = import.meta.env.VITE_API_URL;
 
   const [data, setData] = useState<MarketRadarViewData | null>(null);
@@ -34,7 +37,7 @@ const MarketRadarView: React.FC = () => {
           sub_market_name,
           region,
           fetch: "specific" ,
-
+          construction_type: assetType === "Multifamily" ? "multi_family" : "industrial",
         });
         const payload = response.data?.data ?? response.data;
         if (!active) return;
@@ -53,7 +56,7 @@ const MarketRadarView: React.FC = () => {
     return () => {
       active = false;
     };
-  }, [API_URL, sub_market_name, region]);
+  }, [API_URL, sub_market_name, region, assetType]);
 
   const viewData = useMemo(
     () => buildViewData(data, sub_market_name),
