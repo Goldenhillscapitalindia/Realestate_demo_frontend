@@ -16,6 +16,7 @@ const MarketRadar: React.FC = () => {
   const API_URL = import.meta.env.VITE_API_URL;
 
   const [data, setData] = useState<MarketRadarItem[]>([]);
+  const [assetType, setAssetType] = useState<"Multifamily" | "Industrial">("Multifamily");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
@@ -31,7 +32,8 @@ const MarketRadar: React.FC = () => {
       setError(null);
       try {
         const response = await axios.post(`${API_URL}/api/get_market_radar_data/`, {
-            fetch: "all" ,
+          fetch: "all",
+          construction_type: assetType === "Multifamily" ? "multi_family" : "industrial",
         });
         const payload = response.data?.data ?? response.data ?? [];
         const rows = Array.isArray(payload) ? payload : [payload];
@@ -52,7 +54,7 @@ const MarketRadar: React.FC = () => {
     return () => {
       active = false;
     };
-  }, [API_URL]);
+  }, [API_URL, assetType]);
 
   const pulseCounts = useMemo(() => {
     return data.reduce<Record<string, number>>((acc, item) => {
@@ -121,15 +123,36 @@ const MarketRadar: React.FC = () => {
       }}
     >
       <div className="mx-auto max-w-6xl space-y-6">
-        <button
-          type="button"
-          className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-400 hover:text-slate-900"
-          onClick={() => navigate(-1)}
-        >
-          ← Back
-        </button>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <button
+            type="button"
+            className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-400 hover:text-slate-900"
+            onClick={() => navigate(-1)}
+          >
+            ← Back
+          </button>
+          <div className="flex gap-2 rounded-full border border-slate-200 bg-white/80 p-1 shadow-sm">
+            {["Multifamily", "Industrial"].map((tab) => {
+              const isActive = assetType === tab;
+              return (
+                <button
+                  key={tab}
+                  type="button"
+                  onClick={() => setAssetType(tab as "Multifamily" | "Industrial")}
+                  className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
+                    isActive
+                      ? "bg-slate-900 text-white shadow-sm"
+                      : "text-slate-600 hover:text-slate-900"
+                  }`}
+                >
+                  {tab}
+                </button>
+              );
+            })}
+          </div>
+        </div>
         <MarketRadarHeader />
-        <MarketRadarHighlights pulseCounts={pulseCounts} />
+        <MarketRadarHighlights pulseCounts={pulseCounts} assetType={assetType} />
         <div
           className="rounded-2xl border border-slate-200 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)]"
           style={{
