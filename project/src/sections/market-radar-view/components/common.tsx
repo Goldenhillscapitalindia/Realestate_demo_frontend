@@ -1,0 +1,456 @@
+import React, { useId, useState } from "react";
+import {
+  BarElement,
+  CategoryScale,
+  Chart as ChartJS,
+  Filler,
+  Legend,
+  LineElement,
+  LinearScale,
+  PointElement,
+  Tooltip,
+} from "chart.js";
+import { AlertCircle, Check, Eye, Sparkles } from "lucide-react";
+import { Bar, Line } from "react-chartjs-2";
+import type { HealthIndicator, MarketRadarViewData, TrendCard } from "../types";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  LineElement,
+  PointElement,
+  Tooltip,
+  Legend,
+  Filler
+);
+
+export const Gauge: React.FC<{ indicator: HealthIndicator }> = ({ indicator }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const percentage = Math.min(Math.max(indicator.score / 10, 0), 1);
+  const background = `conic-gradient(${indicator.color} ${percentage * 360}deg, rgba(148,163,184,0.2) 0deg)`;
+  const hasExplanation = Boolean(indicator.explanation?.length);
+  const direction = indicator.direction?.trim();
+
+  return (
+    <div className="flex flex-col items-center gap-3">
+      <button
+        type="button"
+        className={`flex h-24 w-24 items-center justify-center rounded-full p-2 ${
+          hasExplanation ? "cursor-pointer" : "cursor-default"
+        }`}
+        style={{ background }}
+        onClick={() => {
+          if (hasExplanation) setIsOpen((prev) => !prev);
+        }}
+        aria-expanded={hasExplanation ? isOpen : undefined}
+        aria-disabled={!hasExplanation}
+      >
+        <div
+          className="flex h-full w-full flex-col items-center justify-center rounded-full text-center"
+          style={{
+            backgroundColor: "#FFFFFF",
+            border: "1px solid rgba(148,163,184,0.35)",
+          }}
+        >          <p className="text-xl font-semibold" style={{ color: indicator.color }}>
+          {direction || "—"}
+        </p>
+          <span className="text-lg font-semibold" style={{ color: indicator.color }}>
+            {indicator.score.toFixed(1)}
+          </span>
+
+        </div>
+      </button>
+      <div className="text-center">
+        <p className="text-s text-black">{indicator.label}</p>
+
+      </div>
+      {hasExplanation && isOpen ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+          <button
+            type="button"
+            className="absolute inset-0 cursor-pointer bg-slate-900/40"
+            onClick={() => setIsOpen(false)}
+            aria-label="Close explanation"
+          />
+          <div
+            className="relative w-full max-w-md rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_24px_50px_rgba(15,23,42,0.18)]"
+            role="dialog"
+            aria-modal="true"
+          >
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="text-[13px]  text-blue-500">Explanation</p>
+                <p className="mt-2 text-sm font-semibold text-slate-900">{indicator.label}</p>
+              </div>
+              <button
+                type="button"
+                className="rounded-full border border-blue-200 px-2 py-1 text-xs font-semibold text-blue-500 hover:bg-blue-50"
+                onClick={() => setIsOpen(false)}
+              >
+                Close
+              </button>
+            </div>
+            <ul className="mt-4 space-y-3 text-[13px] text-slate-600">
+              {indicator.explanation?.map((item) => (
+                <li key={item} className="leading-relaxed">
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+};
+
+export const TrendCardBlock: React.FC<{ trend: TrendCard }> = ({ trend }) => {
+  const deltaValue = typeof trend.deltaValue === "number" ? trend.deltaValue : null;
+  const isNegative = deltaValue !== null ? deltaValue < 0 : trend.delta.trim().startsWith("-");
+  const deltaColor = isNegative ? "#FF5A4A" : "#0aaf4fff";
+
+  return (
+    <div
+      className="rounded-2xl border border-slate-200 p-4 shadow-[0_14px_32px_rgba(15,23,42,0.06)]"
+      style={{
+        background:
+          "linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(245,248,255,0.98) 100%)",
+      }}
+    >
+      <div className="flex items-center justify-between text-xs text-slate-500">
+        <span className="text-[15px] text-indigo-800 text-center">{trend.label}</span>
+        <span className="text-[13px] " style={{ color: deltaColor }}>{trend.delta}</span>
+      </div>
+      <div className="mt-3 h-28">
+        <TrendChart trend={trend} />
+      </div>
+    </div>
+  );
+};
+
+const TrendChart: React.FC<{ trend: TrendCard }> = ({ trend }) => {
+  if (!trend.chartType || trend.chartType === "sparkline") {
+    if (!trend.data || trend.data.length < 2) {
+      return <p className="text-xs text-slate-400">Not available</p>;
+    }
+    return <Sparkline data={trend.data} color={trend.color} />;
+  }
+
+  if (!trend.data || trend.data.length === 0) {
+    return <p className="text-xs text-slate-400">Not available</p>;
+  }
+
+  const labels = trend.labels ?? trend.data.map((_, idx) => `Value ${idx + 1}`);
+  const baseDataset = {
+    data: trend.data,
+    backgroundColor: trend.color,
+    borderColor: trend.color,
+    borderWidth: 2,
+  };
+
+  if (trend.chartType === "bar") {
+    return (
+      <Bar
+        data={{
+          labels,
+          datasets: [
+            {
+              ...baseDataset,
+              borderRadius: 6,
+              barThickness: 12,
+            },
+          ],
+        }}
+        options={{
+          indexAxis: "y",
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+          },
+          scales: {
+            x: {
+              grid: { color: "rgba(148,163,184,0.25)" },
+              ticks: { color: "#64748B", font: { size: 10 } },
+            },
+            y: {
+              grid: { display: false },
+              ticks: { color: "#334155", font: { size: 10 } },
+            },
+          },
+        }}
+      />
+    );
+  }
+
+  const isVacancyTrend = trend.label.toLowerCase().includes("vacancy trend");
+  const vacancyIsNegative =
+    isVacancyTrend && (typeof trend.deltaValue === "number" ? trend.deltaValue < 0 : trend.delta.trim().startsWith("-"));
+  const lineColor = isVacancyTrend ? (vacancyIsNegative ? "#FF5A4A" : "#2ED573") : trend.color;
+  const seriesData =
+    trend.data.length >= 2
+      ? trend.data
+      : (() => {
+          const base = typeof trend.deltaValue === "number" ? trend.deltaValue : 0;
+          return [base + 1.6, base + 1.1, base + 0.8, base + 0.4, base + 0.2, base];
+        })();
+
+  return (
+    <Line
+      data={{
+        labels: labels.length === seriesData.length ? labels : seriesData.map((_, i) => `${i + 1}`),
+        datasets: [
+          {
+            ...baseDataset,
+            data: seriesData,
+            fill: true,
+            tension: 0.35,
+            borderWidth: 2,
+            borderColor: lineColor,
+            pointRadius: isVacancyTrend ? seriesData.map((_, idx) => (idx === seriesData.length - 1 ? 3 : 0)) : 0,
+            pointBackgroundColor: lineColor,
+            backgroundColor: (context) => {
+              if (!isVacancyTrend) return "rgba(46, 213, 115, 0.18)";
+              const chart = context.chart;
+              const { ctx, chartArea } = chart;
+              if (!chartArea) return "rgba(0,0,0,0.25)";
+              const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+              const topColor = vacancyIsNegative ? "255,90,74" : "46,213,115";
+              gradient.addColorStop(0, `rgba(${topColor},0.55)`);
+              gradient.addColorStop(1, `rgba(${topColor},0.0)`);
+              return gradient;
+            },
+          },
+        ],
+      }}
+      options={{
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { enabled: !isVacancyTrend },
+        },
+        scales: {
+          x: {
+            display: !isVacancyTrend,
+            grid: { display: false },
+            ticks: { display: !isVacancyTrend, color: "#64748B", font: { size: 10 } },
+          },
+          y: {
+            display: !isVacancyTrend,
+            grid: { color: "rgba(148,163,184,0.25)" },
+            ticks: { display: !isVacancyTrend, color: "#64748B", font: { size: 10 } },
+          },
+        },
+      }}
+    />
+  );
+};
+
+export const Sparkline: React.FC<{ data: number[]; color: string }> = ({ data, color }) => {
+  const gradientId = useId();
+  if (!data || data.length < 2) return null;
+  const width = 140;
+  const height = 40;
+  const padding = 4;
+  const min = Math.min(...data);
+  const max = Math.max(...data);
+  const range = max - min || 1;
+  const points = data.map((value, idx) => {
+    const x = (idx / (data.length - 1)) * (width - padding * 2) + padding;
+    const y = height - padding - ((value - min) / range) * (height - padding * 2);
+    return `${x},${y}`;
+  });
+
+  return (
+    <svg width="100%" height="100%" viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none">
+      <defs>
+        <linearGradient id={`spark-${gradientId}`} x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor={color} stopOpacity="0.4" />
+          <stop offset="100%" stopColor={color} stopOpacity="1" />
+        </linearGradient>
+      </defs>
+      <polyline
+        fill="none"
+        stroke={`url(#spark-${gradientId})`}
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        points={points.join(" ")}
+      />
+      <circle
+        cx={points[points.length - 1].split(",")[0]}
+        cy={points[points.length - 1].split(",")[1]}
+        r="2.5"
+        fill={color}
+      />
+    </svg>
+  );
+};
+
+export const MetricCard: React.FC<{ label: string; value: string; isDelta?: boolean }> = ({
+  label,
+  value,
+  isDelta,
+}) => {
+  const color = isDelta && value.trim().startsWith("-") ? "#FF5A4A" : "#0ca14bff";
+
+  return (
+    <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+      <p className="text-[15px] text-[#2015b1] text-center">{label}</p>
+      <p className="mt-2 text-2xl font-semibold text-center" style={{ color: isDelta ? color : "#0F172A" }}>
+        {value}
+      </p>
+    </div>
+  );
+};
+
+export const NarrativeCard: React.FC<{ text: string }> = ({ text }) => (
+  <div className="mt-4 rounded-xl border border-violet-300/50 bg-violet-50/60 px-4 py-3 text-sm text-slate-600">
+    <Sparkles size={16} className="mr-2 inline-block text-violet-500" />
+   <span className="text-[15px]">{text}</span> 
+  </div>
+);
+
+export const SectionHeading: React.FC<{ label: string; icon: React.ReactNode; accent: string }> = ({
+  label,
+  icon,
+  accent,
+}) => (
+  <div className="flex items-center gap-2 text-m font-semibold">
+    <span className={accent}>{icon}</span>
+    <span className="text-xl text-slate-900">{label}</span>
+  </div>
+);
+
+export const OutcomeChart: React.FC = () => (
+  <div className="flex items-center justify-center">
+    <svg width="260" height="140" viewBox="0 0 260 140">
+      <defs>
+        <linearGradient id="outcome-up" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor="#0ca14bff" stopOpacity="0.2" />
+          <stop offset="100%" stopColor="#0ca14bff" stopOpacity="0.9" />
+        </linearGradient>
+        <linearGradient id="outcome-base" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor="#21C7D9" stopOpacity="0.3" />
+          <stop offset="100%" stopColor="#21C7D9" stopOpacity="0.9" />
+        </linearGradient>
+        <linearGradient id="outcome-down" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor="#FF5A4A" stopOpacity="0.2" />
+          <stop offset="100%" stopColor="#FF5A4A" stopOpacity="0.9" />
+        </linearGradient>
+      </defs>
+      <line x1="40" y1="70" x2="220" y2="70" stroke="#CBD5E1" strokeWidth="2" />
+      <circle cx="40" cy="70" r="4" fill="#6366F1" />
+      <path d="M40 70 C90 68, 130 52, 220 30" stroke="url(#outcome-up)" strokeWidth="3" fill="none" />
+      <path d="M40 70 C95 75, 135 72, 220 72" stroke="url(#outcome-base)" strokeWidth="3" fill="none" />
+      <path d="M40 70 C95 82, 130 95, 220 110" stroke="url(#outcome-down)" strokeWidth="3" fill="none" />
+      <text x="10" y="74" fill="#64748B" fontSize="10">
+        Now
+      </text>
+      <text x="230" y="30" fill="#0ca14bff" fontSize="10">
+        Upside
+      </text>
+      <text x="230" y="112" fill="#FF5A4A" fontSize="10">
+        Downside
+      </text>
+    </svg>
+  </div>
+);
+
+export const OutcomeCard: React.FC<{
+  title: string;
+  color: string;
+  data: MarketRadarViewData["aiOutcome"]["upside"];
+}> = ({ title, color, data }) => (
+  <div
+    className="rounded-2xl border border-slate-200 px-4 py-4 shadow-[0_10px_30px_rgba(15,23,42,0.08)]"
+    style={{
+      backgroundColor: "#FFFFFF",
+      borderTop: `3px solid ${color}`,
+    }}
+  >
+    <div className="flex items-center gap-2 text-sm font-semibold text-slate-900">
+      <span className="text-lg" style={{ color }}>
+        ~
+      </span>
+      <span className="text-[15px]">{title}</span>
+    </div>
+    <div className="mt-2 space-y-1 text-xs text-slate-500">
+      <div className="flex justify-between">
+        <span className="text-[13px] ">Vacancy</span>
+        <span className="text-slate-900">{data.vacancy}</span>
+      </div>
+      <div className="flex justify-between">
+        <span  className="text-[13px]">Rent Growth</span>
+        <span className="text-slate-900">{data.rentGrowth}</span>
+      </div>
+      <div className="flex justify-between">
+        <span  className="text-[13px]">Absorption Delta</span>
+        <span className="text-slate-900">{data.absorptionDelta}</span>
+      </div>
+    </div>
+  </div>
+);
+
+export const DecisionCard: React.FC<{ title: string; color: string; items: string[] }> = ({
+  title,
+  color,
+  items,
+}) => {
+  const normalized = title.trim().toLowerCase();
+  const borderTint = (() => {
+    if (!color.startsWith("#") || color.length !== 7) return color;
+    const r = parseInt(color.slice(1, 3), 16);
+    const g = parseInt(color.slice(3, 5), 16);
+    const b = parseInt(color.slice(5, 7), 16);
+    return `rgba(${r}, ${g}, ${b}, 0.25)`;
+  })();
+  const fillTint = (() => {
+    if (!color.startsWith("#") || color.length !== 7) return "rgba(255,255,255,0.98)";
+    const r = parseInt(color.slice(1, 3), 16);
+    const g = parseInt(color.slice(3, 5), 16);
+    const b = parseInt(color.slice(5, 7), 16);
+    return `rgba(${r}, ${g}, ${b}, 0.08)`;
+  })();
+  const icon =
+    normalized === "positives" ? (
+      <Check size={14} color={color} />
+    ) : normalized === "negatives" ? (
+      <AlertCircle size={14} color={color} />
+    ) : normalized === "what to watch" ? (
+      <Eye size={14} color={color} />
+    ) : null;
+
+  return (
+    <div
+      className="rounded-2xl border border-slate-200 px-5 py-4 shadow-[0_10px_24px_rgba(15,23,42,0.06)]"
+      style={{
+        background: fillTint,
+        borderColor: borderTint,
+        borderLeft: `3px solid ${color}`,
+      }}
+    >
+      <div className="flex items-center gap-3 text-sm font-semibold text-slate-900">
+        <span
+          className="flex h-5 w-5 items-center justify-center rounded-full"
+          style={{ border: `1px solid ${color}` }}
+        >
+          {icon}
+        </span>
+        <span className="text-m font-semibold">{title}</span>
+      </div>
+      <ul
+        className="mt-3 list-disc space-y-2 pl-5 text-xs marker:text-[16px] marker:text-[var(--marker-color)]"
+        style={{ "--marker-color": color } as React.CSSProperties}
+      >
+        {items.map((item) => (
+          <li key={item} className="text-[14px] text-slate-600">
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
