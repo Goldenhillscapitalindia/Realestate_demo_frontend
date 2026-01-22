@@ -1,5 +1,6 @@
 import React from "react";
-import { CircleMarker, MapContainer, TileLayer, Tooltip } from "react-leaflet";
+import { MapContainer, Marker, TileLayer, Tooltip } from "react-leaflet";
+import L from "leaflet";
 import type { LatLngBoundsExpression, LatLngExpression } from "leaflet";
 import { PULSE_COLORS } from "./constants";
 import { normalizePulseKey } from "./utils";
@@ -11,6 +12,25 @@ type MarketRadarMapProps = {
   mapCenter: LatLngExpression;
   mapBounds: LatLngBoundsExpression | null;
 };
+
+const createKiteIcon = (color: string) =>
+  L.divIcon({
+    className: "",
+    html: `
+      <svg width="26" height="36" viewBox="0 0 26 36" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="kite-shadow" x="-50%" y="-50%" width="200%" height="200%">
+            <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="rgba(15,23,42,0.25)" />
+          </filter>
+        </defs>
+        <path d="M13 0 L26 14 L13 36 L0 14 Z" fill="${color}" filter="url(#kite-shadow)" />
+        <circle cx="13" cy="14" r="4" fill="#FFFFFF" opacity="0.9" />
+      </svg>
+    `,
+    iconSize: [26, 36],
+    iconAnchor: [13, 36],
+    popupAnchor: [0, -32],
+  });
 
 const MarketRadarMap: React.FC<MarketRadarMapProps> = ({ data, mapCenter, mapBounds }) => (
   <div className="space-y-3">
@@ -39,21 +59,15 @@ const MarketRadarMap: React.FC<MarketRadarMapProps> = ({ data, mapCenter, mapBou
           const pulseKey = normalizePulseKey(item.marketPulse);
           const color = PULSE_COLORS[pulseKey]?.dot ?? "#21C7D9";
           return (
-            <CircleMarker
+            <Marker
               key={`${item.sub_market_name}-${idx}`}
-              center={[item.latitude, item.longitude]}
-              radius={7}
-              pathOptions={{
-                color: "#FFFFFF",
-                weight: 2,
-                fillColor: color,
-                fillOpacity: 1,
-              }}
+              position={[item.latitude, item.longitude]}
+              icon={createKiteIcon(color)}
             >
               <Tooltip direction="top" offset={[0, -8]} opacity={0.9}>
                 {item.sub_market_name} ({item.region})
               </Tooltip>
-            </CircleMarker>
+            </Marker>
           );
         })}
       </MapContainer>
