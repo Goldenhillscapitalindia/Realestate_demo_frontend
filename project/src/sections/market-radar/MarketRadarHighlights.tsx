@@ -88,7 +88,7 @@ const MarketRadarHighlights: React.FC<MarketRadarHighlightsProps> = ({ pulseCoun
         {summaryCards.map((card) => (
           <div
             key={card.title}
-            className="rounded-2xl border border-violet-200/80 bg-gradient-to-r from-indigo-500/10 via-purple-500/8 to-blue-500/10 p-4 shadow-[0_10px_24px_rgba(15,23,42,0.06)]"
+            className="rounded-2xl border border-violet-400  p-4 shadow-[0_10px_24px_rgba(15,23,42,0.06)]"
           >
             <div className="flex items-center gap-2 text-m font-semibold text-slate-900">
               {card.icon}
