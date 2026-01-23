@@ -19,26 +19,26 @@ const PfDemo: React.FC = () => {
 
   return (
     <section
-      className="min-h-screen px-6 py-10 text-slate-100"
+      className="min-h-screen px-6 py-10 text-slate-900"
       style={{
         background:
-          "radial-gradient(1200px 600px at 10% 0%, rgba(20,30,50,0.85) 0%, rgba(10,15,25,0.98) 45%, rgba(6,9,16,1) 100%)",
+          "radial-gradient(1200px 600px at 10% 0%, rgba(214,237,255,0.7) 0%, rgba(248,250,255,0.92) 40%, rgba(255,255,255,1) 100%)",
       }}
     >
       <div className="mx-auto max-w-6xl space-y-8">
         <div className="flex flex-wrap items-center justify-between gap-6">
           <div className="flex items-center gap-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-900/70 text-sky-300 shadow-lg ring-1 ring-sky-500/30">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-sky-600 shadow-lg ring-1 ring-slate-200">
               <span className="text-xl font-semibold">PI</span>
             </div>
             <div>
-              <h1 className="text-2xl font-semibold text-white">Portfolio Intelligence</h1>
-              <p className="text-sm text-slate-400">318 Properties - $30.2B AUM</p>
+              <h1 className="text-2xl font-semibold text-slate-900">Portfolio Intelligence</h1>
+              {/* <p className="text-sm text-slate-500">318 Properties - $30.2B AUM</p> */}
             </div>
           </div>
         </div>
 
-        <div className="grid gap-6 rounded-3xl border border-slate-800/80 bg-slate-900/50 p-6 shadow-[0_24px_60px_rgba(8,15,30,0.55)] lg:grid-cols-[220px_1fr]">
+        <div className="grid gap-6  lg:grid-cols-[220px_1fr]">
           <aside className="space-y-2">
             {tabs.map((tab) => {
               const isActive = tab === activeTab;
@@ -49,12 +49,12 @@ const PfDemo: React.FC = () => {
                   onClick={() => setActiveTab(tab)}
                   className={`flex w-full items-center justify-between rounded-2xl px-4 py-3 text-left text-sm font-semibold transition ${
                     isActive
-                      ? "bg-sky-500/90 text-slate-900 shadow-sm"
-                      : "bg-slate-900/60 text-slate-300 hover:text-white"
+                      ? "bg-sky-500 text-white shadow-sm"
+                      : "bg-slate-50 text-slate-600 hover:text-slate-900"
                   }`}
                 >
                   <span>{tab}</span>
-                  <span className="text-xs opacity-70">›</span>
+                  <span className="text-m opacity-100">›</span>
                 </button>
               );
             })}
