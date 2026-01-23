@@ -173,7 +173,7 @@ export const normalizeApiPayload = (
 
           return [
             {
-              label: "Rent Growth vs 5-Yr Avg",
+              label: "Rent Growth vs 5-Yr Avg (%)",
               delta: `YoY ${formatPercent(rentYoy)}`,
               deltaValue: rentYoy,
               data: rentHasData ? [rentYoy ?? 0, rentAvg ?? 0] : [],
@@ -210,7 +210,7 @@ export const normalizeApiPayload = (
             color: "#2ED573",
           },
           {
-            label: "Rent Growth vs 5-Yr Avg",
+            label: "Rent Growth vs 5-Yr Avg (%)",
             delta: answer.key_trends?.rent_growth_vs_5yr_avg ?? "",
             data: [],
             color: "#21C7D9",
