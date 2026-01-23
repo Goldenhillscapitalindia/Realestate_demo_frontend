@@ -16,7 +16,11 @@ const MarketRadar: React.FC = () => {
   const API_URL = import.meta.env.VITE_API_URL;
 
   const [data, setData] = useState<MarketRadarItem[]>([]);
-  const [assetType, setAssetType] = useState<"Multifamily" | "Industrial">("Multifamily");
+  const [assetType, setAssetType] = useState<"Multifamily" | "Industrial">(() => {
+    if (typeof window === "undefined") return "Multifamily";
+    const stored = window.sessionStorage.getItem("marketRadarAssetType");
+    return stored === "Industrial" || stored === "Multifamily" ? stored : "Multifamily";
+  });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
@@ -28,6 +32,10 @@ const MarketRadar: React.FC = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   }, []);
+
+  useEffect(() => {
+    window.sessionStorage.setItem("marketRadarAssetType", assetType);
+  }, [assetType]);
 
   useEffect(() => {
     let active = true;
@@ -131,7 +139,7 @@ const MarketRadar: React.FC = () => {
           <button
             type="button"
             className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-400 hover:text-slate-900"
-            onClick={() => navigate(-1)}
+            onClick={() => navigate("/", { state: { scrollTo: "demos" } })}
           >
             ← Back
           </button>
