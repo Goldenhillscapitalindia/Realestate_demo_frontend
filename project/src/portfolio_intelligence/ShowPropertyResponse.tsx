@@ -83,12 +83,9 @@ const ShowPropertyResponse: React.FC<Props> = ({
                   onClick={() => setActiveTab(tab)}
                   className="px-4 py-2 rounded-lg font-semibold transition-colors"
                   style={{
-                    backgroundColor: isActive
-                      ? "#1B4F72"
-                      : theme === "dark"
-                      ? "#102330"
-                      : "#E5E5E5",
-                    color: isActive ? "#E0F7FA" : theme === "dark" ? "#A0CFE8" : "#333",
+                    backgroundColor: isActive ? "#7495e2ff" : "#ffffff",
+                    color: isActive ? "#061842ff" : "#3d7cd3ff",
+                    border: "1px solid #e5e7eb",
                   }}
                 >
                   {labels[tab]}

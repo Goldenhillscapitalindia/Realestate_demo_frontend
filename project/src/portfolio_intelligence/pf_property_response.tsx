@@ -94,7 +94,7 @@ const PfPropertyResponse: React.FC = () => {
     <RealEstateResponses
       responses={responses}
       onBack={() => navigate("/portfolio_intelligence", { state: { activeTab: "Properties" } })}
-      titleText={record?.property_name ? `${record.property_name} Response` : "Property Response"}
+      titleText={record?.property_name ? `${record.property_name} ` : "Property Response"}
     />
   );
 };
