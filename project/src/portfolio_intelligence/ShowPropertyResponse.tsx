@@ -1,8 +1,8 @@
 // src/components/RealEstateResponses.tsx
 import React, { useState } from "react";
-import { Block } from "../Realestate_components/Utils/RComponentsUtils";
-import RRenderer from "../Realestate_components/RRenderer";
 import { useTheme } from "../sections/ThemeContext";
+import { Block } from "../portfolio_intelligence_components/Utils/RComponentsUtils";
+import RRenderer from "../portfolio_intelligence_components/RRenderer";
 
 type FileType = "memorandum" | "t12" | "rent_roll";
 
