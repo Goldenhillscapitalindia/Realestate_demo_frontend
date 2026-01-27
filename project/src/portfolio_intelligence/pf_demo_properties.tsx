@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 type PropertyRecord = {
   Property: string;
@@ -14,34 +15,36 @@ const PfDemoProperties: React.FC = () => {
   const [data, setData] = useState<PropertyRecord[]>([]);
   const [selected, setSelected] = useState<PropertyRecord | null>(null);
   const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
+  const API_URL = import.meta.env.VITE_API_URL;
 
-  useEffect(() => {
-    let isActive = true;
-    const load = async () => {
-      setStatus("loading");
-      try {
-        const response = await fetch("/api/get_properties_data");
-        if (!response.ok) {
-          throw new Error("Request failed");
-        }
-        const payload = (await response.json()) as PropertyRecord[];
-        if (isActive) {
-          setData(payload);
-          setSelected(payload[0] ?? null);
-          setStatus("idle");
-        }
-      } catch (error) {
-        if (isActive) {
-          setStatus("error");
-        }
+useEffect(() => {
+  let isActive = true;
+
+  const load = async () => {
+    setStatus("loading");
+    try {
+      const response = await axios.get<PropertyRecord[]>(
+        `${API_URL}/api/get_properties_data/`
+      );
+
+      if (isActive) {
+        setData(response.data);
+        setSelected(response.data[0] ?? null);
+        setStatus("idle");
       }
-    };
+    } catch (error) {
+      if (isActive) {
+        setStatus("error");
+      }
+    }
+  };
 
-    load();
-    return () => {
-      isActive = false;
-    };
-  }, []);
+  load();
+  return () => {
+    isActive = false;
+  };
+}, [API_URL]);
+
 
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-6 text-slate-900 shadow-sm">
