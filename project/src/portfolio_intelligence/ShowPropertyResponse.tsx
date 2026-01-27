@@ -103,8 +103,8 @@ const ShowPropertyResponse: React.FC<Props> = ({
           className="rounded-lg p-6"
           style={{ backgroundColor: "#ffffff", border: "1px solid #e5e7eb" }}
         >
-          <h2 className="text-2xl font-bold mb-4" style={{ color: "#111827" }}>
-            {titleText ?? `${labels[activeTab]} Response`}
+          <h2 className="text-2xl font-bold mb-4" style={{ color: "#000000ff" }}>
+            {titleText ?? `${labels[activeTab]} `}
           </h2>
           {activeBlocks.length > 0 ? (
             <RRenderer blocks={activeBlocks} />
