@@ -74,7 +74,7 @@ const handleRowClick = (row: PropertyRecord) => {
 
       <div className="mt-4 overflow-hidden rounded-2xl border border-slate-200">
         <table className="w-full text-left text-sm">
-          <thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+          <thead className="bg-blue-200 text-s uppercase tracking-wide text-black">
             <tr>
               <th className="px-4 py-3">Property</th>
               <th className="px-4 py-3">Location</th>

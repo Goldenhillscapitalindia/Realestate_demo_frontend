@@ -1,10 +1,124 @@
 import React, { useMemo, useState } from "react";
+import axios from "axios";
 
 const tabs = ["Portfolio Analytics", "Properties", "AI Rent Intelligence"] as const;
 type UploadTab = (typeof tabs)[number];
 
 const PfUploads: React.FC = () => {
   const [activeTab, setActiveTab] = useState<UploadTab>("Portfolio Analytics");
+  const API_URL = import.meta.env.VITE_API_URL;
+
+  const [propertyForm, setPropertyForm] = useState({
+    property_name: "",
+    submarket: "",
+    region: "",
+    address: "",
+    location: "",
+    class_type: "",
+    units: "",
+    occupancy: "",
+    rent_per_sqft: "",
+    property_response: "",
+  });
+  const [propertyStatus, setPropertyStatus] = useState<"idle" | "saving" | "success" | "error">(
+    "idle"
+  );
+  const [propertyError, setPropertyError] = useState<string | null>(null);
+
+  const [portfolioAnalyticsForm, setPortfolioAnalyticsForm] = useState({
+    property_name: "",
+    submarket: "",
+    region: "",
+    address: "",
+    location: "",
+    portfolio_analytics_response: "",
+  });
+  const [portfolioStatus, setPortfolioStatus] = useState<
+    "idle" | "saving" | "success" | "error"
+  >("idle");
+  const [portfolioError, setPortfolioError] = useState<string | null>(null);
+
+  const handlePropertyChange =
+    (field: keyof typeof propertyForm) =>
+      (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setPropertyForm((prev) => ({ ...prev, [field]: e.target.value }));
+      };
+
+  const handlePortfolioAnalyticsChange =
+    (field: keyof typeof portfolioAnalyticsForm) =>
+      (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setPortfolioAnalyticsForm((prev) => ({ ...prev, [field]: e.target.value }));
+      };
+
+  const handlePropertySave = async () => {
+    setPropertyStatus("saving");
+    setPropertyError(null);
+
+    let parsedResponse: unknown = null;
+    const rawResponse = propertyForm.property_response.trim();
+    if (rawResponse) {
+      try {
+        parsedResponse = JSON.parse(rawResponse);
+      } catch {
+        setPropertyStatus("error");
+        setPropertyError("Property Response must be valid JSON.");
+        return;
+      }
+    }
+
+    try {
+      await axios.post(`${API_URL}/api/property_upload/`, {
+        property_name: propertyForm.property_name,
+        submarket: propertyForm.submarket,
+        region: propertyForm.region,
+        address: propertyForm.address,
+        location: propertyForm.location,
+        class_type: propertyForm.class_type,
+        units: propertyForm.units ? Number(propertyForm.units) : null,
+        occupancy: propertyForm.occupancy,
+        rent_per_sqft: propertyForm.rent_per_sqft,
+        property_response: parsedResponse,
+      });
+      setPropertyStatus("success");
+    } catch (error) {
+      console.error(error);
+      setPropertyStatus("error");
+      setPropertyError("Failed to save property.");
+    }
+  };
+
+  const handlePortfolioAnalyticsSave = async () => {
+    setPortfolioStatus("saving");
+    setPortfolioError(null);
+
+    let parsedResponse: unknown = null;
+    const rawResponse = portfolioAnalyticsForm.portfolio_analytics_response.trim();
+    if (rawResponse) {
+      try {
+        parsedResponse = JSON.parse(rawResponse);
+      } catch {
+        setPortfolioStatus("error");
+        setPortfolioError("Portfolio Analytics Response must be valid JSON.");
+        return;
+      }
+    }
+
+    try {
+      await axios.post(`${API_URL}/api/portfolio_analytics_upload/`, {
+        property_name: portfolioAnalyticsForm.property_name,
+        submarket: portfolioAnalyticsForm.submarket,
+        region: portfolioAnalyticsForm.region,
+        address: portfolioAnalyticsForm.address,
+        location: portfolioAnalyticsForm.location,
+        portfolio_analytics_response: parsedResponse,
+      });
+      setPortfolioStatus("success");
+    } catch (error) {
+      console.error(error);
+      setPortfolioStatus("error");
+      setPortfolioError("Failed to save portfolio analytics.");
+    }
+  };
 
   const tabLabel = useMemo(() => activeTab.toUpperCase(), [activeTab]);
 
@@ -33,11 +147,10 @@ const PfUploads: React.FC = () => {
                   key={tab}
                   type="button"
                   onClick={() => setActiveTab(tab)}
-                  className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
-                    isActive
+                  className={`rounded-full px-4 py-2 text-sm font-semibold transition ${isActive
                       ? "bg-slate-900 text-white shadow-sm"
                       : "text-slate-600 hover:text-slate-900"
-                  }`}
+                    }`}
                 >
                   {tab}
                 </button>
@@ -53,37 +166,107 @@ const PfUploads: React.FC = () => {
           }}
         >
           {activeTab === "Portfolio Analytics" ? (
-            <div className="grid gap-6 lg:grid-cols-[1.2fr_1fr]">
-              <div className="space-y-3">
-                <h2 className="text-xl font-semibold text-slate-900">Portfolio Analytics Upload</h2>
-                <p className="text-sm text-slate-600">
-                  Upload portfolio-level performance snapshots, valuation histories, or benchmarking
-                  exports.
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-xl font-semibold text-slate-900">Property Upload</h2>
+                <p className="mt-2 text-sm text-slate-600">
+                  Provide property metadata to enrich portfolio intelligence and downstream analysis.
                 </p>
-                <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-6 py-8 text-center">
-                  <p className="text-sm font-semibold text-slate-700">
-                    Drag and drop your portfolio analytics file
-                  </p>
-                  <p className="mt-2 text-xs text-slate-500">CSV or XLSX accepted. Max 25MB.</p>
+              </div>
+              <form className="grid gap-5 md:grid-cols-2">
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    Property Name
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm focus:border-slate-400 focus:outline-none"
+                    placeholder="Enter property name"
+                    value={portfolioAnalyticsForm.property_name}
+                    onChange={handlePortfolioAnalyticsChange("property_name")}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    Submarket
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm focus:border-slate-400 focus:outline-none"
+                    placeholder="Enter submarket"
+                    value={portfolioAnalyticsForm.submarket}
+                    onChange={handlePortfolioAnalyticsChange("submarket")}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    Region
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm focus:border-slate-400 focus:outline-none"
+                    placeholder="Enter region"
+                    value={portfolioAnalyticsForm.region}
+                    onChange={handlePortfolioAnalyticsChange("region")}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    Address
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm focus:border-slate-400 focus:outline-none"
+                    placeholder="Street address"
+                    value={portfolioAnalyticsForm.address}
+                    onChange={handlePortfolioAnalyticsChange("address")}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    Location
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm focus:border-slate-400 focus:outline-none"
+                    placeholder="City, State"
+                    value={portfolioAnalyticsForm.location}
+                    onChange={handlePortfolioAnalyticsChange("location")}
+                  />
+                </div>
+                <div className="space-y-2 md:col-span-2">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    Portfolio Analytics Response                  </label>
+                  <textarea
+                    className="min-h-[120px] w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm focus:border-slate-400 focus:outline-none"
+                    placeholder="Notes or responses about the property"
+                    value={portfolioAnalyticsForm.portfolio_analytics_response}
+                    onChange={handlePortfolioAnalyticsChange("portfolio_analytics_response")}
+                  />
+                </div>
+                {portfolioStatus === "error" ? (
+                  <div className="md:col-span-2 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                    {portfolioError ?? "Failed to save portfolio analytics."}
+                  </div>
+                ) : null}
+                {portfolioStatus === "success" ? (
+                  <div className="md:col-span-2 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+                    Portfolio Analytics Response saved successfully.
+                  </div>
+                ) : null}
+                <div className="md:col-span-2">
                   <button
                     type="button"
-                    className="mt-4 rounded-full border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 shadow-sm hover:border-slate-400"
+                    onClick={handlePortfolioAnalyticsSave}
+                    disabled={portfolioStatus === "saving"}
+                    className="w-full rounded-xl bg-slate-900 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-slate-300/40 hover:bg-slate-800 disabled:opacity-60"
                   >
-                    Browse files
+                    {portfolioStatus === "saving" ? "Saving..." : "Save Portfolio Analytics"}
                   </button>
                 </div>
-              </div>
-              <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-5">
-                <p className="text-xs font-semibold text-slate-500">Recommended Columns</p>
-                <ul className="mt-3 space-y-2 text-sm text-slate-600">
-                  <li>• Portfolio name, reporting period, NAV</li>
-                  <li>• NOI, EBITDA, cash-on-cash, cap rate</li>
-                  <li>• Debt metrics, occupancy, rent growth</li>
-                </ul>
-              </div>
+              </form>
             </div>
           ) : null}
-
           {activeTab === "Properties" ? (
             <div className="space-y-6">
               <div>
@@ -101,6 +284,8 @@ const PfUploads: React.FC = () => {
                     type="text"
                     className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm focus:border-slate-400 focus:outline-none"
                     placeholder="Enter property name"
+                    value={propertyForm.property_name}
+                    onChange={handlePropertyChange("property_name")}
                   />
                 </div>
                 <div className="space-y-2">
@@ -111,6 +296,8 @@ const PfUploads: React.FC = () => {
                     type="text"
                     className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm focus:border-slate-400 focus:outline-none"
                     placeholder="Enter submarket"
+                    value={propertyForm.submarket}
+                    onChange={handlePropertyChange("submarket")}
                   />
                 </div>
                 <div className="space-y-2">
@@ -121,6 +308,8 @@ const PfUploads: React.FC = () => {
                     type="text"
                     className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm focus:border-slate-400 focus:outline-none"
                     placeholder="Enter region"
+                    value={propertyForm.region}
+                    onChange={handlePropertyChange("region")}
                   />
                 </div>
                 <div className="space-y-2">
@@ -131,6 +320,8 @@ const PfUploads: React.FC = () => {
                     type="text"
                     className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm focus:border-slate-400 focus:outline-none"
                     placeholder="Street address"
+                    value={propertyForm.address}
+                    onChange={handlePropertyChange("address")}
                   />
                 </div>
                 <div className="space-y-2">
@@ -141,6 +332,8 @@ const PfUploads: React.FC = () => {
                     type="text"
                     className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm focus:border-slate-400 focus:outline-none"
                     placeholder="City, State"
+                    value={propertyForm.location}
+                    onChange={handlePropertyChange("location")}
                   />
                 </div>
                 <div className="space-y-2">
@@ -151,6 +344,8 @@ const PfUploads: React.FC = () => {
                     type="text"
                     className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm focus:border-slate-400 focus:outline-none"
                     placeholder="Class A / B / C"
+                    value={propertyForm.class_type}
+                    onChange={handlePropertyChange("class_type")}
                   />
                 </div>
                 <div className="space-y-2">
@@ -161,6 +356,8 @@ const PfUploads: React.FC = () => {
                     type="number"
                     className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm focus:border-slate-400 focus:outline-none"
                     placeholder="Total units"
+                    value={propertyForm.units}
+                    onChange={handlePropertyChange("units")}
                   />
                 </div>
                 <div className="space-y-2">
@@ -171,6 +368,8 @@ const PfUploads: React.FC = () => {
                     type="text"
                     className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm focus:border-slate-400 focus:outline-none"
                     placeholder="e.g. 94%"
+                    value={propertyForm.occupancy}
+                    onChange={handlePropertyChange("occupancy")}
                   />
                 </div>
                 <div className="space-y-2">
@@ -181,6 +380,8 @@ const PfUploads: React.FC = () => {
                     type="text"
                     className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm focus:border-slate-400 focus:outline-none"
                     placeholder="e.g. $2.15"
+                    value={propertyForm.rent_per_sqft}
+                    onChange={handlePropertyChange("rent_per_sqft")}
                   />
                 </div>
                 <div className="space-y-2 md:col-span-2">
@@ -190,14 +391,28 @@ const PfUploads: React.FC = () => {
                   <textarea
                     className="min-h-[120px] w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm focus:border-slate-400 focus:outline-none"
                     placeholder="Notes or responses about the property"
+                    value={propertyForm.property_response}
+                    onChange={handlePropertyChange("property_response")}
                   />
                 </div>
+                {propertyStatus === "error" ? (
+                  <div className="md:col-span-2 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                    {propertyError ?? "Failed to save property."}
+                  </div>
+                ) : null}
+                {propertyStatus === "success" ? (
+                  <div className="md:col-span-2 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+                    Property saved successfully.
+                  </div>
+                ) : null}
                 <div className="md:col-span-2">
                   <button
                     type="button"
-                    className="w-full rounded-xl bg-slate-900 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-slate-300/40 hover:bg-slate-800"
+                    onClick={handlePropertySave}
+                    disabled={propertyStatus === "saving"}
+                    className="w-full rounded-xl bg-slate-900 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-slate-300/40 hover:bg-slate-800 disabled:opacity-60"
                   >
-                    Save Property
+                    {propertyStatus === "saving" ? "Saving..." : "Save Property"}
                   </button>
                 </div>
               </form>
