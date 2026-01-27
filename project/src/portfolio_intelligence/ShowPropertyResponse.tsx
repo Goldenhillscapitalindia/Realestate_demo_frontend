@@ -53,7 +53,7 @@ const ShowPropertyResponse: React.FC<Props> = ({
     <div
       className={`${embedded ? "w-full" : "min-h-screen transition-colors"}`}
       style={
-        embedded ? undefined : { backgroundColor: theme === "dark" ? "#09151A" : "#F5F5F5" }
+        embedded ? undefined : { backgroundColor: "#f8fafc" }
       }
     >
       {/* Back button */}
@@ -62,8 +62,9 @@ const ShowPropertyResponse: React.FC<Props> = ({
           onClick={onBack}
           className="fixed top-4 left-4 px-4 py-2 rounded-lg shadow-md z-50 transition-transform hover:scale-105"
           style={{
-            backgroundColor: theme === "dark" ? "#102330" : "#E5E5E5",
-            color: theme === "dark" ? "#E0F7FA" : "#000",
+            backgroundColor: "#ffffff",
+            color: "#111827",
+            border: "1px solid #e5e7eb",
           }}
         >
         Back
@@ -100,15 +101,15 @@ const ShowPropertyResponse: React.FC<Props> = ({
         {/* Active Tab Content */}
         <div
           className="rounded-lg p-6"
-          style={{ backgroundColor: "#0d1d29" }} // response background
+          style={{ backgroundColor: "#ffffff", border: "1px solid #e5e7eb" }}
         >
-          <h2 className="text-2xl font-bold mb-4" style={{ color: "#E0F7FA" }}>
+          <h2 className="text-2xl font-bold mb-4" style={{ color: "#111827" }}>
             {titleText ?? `${labels[activeTab]} Response`}
           </h2>
           {activeBlocks.length > 0 ? (
             <RRenderer blocks={activeBlocks} />
           ) : (
-            <p style={{ color: "#A0CFE8" }}>No response available.</p>
+            <p style={{ color: "#6b7280" }}>No response available.</p>
           )}
         </div>
       </div>
