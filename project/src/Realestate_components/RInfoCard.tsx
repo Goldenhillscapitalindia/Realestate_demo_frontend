@@ -22,11 +22,14 @@ const RInfoCard: React.FC<InfoCardProps> = ({ title, value, description }) => {
         backgroundColor: "#173347",
         color: "#FFFFFF",
         borderRadius: 3,
-        padding: 3,
-        minWidth: 220,
+        padding: 2,
+        width: "100%",
+        minWidth: 0,
+        minHeight: 140,
         display: "flex",
         flexDirection: "column",
-        gap: 1.5,
+        justifyContent: "space-between",
+        gap: 1,
         boxShadow: "0 6px 20px rgba(0, 0, 0, 0.7)",
         transition: "transform 0.3s, box-shadow 0.3s",
         "&:hover": {
@@ -42,6 +45,7 @@ const RInfoCard: React.FC<InfoCardProps> = ({ title, value, description }) => {
           textTransform: "uppercase",
           textAlign: "center",
           letterSpacing: 1,
+          lineHeight: 1.2,
         }}
       >
         {title}
@@ -53,6 +57,7 @@ const RInfoCard: React.FC<InfoCardProps> = ({ title, value, description }) => {
           fontWeight: 700,
           color: valueColor, // random color applied
           textAlign: "center",
+          lineHeight: 1.1,
         }}
       >
         {value}
@@ -64,6 +69,7 @@ const RInfoCard: React.FC<InfoCardProps> = ({ title, value, description }) => {
           sx={{
             color: "#c5e2f1ff",
             textAlign: "center",
+            lineHeight: 1.3,
           }}
         >
           {description}

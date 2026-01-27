@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 type PropertyRecord = {
-  Property: string;
-  Location: string;
-  Class: string;
-  Units: number | string;
-  Occupancy: string;
-  "Rent/sqft": string;
-  property_response: string;
+  property_name: string;
+  submarket: string;
+  region: string;
+  address: string;
+  location: string;
+  class_type: string;
+  units: number | string;
+  occupancy: string;
+  rent_per_sqft: string;
+  property_response: unknown;
 };
 
 const PfDemoProperties: React.FC = () => {
@@ -16,6 +20,7 @@ const PfDemoProperties: React.FC = () => {
   const [selected, setSelected] = useState<PropertyRecord | null>(null);
   const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
   const API_URL = import.meta.env.VITE_API_URL;
+  const navigate = useNavigate();
 
 useEffect(() => {
   let isActive = true;
@@ -23,13 +28,15 @@ useEffect(() => {
   const load = async () => {
     setStatus("loading");
     try {
-      const response = await axios.get<PropertyRecord[]>(
-        `${API_URL}/api/get_properties_data/`
+      const response = await axios.post<{ data: PropertyRecord[] }>(
+        `${API_URL}/api/get_property_data/`,
+        { fetch: "all" }
       );
 
       if (isActive) {
-        setData(response.data);
-        setSelected(response.data[0] ?? null);
+        const rows = response.data?.data ?? [];
+        setData(rows);
+        setSelected(rows[0] ?? null);
         setStatus("idle");
       }
     } catch (error) {
@@ -44,6 +51,16 @@ useEffect(() => {
     isActive = false;
   };
 }, [API_URL]);
+
+const handleRowClick = (row: PropertyRecord) => {
+  setSelected(row);
+  const params = new URLSearchParams({
+    property_name: row.property_name,
+    submarket: row.submarket,
+    region: row.region,
+  });
+  navigate(`/portfolio_intelligence/property?${params.toString()}`);
+};
 
 
   return (
@@ -90,36 +107,30 @@ useEffect(() => {
               </tr>
             ) : null}
             {data.map((row) => {
-              const isActive = selected?.Property === row.Property;
+              const isActive = selected?.property_name === row.property_name;
               return (
                 <tr
-                  key={`${row.Property}-${row.Location}`}
+                  key={`${row.property_name}-${row.location}`}
                   className={`cursor-pointer border-t border-slate-100 transition ${
                     isActive ? "bg-sky-50" : "hover:bg-slate-50"
                   }`}
-                  onClick={() => setSelected(row)}
-                >
-                  <td className="px-4 py-3 font-semibold text-slate-900">{row.Property}</td>
-                  <td className="px-4 py-3 text-slate-600">{row.Location}</td>
-                  <td className="px-4 py-3 text-slate-600">{row.Class}</td>
-                  <td className="px-4 py-3 text-slate-600">{row.Units}</td>
-                  <td className="px-4 py-3 text-slate-600">{row.Occupancy}</td>
-                  <td className="px-4 py-3 text-slate-600">{row["Rent/sqft"]}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-
-      <div className="mt-4 rounded-2xl border border-slate-200 bg-slate-50 p-4">
-        <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-          Property Response
-        </p>
-        <p className="mt-2 text-sm text-slate-700">
-          {selected?.property_response ?? "Select a property to view the response."}
-        </p>
-      </div>
+              onClick={() => handleRowClick(row)}
+            >
+              <td className="px-4 py-3 font-semibold text-slate-900">{row.property_name}</td>
+              <td className="px-4 py-3 text-slate-600">{row.location}</td>
+              <td className="px-4 py-3 text-slate-600">{row.class_type}</td>
+              <td className="px-4 py-3 text-slate-600">{row.units}</td>
+              <td className="px-4 py-3 text-slate-600">{row.occupancy}</td>
+              <td className="px-4 py-3 text-slate-600">{row.rent_per_sqft}</td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  </div>
+      {/* <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
+        Select a property to view the response.
+      </div> */}
     </div>
   );
 };

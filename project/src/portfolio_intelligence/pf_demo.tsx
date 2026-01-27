@@ -1,4 +1,5 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 import PfDemoPortfolioAnalytics from "./pf_demo_portfolio_analytics";
 import PfDemoProperties from "./pf_demo_properties";
@@ -16,6 +17,14 @@ const tabComponents: Record<DemoTab, React.FC> = {
 const PfDemo: React.FC = () => {
   const [activeTab, setActiveTab] = useState<DemoTab>("Portfolio Analytics");
   const ActiveTab = useMemo(() => tabComponents[activeTab], [activeTab]);
+  const location = useLocation();
+
+  useEffect(() => {
+    const requestedTab = location.state?.activeTab as DemoTab | undefined;
+    if (requestedTab && tabs.includes(requestedTab)) {
+      setActiveTab(requestedTab);
+    }
+  }, [location.state]);
 
   return (
     <section

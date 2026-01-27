@@ -22,7 +22,7 @@ const TAB_LABELS: Record<FileType, string> = {
   rent_roll: "Rent Roll",
 };
 
-const RealEstateResponses: React.FC<Props> = ({
+const ShowPropertyResponse: React.FC<Props> = ({
   responses,
   onBack,
   embedded = false,
@@ -116,4 +116,4 @@ const RealEstateResponses: React.FC<Props> = ({
   );
 };
 
-export default RealEstateResponses;
+export default ShowPropertyResponse;
