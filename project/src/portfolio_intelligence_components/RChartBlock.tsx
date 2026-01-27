@@ -60,13 +60,14 @@ const RChartBlock: React.FC<GENAIChartBlockProps> = ({
         sx={{
           p: 2,
           m: 2,
-          bgcolor: "#173347",
+          bgcolor: "#ffffff",
           width: "100%",
           borderRadius: 2,
-          boxShadow: "0 4px 12px rgba(0,0,0,0.5)",
+          boxShadow: "0 8px 20px rgba(15, 23, 42, 0.12)",
+          border: "1px solid #e5e7eb",
         }}
       >
-        <Typography variant="body2" sx={{ color: "#f87171" }}>
+        <Typography variant="body2" sx={{ color: "#b91c1c" }}>
           Unsupported chart type: <strong>{chartType}</strong>
         </Typography>
       </Paper>
@@ -91,15 +92,15 @@ const chartOptions: any = {
   maintainAspectRatio: false,
   responsive: true,
   plugins: {
-    legend: { display: true, position: "bottom", labels: { color: "#e0e0e0" } },
-    tooltip: { bodyColor: "#fff", titleColor: "#fff", backgroundColor: "#163042" },
+    legend: { display: true, position: "bottom", labels: { color: "#111827" } },
+    tooltip: { bodyColor: "#111827", titleColor: "#111827", backgroundColor: "#f8fafc" },
   },
   // Conditionally include scales only for charts that need them
   ...(type !== "pie" && type !== "doughnut"
     ? {
         scales: {
-          x: { ticks: { color: "#e0e0e0" }, grid: { color: "#163042" } },
-          y: { ticks: { color: "#e0e0e0" }, grid: { color: "#163042" } },
+          x: { ticks: { color: "#111827" }, grid: { color: "#e2e8f0" } },
+          y: { ticks: { color: "#111827" }, grid: { color: "#e2e8f0" } },
         },
       }
     : {}),
@@ -121,8 +122,8 @@ const chartOptions: any = {
 
   if (type === "stackedbar") {
     chartOptions.scales = {
-      x: { stacked: true, ticks: { color: "#e0e0e0" }, grid: { color: "#163042" } },
-      y: { stacked: true, ticks: { color: "#e0e0e0" }, grid: { color: "#163042" } },
+      x: { stacked: true, ticks: { color: "#111827" }, grid: { color: "#e2e8f0" } },
+      y: { stacked: true, ticks: { color: "#111827" }, grid: { color: "#e2e8f0" } },
     };
   }
 
@@ -134,8 +135,9 @@ const chartOptions: any = {
         width: "100%",
         height: fixedHeight,
         borderRadius: 3,
-        background: "linear-gradient(135deg, #173347, #163042)",
-        boxShadow: "0 8px 24px rgba(0,0,0,0.4)",
+        background: "#ffffff",
+        boxShadow: "0 10px 24px rgba(15, 23, 42, 0.12)",
+        border: "1px solid #e5e7eb",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
@@ -144,12 +146,12 @@ const chartOptions: any = {
       <Typography
         variant="subtitle1"
         fontWeight={600}
-        sx={{ color: "#e0e0e0", mb: 1 }}
+        sx={{ color: "#111827", mb: 1 }}
       >
         <ReactMarkdown>{title}</ReactMarkdown>
       </Typography>
 
-      <Divider sx={{ mb: 1, borderColor: "#163042" }} />
+      <Divider sx={{ mb: 1, borderColor: "#e5e7eb" }} />
 
       <Box
         sx={{

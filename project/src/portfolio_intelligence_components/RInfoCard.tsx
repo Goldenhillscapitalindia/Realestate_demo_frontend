@@ -19,8 +19,8 @@ const RInfoCard: React.FC<InfoCardProps> = ({ title, value, description }) => {
   return (
     <Box
       sx={{
-        backgroundColor: "#173347",
-        color: "#FFFFFF",
+        backgroundColor: "#ffffff",
+        color: "#111827",
         borderRadius: 3,
         padding: 2,
         width: "100%",
@@ -30,18 +30,19 @@ const RInfoCard: React.FC<InfoCardProps> = ({ title, value, description }) => {
         flexDirection: "column",
         justifyContent: "space-between",
         gap: 1,
-        boxShadow: "0 6px 20px rgba(0, 0, 0, 0.7)",
+        boxShadow: "0 10px 24px rgba(15, 23, 42, 0.12)",
+        border: "1px solid #e5e7eb",
         transition: "transform 0.3s, box-shadow 0.3s",
         "&:hover": {
-          transform: "translateY(-5px)",
-          boxShadow: "0 10px 30px rgba(0, 0, 0, 0.8)",
+          transform: "translateY(-4px)",
+          boxShadow: "0 16px 28px rgba(15, 23, 42, 0.16)",
         },
       }}
     >
       <Typography
         variant="subtitle2"
         sx={{
-          color: "#ffffffff",
+          color: "#1f2937",
           textTransform: "uppercase",
           textAlign: "center",
           letterSpacing: 1,
@@ -67,7 +68,7 @@ const RInfoCard: React.FC<InfoCardProps> = ({ title, value, description }) => {
         <Typography
           variant="body2"
           sx={{
-            color: "#c5e2f1ff",
+            color: "#6b7280",
             textAlign: "center",
             lineHeight: 1.3,
           }}

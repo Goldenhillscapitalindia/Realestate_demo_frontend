@@ -19,7 +19,6 @@ import {
   InfoCardBlock,
   HeatmapBlock
 } from "../Realestate_components/Utils/RComponentsUtils";
-import { useTheme } from "../sections/ThemeContext";
 
 const BLOCK_RENDERERS: Record<BlockType, (block: any) => JSX.Element> = {
   text: (block: TextBlock) => <GENAITextBlock content={block.content} />,
@@ -53,7 +52,6 @@ const BLOCK_RENDERERS: Record<BlockType, (block: any) => JSX.Element> = {
 
 const RRenderer: React.FC<{ blocks: Block[] }> = ({ blocks }) => {
   const [visibleBlocks, setVisibleBlocks] = useState<Block[]>([]);
-  const { theme } = useTheme();
 
 useEffect(() => {
   if (!blocks || blocks.length === 0) return;
@@ -86,8 +84,8 @@ setVisibleBlocks([]); // Start with no blocks visible
     <CardContent
       sx={{
         paddingBottom: 0,
-        // bgcolor: theme === "dark" ? "grey.900" : "grey.100",
-        color: theme === "dark" ? "white" : "black",
+        bgcolor: "#f8fafc",
+        color: "#111827",
         minHeight: "100vh",
         transition: "background-color 0.3s ease",
       }}

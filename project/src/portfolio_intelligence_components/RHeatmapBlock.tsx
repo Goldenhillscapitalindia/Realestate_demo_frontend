@@ -23,12 +23,12 @@ export interface RHeatmapBlockProps {
 
 // Predefined gradient pairs (start = low, end = high)
 const gradients: Array<{ start: string; end: string }> = [
-  { start: "#ffffffff", end: "#B75BCF" }, // Gradient 1
-  { start: "#ffffffff", end: "#76D85D" }, // Gradient 2
-  { start: "#ffffffff", end: "#039AFF" }, // Gradient 3
-  { start: "#ffffffff", end: "#FF03AB" }, // Gradient 4
-  { start: "#ffffffff", end: "#FFFF03" }, // Gradient 5
-  { start: "#ffffffff", end: "#FF4203" }, // Gradient 6
+  { start: "#f8fafc", end: "#a855f7" },
+  { start: "#f8fafc", end: "#22c55e" },
+  { start: "#f8fafc", end: "#2563eb" },
+  { start: "#f8fafc", end: "#ec4899" },
+  { start: "#f8fafc", end: "#facc15" },
+  { start: "#f8fafc", end: "#f97316" },
 ];
 
 const RHeatmapBlock: React.FC<RHeatmapBlockProps> = ({
@@ -97,10 +97,10 @@ const formattedData = {
         labels: xlabels,
         offset: true,
         ticks: {
-          color: "#ffffff",
+          color: "#111827",
         },
         grid: {
-          color: "rgba(255,255,255,0.1)",
+          color: "#e2e8f0",
         },
       },
       y: {
@@ -108,10 +108,10 @@ const formattedData = {
         labels: ylabels,
         offset: true,
         ticks: {
-          color: "#ffffff",
+          color: "#111827",
         },
         grid: {
-          color: "rgba(255,255,255,0.1)",
+          color: "#e2e8f0",
         },
       },
     },
@@ -132,8 +132,9 @@ const formattedData = {
         p: 2,
         width: "100%",
         borderRadius: 3,
-        background: "#173347",
-        boxShadow: 3,
+        background: "#ffffff",
+        boxShadow: "0 10px 24px rgba(15, 23, 42, 0.12)",
+        border: "1px solid #e5e7eb",
         display: "flex",
         flexDirection: "column",
       }}
@@ -141,7 +142,7 @@ const formattedData = {
       <Typography
         variant="subtitle1"
         fontWeight={600}
-        sx={{ color: "#e5e7eb", mb: 1, textAlign: "center" }}
+        sx={{ color: "#111827", mb: 1, textAlign: "center" }}
       >
         {title}
       </Typography>
@@ -152,7 +153,7 @@ const formattedData = {
 
       {/* Gradient legend */}
       <Box sx={{ display: "flex", alignItems: "center", mt: 2, px: 2 }}>
-        <Typography variant="caption" sx={{ color: "#e5e7eb", mr: 1 }}>
+        <Typography variant="caption" sx={{ color: "#6b7280", mr: 1 }}>
           {minValue}
         </Typography>
         <Box
@@ -163,7 +164,7 @@ const formattedData = {
             background: `linear-gradient(to right, ${startColor}, ${endColor})`,
           }}
         />
-        <Typography variant="caption" sx={{ color: "#e5e7eb", ml: 1 }}>
+        <Typography variant="caption" sx={{ color: "#6b7280", ml: 1 }}>
           {maxValue}
         </Typography>
       </Box>

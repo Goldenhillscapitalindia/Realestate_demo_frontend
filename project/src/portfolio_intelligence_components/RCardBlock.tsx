@@ -3,42 +3,42 @@ import { Card, CardContent, CardHeader, Typography } from "@mui/material";
 import ReactMarkdown from "react-markdown";
 import { motion } from "framer-motion";
 
-// Dark-mode color palettes with your requested colors
+// Light-mode color palettes
 const COLOR_PALETTES = [
   {
-    titleColor: "#60a5fa",    // bright blue
-    textColor: "#e0e0e0",     // light gray
-    subtitleColor: "#9ca3af", // cool gray
-    borderColor: "#2563eb",   // strong blue accent
-    background: "#173347",    // primary card color
+    titleColor: "#1d4ed8",
+    textColor: "#1f2937",
+    subtitleColor: "#6b7280",
+    borderColor: "#60a5fa",
+    background: "#ffffff",
   },
   {
-    titleColor: "#f87171",    // soft red
-    textColor: "#e5e5e5",
-    subtitleColor: "#b0b0b0",
-    borderColor: "#dc2626",
-    background: "#173347",
+    titleColor: "#b91c1c",
+    textColor: "#1f2937",
+    subtitleColor: "#6b7280",
+    borderColor: "#f87171",
+    background: "#ffffff",
   },
   {
-    titleColor: "#34d399",    // teal/green
-    textColor: "#f0f0f0",
-    subtitleColor: "#94a3b8",
-    borderColor: "#10b981",
-    background: "#173347",
+    titleColor: "#047857",
+    textColor: "#1f2937",
+    subtitleColor: "#6b7280",
+    borderColor: "#34d399",
+    background: "#ffffff",
   },
   {
-    titleColor: "#fbbf24",    // yellow/gold
-    textColor: "#f5f5f5",
-    subtitleColor: "#d6d6d6",
-    borderColor: "#f59e0b",
-    background: "#173347",
+    titleColor: "#b45309",
+    textColor: "#1f2937",
+    subtitleColor: "#6b7280",
+    borderColor: "#fbbf24",
+    background: "#ffffff",
   },
   {
-    titleColor: "#a78bfa",    // violet
-    textColor: "#e0e0e0",
-    subtitleColor: "#bdbdbd",
-    borderColor: "#8b5cf6",
-    background: "#173347",
+    titleColor: "#6d28d9",
+    textColor: "#1f2937",
+    subtitleColor: "#6b7280",
+    borderColor: "#a78bfa",
+    background: "#ffffff",
   },
 ];
 
@@ -74,12 +74,13 @@ const RCardBlock: React.FC<GENAICardBlockProps> = ({
           bgcolor: palette.background,
           color: palette.textColor,
           borderRadius: 3,
-          boxShadow: "0 8px 20px rgba(0,0,0,0.5)",
+          boxShadow: "0 10px 24px rgba(15, 23, 42, 0.12)",
+          border: "1px solid #e5e7eb",
           borderLeft: `5px solid ${palette.borderColor}`,
           transition: "all 0.3s ease",
           display: "flex",
           flexDirection: "column",
-          "&:hover": { boxShadow: "0 12px 28px rgba(0,0,0,0.7)" },
+          "&:hover": { boxShadow: "0 16px 28px rgba(15, 23, 42, 0.16)" },
         }}
       >
         <CardHeader

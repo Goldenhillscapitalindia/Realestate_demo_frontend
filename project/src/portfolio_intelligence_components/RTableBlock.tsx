@@ -14,13 +14,13 @@ import {
 import ReactMarkdown from "react-markdown";
 import { motion } from "framer-motion";
 
-// Dark-mode color themes using requested colors
+// Light-mode color themes
 const COLOR_THEMES = [
-  { headerColor: "#60a5fa", rowHover: "#163042" }, // blue accent
-  { headerColor: "#f87171", rowHover: "#163042" }, // red accent
-  { headerColor: "#34d399", rowHover: "#163042" }, // green accent
-  { headerColor: "#fbbf24", rowHover: "#163042" }, // yellow/gold
-  { headerColor: "#a78bfa", rowHover: "#163042" }, // violet
+  { headerColor: "#2563eb", rowHover: "#f1f5f9" },
+  { headerColor: "#ef4444", rowHover: "#f1f5f9" },
+  { headerColor: "#10b981", rowHover: "#f1f5f9" },
+  { headerColor: "#f59e0b", rowHover: "#f1f5f9" },
+  { headerColor: "#8b5cf6", rowHover: "#f1f5f9" },
 ];
 
 const getRandomTheme = () =>
@@ -44,11 +44,13 @@ const RTableBlock: React.FC<{
         elevation={3}
         sx={{
           borderRadius: 3,
-          bgcolor: "#173347",
+          bgcolor: "#ffffff",
           width: "100%",
           boxSizing: "border-box",
           transition: "transform 0.3s ease, box-shadow 0.3s ease",
-          "&:hover": { transform: "scale(1.01)", boxShadow: "0 12px 24px rgba(0,0,0,0.6)" },
+          boxShadow: "0 10px 24px rgba(15, 23, 42, 0.12)",
+          border: "1px solid #e5e7eb",
+          "&:hover": { transform: "scale(1.01)", boxShadow: "0 16px 28px rgba(15, 23, 42, 0.16)" },
         }}
       >
         {title && (
@@ -74,20 +76,21 @@ const RTableBlock: React.FC<{
             >
               <TableHead>
                 <TableRow sx={{ backgroundColor: `${theme.headerColor}20` }}>
-                  {headers.map((h, i) => (
-                    <TableCell
-                      key={i}
-                      sx={{
-                        fontWeight: "bold",
-                        color: theme.headerColor,
-                        fontSize: "0.95rem",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
-                      <ReactMarkdown>{h}</ReactMarkdown>
-                    </TableCell>
-                  ))}
-                </TableRow>
+                {headers.map((h, i) => (
+                  <TableCell
+                    key={i}
+                    sx={{
+                      fontWeight: "bold",
+                      color: theme.headerColor,
+                      fontSize: "0.95rem",
+                      whiteSpace: "nowrap",
+                      borderBottom: "1px solid #e5e7eb",
+                    }}
+                  >
+                    <ReactMarkdown>{h}</ReactMarkdown>
+                  </TableCell>
+                ))}
+              </TableRow>
               </TableHead>
 
               <TableBody>
@@ -99,8 +102,7 @@ const RTableBlock: React.FC<{
                         backgroundColor: theme.rowHover,
                         transition: "background-color 0.3s ease",
                       },
-                      backgroundColor:
-                        i % 2 === 0 ? "#163042" : "transparent", // subtle striping
+                      backgroundColor: i % 2 === 0 ? "#f8fafc" : "transparent",
                     }}
                   >
                     {row.map((cell, j) => (
@@ -110,7 +112,8 @@ const RTableBlock: React.FC<{
                           fontSize: "0.875rem",
                           verticalAlign: "top",
                           wordBreak: "break-word",
-                          color: "#e0e0e0", // light gray for dark background
+                          color: "#111827",
+                          borderBottom: "1px solid #e5e7eb",
                         }}
                       >
                         <ReactMarkdown>{cell}</ReactMarkdown>
