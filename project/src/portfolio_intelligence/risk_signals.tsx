@@ -1,0 +1,56 @@
+import React from "react";
+
+type RiskSignal = {
+  signal: string;
+  description: string;
+  metric?: string;
+  severity: string;
+};
+
+type Props = {
+  data: RiskSignal[];
+};
+
+const severityStyles: Record<string, { badge: string; card: string }> = {
+  high: { badge: "bg-red-100 text-red-700", card: "border-red-200 bg-red-50" },
+  medium: { badge: "bg-amber-100 text-amber-700", card: "border-amber-200 bg-amber-50" },
+  low: { badge: "bg-emerald-100 text-emerald-700", card: "border-emerald-200 bg-emerald-50" },
+};
+
+const RiskSignals: React.FC<Props> = ({ data }) => {
+  if (!data || data.length === 0) {
+    return (
+      <div className="rounded-2xl border border-slate-200 bg-white p-6 text-sm text-slate-600">
+        No risk signals available.
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+      {data.map((item, idx) => {
+        const severityKey = item.severity?.toLowerCase() || "medium";
+        const style = severityStyles[severityKey] ?? severityStyles.medium;
+        return (
+          <div
+            key={`${item.signal}-${idx}`}
+            className={`rounded-2xl border p-5 shadow-[0_12px_24px_rgba(15,23,42,0.08)] ${style.card}`}
+          >
+            <div className="flex items-center justify-between">
+              <h3 className="text-base font-semibold text-slate-900">{item.signal}</h3>
+              <span className={`rounded-full px-3 py-1 text-xs font-semibold ${style.badge}`}>
+                {item.severity}
+              </span>
+            </div>
+            <p className="mt-2 text-sm text-slate-600">{item.description}</p>
+            {item.metric ? (
+              <p className="mt-3 text-sm font-semibold text-slate-900">{item.metric}</p>
+            ) : null}
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+export default RiskSignals;
