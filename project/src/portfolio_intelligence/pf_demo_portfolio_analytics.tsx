@@ -25,7 +25,7 @@ const PfDemoPortfolioAnalytics: React.FC = () => {
       setStatus("loading");
       try {
         const response = await axios.post<{ data: PortfolioAnalyticsRecord[] }>(
-          `${API_URL}/api/get_portfolio_analytics_data/`,
+          `${API_URL}/api/get_portfolio_analytics_model_data/`,
           { fetch: "all" }
         );
         if (isActive) {
@@ -58,7 +58,7 @@ const PfDemoPortfolioAnalytics: React.FC = () => {
       setDetailStatus("loading");
       try {
         const response = await axios.post<{ data: PortfolioAnalyticsRecord }>(
-          `${API_URL}/api/get_portfolio_analytics_data/`,
+          `${API_URL}/api/get_portfolio_analytics_model_data/`,
           {
             fetch: "specific",
             property_name: filters.property_name,
