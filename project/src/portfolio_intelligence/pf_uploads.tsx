@@ -43,7 +43,11 @@ const PfUploads: React.FC = () => {
       (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setPropertyForm((prev) => ({ ...prev, [field]: e.target.value }));
       };
-
+   const handleaiRentIntelligenceChange =
+    (field: keyof typeof propertyForm) =>
+      (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setPropertyForm((prev) => ({ ...prev, [field]: e.target.value }));
+      };
   const handlePortfolioAnalyticsChange =
     (field: keyof typeof portfolioAnalyticsForm) =>
       (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -119,7 +123,35 @@ const PfUploads: React.FC = () => {
       setPortfolioError("Failed to save portfolio analytics.");
     }
   };
+    const handleaiRentIntelligenceSave = async () => {
+    setPropertyStatus("saving");
+    setPropertyError(null);
+    let parsedResponse: unknown = null;
+    const rawResponse = propertyForm.property_response.trim();
+    if (rawResponse) {
+      try {
+        parsedResponse = JSON.parse(rawResponse);
+      } catch {
+        setPropertyStatus("error");
+        setPropertyError("AI Rent Intelligence Response must be valid JSON.");
+        return;
+      }
+    }
 
+    try { await axios.post(`${API_URL}/api/ai_rent_intelligence_upload/`, {
+        property_name: propertyForm.property_name,
+        address: propertyForm.address,
+        location: propertyForm.location,
+        class_type: propertyForm.class_type,
+        ai_rent_intelligence_response: parsedResponse,
+      });
+      setPropertyStatus("success");
+    } catch (error) {
+      console.error(error);
+      setPropertyStatus("error");
+      setPropertyError("Failed to save AI rent intelligence.");
+    }
+  };
   const tabLabel = useMemo(() => activeTab.toUpperCase(), [activeTab]);
 
   return (
@@ -148,8 +180,8 @@ const PfUploads: React.FC = () => {
                   type="button"
                   onClick={() => setActiveTab(tab)}
                   className={`rounded-full px-4 py-2 text-sm font-semibold transition ${isActive
-                      ? "bg-slate-900 text-white shadow-sm"
-                      : "text-black hover:text-black"
+                    ? "bg-slate-900 text-white shadow-sm"
+                    : "text-black hover:text-black"
                     }`}
                 >
                   {tab}
@@ -420,33 +452,157 @@ const PfUploads: React.FC = () => {
           ) : null}
 
           {activeTab === "AI Rent Intelligence" ? (
-            <div className="grid gap-6 lg:grid-cols-[1.1fr_1fr]">
-              <div className="space-y-3">
-                <h2 className="text-xl font-semibold text-black">AI Rent Intelligence Upload</h2>
-                <p className="text-sm text-black">
-                  Upload rent rolls or lease comps to activate AI-driven rent insights.
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-xl font-semibold text-black">AI Rent Intelligence</h2>
+                <p className="mt-2 text-sm text-black">
+                  Input property details and AI-generated rent intelligence responses for analysis and insights.
                 </p>
-                <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-6 py-8 text-center">
-                  <p className="text-sm font-semibold text-black">Upload rent intelligence files</p>
-                  <p className="mt-2 text-xs text-black">CSV, XLSX, or PDF accepted.</p>
+              </div>
+              <form className="grid gap-5 md:grid-cols-2">
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-black">
+                    Property Name
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-black shadow-sm focus:border-slate-400 focus:outline-none"
+                    placeholder="Enter property name"
+                    value={propertyForm.property_name}
+                    onChange={handleaiRentIntelligenceChange("property_name")}
+                  />
+                </div>
+                {/* <div className="space-y-2">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-black">
+                    Submarket
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-black shadow-sm focus:border-slate-400 focus:outline-none"
+                    placeholder="Enter submarket"
+                    value={propertyForm.submarket}
+                    onChange={handlePropertyChange("submarket")}
+                  />
+                </div> */}
+                {/* <div className="space-y-2">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-black">
+                    Region
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-black shadow-sm focus:border-slate-400 focus:outline-none"
+                    placeholder="Enter region"
+                    value={propertyForm.region}
+                    onChange={handlePropertyChange("region")}
+                  />
+                </div> */}
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-black">
+                    Address
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-black shadow-sm focus:border-slate-400 focus:outline-none"
+                    placeholder="Street address"
+                    value={propertyForm.address}
+                    onChange={handleaiRentIntelligenceChange("address")}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-black">
+                    Location
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-black shadow-sm focus:border-slate-400 focus:outline-none"
+                    placeholder="City, State"
+                    value={propertyForm.location}
+                    onChange={handleaiRentIntelligenceChange("location")}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-black">
+                    Class
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-black shadow-sm focus:border-slate-400 focus:outline-none"
+                    placeholder="Class A / B / C"
+                    value={propertyForm.class_type}
+                    onChange={handleaiRentIntelligenceChange("class_type")}
+                  />
+                </div>
+                {/* <div className="space-y-2">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-black">
+                    Units
+                  </label>
+                  <input
+                    type="number"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-black shadow-sm focus:border-slate-400 focus:outline-none"
+                    placeholder="Total units"
+                    value={propertyForm.units}
+                    onChange={handlePropertyChange("units")}
+                  />
+                </div> */}
+                {/* <div className="space-y-2">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-black">
+                    Occupancy
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-black shadow-sm focus:border-slate-400 focus:outline-none"
+                    placeholder="e.g. 94%"
+                    value={propertyForm.occupancy}
+                    onChange={handlePropertyChange("occupancy")}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-black">
+                    Rent / Sqft
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-black shadow-sm focus:border-slate-400 focus:outline-none"
+                    placeholder="e.g. $2.15"
+                    value={propertyForm.rent_per_sqft}
+                    onChange={handlePropertyChange("rent_per_sqft")}
+                  />
+                </div> */}
+                <div className="space-y-2 md:col-span-2">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-black">
+                    Ai Rent Intelligence Response
+                  </label>
+                  <textarea
+                    className="min-h-[120px] w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-black shadow-sm focus:border-slate-400 focus:outline-none"
+                    placeholder="Notes or responses about the property"
+                    value={propertyForm.property_response}
+                    onChange={handleaiRentIntelligenceChange("property_response")}
+                  />
+                </div>
+                {propertyStatus === "error" ? (
+                  <div className="md:col-span-2 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                    {propertyError ?? "Failed to save property."}
+                  </div>
+                ) : null}
+                {propertyStatus === "success" ? (
+                  <div className="md:col-span-2 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+                    Property saved successfully.
+                  </div>
+                ) : null}
+                <div className="md:col-span-2">
                   <button
                     type="button"
-                    className="mt-4 rounded-full border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-black shadow-sm hover:border-slate-400"
+                    onClick={handleaiRentIntelligenceSave}
+                    disabled={propertyStatus === "saving"}
+                    className="w-full rounded-xl bg-slate-900 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-slate-300/40 hover:bg-slate-800 disabled:opacity-60"
                   >
-                    Browse files
+                    {propertyStatus === "saving" ? "Saving..." : "Save Property"}
                   </button>
                 </div>
-              </div>
-              <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-5">
-                <p className="text-xs font-semibold text-black">What gets smarter</p>
-                <ul className="mt-3 space-y-2 text-sm text-black">
-                  <li>• Market rent benchmarking vs. submarket</li>
-                  <li>• Renewal risk and pricing sensitivity</li>
-                  <li>• Unit-level rent lift suggestions</li>
-                </ul>
-              </div>
+              </form>
             </div>
           ) : null}
+
         </div>
       </div>
     </section>
