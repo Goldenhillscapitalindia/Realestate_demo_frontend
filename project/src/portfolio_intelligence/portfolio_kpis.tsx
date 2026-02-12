@@ -45,7 +45,7 @@ const PortfolioKpis: React.FC = () => {
         >
           <div className="flex items-start justify-between">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+              <p className="text-xs font-semibold uppercase tracking-wide text-gray-800">
                 {kpi.label}
               </p>
               <p className="mt-2 text-2xl font-semibold text-gray-900">
