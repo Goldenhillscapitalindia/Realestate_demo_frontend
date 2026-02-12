@@ -27,7 +27,10 @@ const RiskSignals: React.FC<Props> = ({ data }) => {
   }
 
   return (
-    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+<>          <h3 className="text-[25px] font-semibold text-blue-900">Risk Signals</h3>
+
+    <div className="grid gap-4 mt-2 md:grid-cols-2 xl:grid-cols-3">
+
       {data.map((item, idx) => {
         const severityKey = item.severity?.toLowerCase() || "medium";
         const style = severityStyles[severityKey] ?? severityStyles.medium;
@@ -50,6 +53,7 @@ const RiskSignals: React.FC<Props> = ({ data }) => {
         );
       })}
     </div>
+    </>
   );
 };
 

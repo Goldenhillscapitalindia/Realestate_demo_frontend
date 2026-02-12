@@ -11,8 +11,6 @@ const PfDemoPortfolioAnalytics: React.FC = () => {
   const [detailStatus, setDetailStatus] = useState<"idle" | "loading" | "error">("idle");
   const [data, setData] = useState<PortfolioAnalyticsRecord[]>([]);
   const [selected, setSelected] = useState<PortfolioAnalyticsRecord | null>(null);
-  const [activeTab, setActiveTab] = useState<"unit" | "expense" | "risk">("unit");
-
   const [filters, setFilters] = useState({
     property_name: "",
     submarket: "",
@@ -99,16 +97,22 @@ const PfDemoPortfolioAnalytics: React.FC = () => {
   }, [data]);
 
   return (
-    <section className="space-y-6 rounded-3xl border border-slate-200 bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
+    <section className="space-y-6 rounded-3xl ">
       <PortfolioKpis />
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <div>
+        {/* <div>
           <h2 className="text-xl font-semibold text-black">Property-Level Analytics</h2>
           <p className="mt-1 text-sm text-black">
             Select a property to view unit mix, expense impact, and risk signals.
           </p>
-        </div>
+        </div> */}
         <div className="flex flex-wrap gap-3">
+          <SelectField
+            label="Region"
+            value={filters.region}
+            options={regionOptions}
+            onChange={(value) => setFilters((prev) => ({ ...prev, region: value }))}
+          />
           <SelectField
             label="Property"
             value={filters.property_name}
@@ -121,12 +125,7 @@ const PfDemoPortfolioAnalytics: React.FC = () => {
             options={submarketOptions}
             onChange={(value) => setFilters((prev) => ({ ...prev, submarket: value }))}
           />
-          <SelectField
-            label="Region"
-            value={filters.region}
-            options={regionOptions}
-            onChange={(value) => setFilters((prev) => ({ ...prev, region: value }))}
-          />
+
         </div>
       </div>
 
@@ -139,53 +138,54 @@ const PfDemoPortfolioAnalytics: React.FC = () => {
           Failed to load analytics.
         </div>
       ) : (
-        <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-6">
-          <div className="flex flex-wrap gap-2 rounded-full bg-white p-1 shadow-sm">
-            {[
-              { id: "unit", label: "Unit Type Analytics" },
-              { id: "expense", label: "Expense Impact" },
-              { id: "risk", label: "Risk Signals" },
-            ].map((tab) => {
-              const isActive = activeTab === tab.id;
-              return (
-                <button
-                  key={tab.id}
-                  type="button"
-                  onClick={() => setActiveTab(tab.id as typeof activeTab)}
-                  className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
-                    isActive
-                      ? "bg-slate-900 text-white shadow-sm"
-                      : "text-black hover:text-black"
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              );
-            })}
-          </div>
-
+        <div className="mt-6 space-y-6">
           {detailStatus === "loading" ? (
-            <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-6 text-sm text-black">
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 text-sm text-black">
               Loading property analytics...
             </div>
           ) : detailStatus === "error" ? (
-            <div className="mt-6 rounded-2xl border border-red-200 bg-red-50 p-6 text-sm text-red-700">
+            <div className="rounded-2xl border border-red-200 bg-red-50 p-6 text-sm text-red-700">
               Failed to load property analytics.
             </div>
           ) : selected ? (
-            <div className="mt-6">
-              {activeTab === "unit" ? (
-                <UnitTypeAnalytics data={selected.portfolio_analytics_response?.unit_type_analytics ?? []} />
-              ) : null}
-              {activeTab === "expense" ? (
-                <ExpenseImpact data={selected.portfolio_analytics_response?.expense_impact ?? null} />
-              ) : null}
-              {activeTab === "risk" ? (
-                <RiskSignals data={selected.portfolio_analytics_response?.risk_signals ?? []} />
-              ) : null}
+            <div className="space-y-6">
+              {[
+                {
+                  id: "unit",
+                  // label: "Unit Type Analytics",
+                  content: (
+                    <UnitTypeAnalytics
+                      data={selected.portfolio_analytics_response?.unit_type_analytics ?? []}
+                    />
+                  ),
+                },
+                {
+                  id: "expense",
+                  // label: "Expense Impact",
+                  content: (
+                    <ExpenseImpact data={selected.portfolio_analytics_response?.expense_impact ?? null} />
+                  ),
+                },
+                {
+                  id: "risk",
+                  // label: "Risk Signals",
+                  content: (
+                    <RiskSignals data={selected.portfolio_analytics_response?.risk_signals ?? []} />
+                  ),
+                },
+              ].map((section) => (
+                <div
+                  key={section.id}
+                  id={section.id}
+                  className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+                >
+                  {/* <h3 className="text-lg font-semibold text-black">{section.label}</h3> */}
+                  <div className="mt-1">{section.content}</div>
+                </div>
+              ))}
             </div>
           ) : (
-            <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-6 text-sm text-black">
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 text-sm text-black">
               Select a property to view analytics.
             </div>
           )}
@@ -252,7 +252,7 @@ type SelectFieldProps = {
 
 const SelectField: React.FC<SelectFieldProps> = ({ label, value, options, onChange }) => {
   return (
-    <label className="flex flex-col text-xs font-semibold uppercase tracking-wide text-black">
+    <label className="flex flex-col text-[16px] font-semibold text-black">
       {label}
       <select
         className="mt-2 min-w-[180px] rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-black shadow-sm focus:border-slate-400 focus:outline-none"

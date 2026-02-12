@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import PfDemoPortfolioAnalytics from "./pf_demo_portfolio_analytics";
 import PfDemoProperties from "./pf_demo_properties";
@@ -18,6 +18,7 @@ const PfDemo: React.FC = () => {
   const [activeTab, setActiveTab] = useState<DemoTab>("Portfolio Analytics");
   const ActiveTab = useMemo(() => tabComponents[activeTab], [activeTab]);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const requestedTab = location.state?.activeTab as DemoTab | undefined;
@@ -33,45 +34,59 @@ const PfDemo: React.FC = () => {
         background:
           "radial-gradient(1200px 600px at 10% 0%, rgba(214,237,255,0.7) 0%, rgba(248,250,255,0.92) 40%, rgba(255,255,255,1) 100%)",
       }}
-    >
-      <div className="mx-auto max-w-6xl space-y-8">
-        <div className="flex flex-wrap items-center justify-between gap-6">
+    >          <button
+            type="button"
+            onClick={() => navigate("/", { state: { scrollTo: "demos" } })}
+            className="rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-800 shadow-sm transition hover:bg-slate-50"
+          >
+            ← Back
+          </button>
+      <div className="mx-auto max-w-6xl space-y-6">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          
           <div className="flex items-center gap-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-sky-600 shadow-lg ring-1 ring-slate-200">
-              <span className="text-xl font-semibold">PI</span>
-            </div>
+          {/* <button
+            type="button"
+            onClick={() => navigate("/", { state: { scrollTo: "demos" } })}
+            className="rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-800 shadow-sm transition hover:bg-slate-50"
+          >
+            ← Back
+          </button> */}
             <div>
-              <h1 className="text-2xl font-semibold text-black">Portfolio Intelligence</h1>
+              <h1 className="text-3xl font-bold text-black text-[#003366]">Portfolio Intelligence</h1>
               {/* <p className="text-sm text-black">318 Properties - $30.2B AUM</p> */}
             </div>
           </div>
+
         </div>
 
-        <div className="grid gap-6  lg:grid-cols-[220px_1fr]">
-          <aside className="space-y-2">
-            {tabs.map((tab) => {
-              const isActive = tab === activeTab;
-              return (
-                <button
-                  key={tab}
-                  type="button"
-                  onClick={() => setActiveTab(tab)}
-                  className={`flex w-full items-center justify-between rounded-2xl px-4 py-3 text-left text-sm font-semibold transition ${
-                    isActive
-                      ? "bg-sky-500 text-white shadow-sm"
-                      : "bg-slate-50 text-black hover:text-black"
-                  }`}
-                >
-                  <span>{tab}</span>
-                  <span className="text-m opacity-100">›</span>
-                </button>
-              );
-            })}
-          </aside>
+        {/* <div className="space-y-6 rounded-3xl border border-slate-200 bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.08)]"> */}
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="flex flex-wrap gap-3">
+              {tabs.map((tab) => {
+                const isActive = tab === activeTab;
+                return (
+                  <button
+                    key={tab}
+                    type="button"
+                    onClick={() => setActiveTab(tab)}
+                    className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
+                      isActive
+                        ? "bg-sky-500 text-white shadow-sm"
+                        : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                    }`}
+                  >
+                    {tab}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
           <div>
             <ActiveTab />
           </div>
-        </div>
+        {/* </div> */}
       </div>
     </section>
   );

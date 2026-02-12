@@ -47,6 +47,8 @@ const ExpenseImpact: React.FC<Props> = ({ data }) => {
 
   return (
     <div className="space-y-6">
+    <h3 className="text-[25px] font-semibold text-blue-900">Expense Impact</h3>
+
       <div className="grid gap-4 md:grid-cols-2">
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_12px_24px_rgba(15,23,42,0.08)]">
           <p className="text-xs uppercase tracking-wide text-black">Operating Expense Ratio</p>

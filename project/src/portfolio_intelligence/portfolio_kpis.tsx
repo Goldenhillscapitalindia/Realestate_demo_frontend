@@ -6,7 +6,7 @@ const kpis = [
     value: "$775.4M",
     delta: "+2.6% YoY",
     deltaClass: "text-emerald-600",
-    accent: "border-emerald-200 bg-emerald-50",
+    accent: "border-l-4 border-emerald-500",
     icon: "$",
   },
   {
@@ -14,7 +14,7 @@ const kpis = [
     value: "93.1%",
     delta: "-0.1% MoM",
     deltaClass: "text-red-600",
-    accent: "border-sky-200 bg-sky-50",
+    accent: "border-l-4 border-sky-500",
     icon: "🏢",
   },
   {
@@ -22,7 +22,7 @@ const kpis = [
     value: "$147.3M",
     delta: "5,914 units expiring in 60 days",
     deltaClass: "text-black",
-    accent: "border-amber-200 bg-amber-50",
+    accent: "border-l-4 border-amber-500",
     icon: "⚠️",
   },
   {
@@ -30,7 +30,7 @@ const kpis = [
     value: "$14.6M",
     delta: "Annualized NOI opportunity",
     deltaClass: "text-black",
-    accent: "border-emerald-200 bg-emerald-50",
+    accent: "border-l-4 border-emerald-500",
     icon: "📈",
   },
 ];
@@ -45,16 +45,22 @@ const PortfolioKpis: React.FC = () => {
         >
           <div className="flex items-start justify-between">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-black">
+              <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
                 {kpi.label}
               </p>
-              <p className="mt-2 text-2xl font-semibold text-black">{kpi.value}</p>
+              <p className="mt-2 text-2xl font-semibold text-gray-900">
+                {kpi.value}
+              </p>
             </div>
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-lg text-black shadow-sm">
+
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gray-50 text-lg shadow-sm">
               {kpi.icon}
             </div>
           </div>
-          <p className={`mt-3 text-sm ${kpi.deltaClass}`}>{kpi.delta}</p>
+
+          <p className={`mt-3 text-sm ${kpi.deltaClass}`}>
+            {kpi.delta}
+          </p>
         </div>
       ))}
     </div>
