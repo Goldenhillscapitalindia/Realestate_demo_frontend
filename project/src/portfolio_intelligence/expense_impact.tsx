@@ -50,7 +50,7 @@ const ExpenseImpact: React.FC<Props> = ({ data }) => {
     <h3 className="text-[25px] font-semibold text-blue-900">Expense Impact</h3>
 
       <div className="grid gap-4 md:grid-cols-2">
-        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_12px_24px_rgba(15,23,42,0.08)]">
+        <div className="rounded-2xl border border-slate-200 bg-blue-50 p-5 shadow-[0_12px_24px_rgba(15,23,42,0.08)]">
           <p className="text-xs uppercase tracking-wide text-black">Operating Expense Ratio</p>
           <p className="mt-3 text-2xl font-semibold text-black">
             {formatPercent(oerValue as number | string)}
@@ -59,7 +59,7 @@ const ExpenseImpact: React.FC<Props> = ({ data }) => {
             Submarket avg: {formatPercent(oerBenchmark as number | string)}
           </p>
         </div>
-        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_12px_24px_rgba(15,23,42,0.08)]">
+        <div className="rounded-2xl border border-slate-200 bg-blue-50 p-5 shadow-[0_12px_24px_rgba(15,23,42,0.08)]">
           <p className="text-xs uppercase tracking-wide text-black">NOI Margin</p>
           <p className="mt-3 text-2xl font-semibold text-black">
             {formatPercent(noiValue as number | string)}

@@ -86,7 +86,7 @@ const UnitTypeAnalytics: React.FC<Props> = ({ data }) => {
                   </p>
                 </div>
               </div>
-              <div className="mt-4 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
+              <div className="mt-4 rounded-2xl border border-slate-200 bg-blue-80 px-4 py-3">
                   <p className="text-[0.8rem] font-semibold uppercase  text-indigo-600 text-center">
                   Rent vs Market
                 </p>
