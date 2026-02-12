@@ -41,7 +41,7 @@ const PfPropertyResponse: React.FC = () => {
       setStatus("loading");
       try {
         const response = await axios.post<{ data: PropertyRecord }>(
-          `${API_URL}/api/get_property_data/`,
+          `${API_URL}/api/get_property_model_data/`,
           {
             fetch: "specific",
             property_name: propertyName,
