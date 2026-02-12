@@ -33,14 +33,14 @@ const MarketRadarTable: React.FC<MarketRadarTableProps> = ({
   return (
     <div className="space-y-3">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <p className="text-m font-semibold text-slate-900">SubMarket Pulse</p>
+        <p className="text-m font-semibold text-black">SubMarket Pulse</p>
         <div className="flex w-full flex-wrap items-center justify-end gap-3 sm:w-auto">
           <input
             type="text"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Search submarket or region"
-            className="h-9 w-full rounded-full border border-slate-200 bg-white px-4 text-xs text-slate-700 placeholder:text-slate-400 focus:border-slate-300 focus:outline-none sm:w-64"
+            className="h-9 w-full rounded-full border border-slate-200 bg-white px-4 text-xs text-black placeholder:text-black focus:border-slate-300 focus:outline-none sm:w-64"
           />
           <button
             type="button"
@@ -53,7 +53,7 @@ const MarketRadarTable: React.FC<MarketRadarTableProps> = ({
       </div>
       <div className="max-h-[420px] overflow-hidden rounded-2xl border border-slate-200 shadow-[0_16px_40px_rgba(15,23,42,0.06)]">
         <div className="max-h-[420px] overflow-auto">
-          <table className="w-full text-left text-sm text-slate-700">
+          <table className="w-full text-left text-sm text-black">
             <thead className="sticky top-0 bg-blue-50 text-m  text-indigo-500">
               <tr>
                 <th className="px-4 py-3">Submarket Name</th>
@@ -79,8 +79,8 @@ const MarketRadarTable: React.FC<MarketRadarTableProps> = ({
                     role="button"
                     tabIndex={0}
                   >
-                    <td className="px-4 py-3 text-slate-900">{item.sub_market_name}</td>
-                    <td className="px-4 py-3 text-slate-500">{item.region}</td>
+                    <td className="px-4 py-3 text-black">{item.sub_market_name}</td>
+                    <td className="px-4 py-3 text-black">{item.region}</td>
                     <td className="px-4 py-3">
                       <span
                         className="inline-flex items-center gap-2 rounded-full px-2.5 py-1 text-xs font-semibold"
@@ -99,7 +99,7 @@ const MarketRadarTable: React.FC<MarketRadarTableProps> = ({
               })}
               {!filteredData.length && !loading && (
                 <tr>
-                  <td className="px-4 py-6 text-center text-slate-500" colSpan={3}>
+                  <td className="px-4 py-6 text-center text-black" colSpan={3}>
                     No market radar data available.
                   </td>
                 </tr>
@@ -108,7 +108,7 @@ const MarketRadarTable: React.FC<MarketRadarTableProps> = ({
           </table>
         </div>
       </div>
-            <div className="flex gap-3 rounded-full border border-slate-200 bg-white/70 px-10 py-1 text-m text-slate-600">
+            <div className="flex gap-3 rounded-full border border-slate-200 bg-white/70 px-10 py-1 text-m text-black">
               {Object.keys(PULSE_COLORS).map((key) => (
                 <div key={key} className="flex items-center gap-1.5">
                   <span className="h-2 w-2 rounded-full" style={{ backgroundColor: PULSE_COLORS[key].dot }} />

@@ -40,7 +40,7 @@ const formatSignedPercent = (value: number | string) => {
 const UnitTypeAnalytics: React.FC<Props> = ({ data }) => {
   if (!data || data.length === 0) {
     return (
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 text-sm text-slate-600">
+      <div className="rounded-2xl border border-slate-200 bg-white p-6 text-sm text-black">
         No unit type analytics available.
       </div>
     );
@@ -61,25 +61,25 @@ const UnitTypeAnalytics: React.FC<Props> = ({ data }) => {
             className="rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_12px_24px_rgba(15,23,42,0.08)]"
           >
             <div className="flex items-center justify-between">
-              <h3 className="text-base font-semibold text-slate-900">{item.unit_type}</h3>
-              <span className="text-sm text-slate-500">{item.unit_count} units</span>
+              <h3 className="text-base font-semibold text-black">{item.unit_type}</h3>
+              <span className="text-sm text-black">{item.unit_count} units</span>
             </div>
             <div className="mt-4 grid grid-cols-2 gap-3">
               <div>
-                <p className="text-xs uppercase tracking-wide text-slate-500">Avg In-Place Rent</p>
-                <p className="mt-1 text-lg font-semibold text-slate-900">
+                <p className="text-xs uppercase tracking-wide text-black">Avg In-Place Rent</p>
+                <p className="mt-1 text-lg font-semibold text-black">
                   {formatCurrency(item.avg_in_place_rent)}
                 </p>
               </div>
               <div>
-                <p className="text-xs uppercase tracking-wide text-slate-500">Occupancy</p>
-                <p className="mt-1 text-lg font-semibold text-slate-900">
+                <p className="text-xs uppercase tracking-wide text-black">Occupancy</p>
+                <p className="mt-1 text-lg font-semibold text-black">
                   {formatPercent(item.occupancy_pct)}
                 </p>
               </div>
             </div>
             <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
-              <p className="text-xs uppercase tracking-wide text-slate-500">Rent vs Market</p>
+              <p className="text-xs uppercase tracking-wide text-black">Rent vs Market</p>
               <p className={`mt-1 text-base font-semibold ${deltaColor}`}>
                 {formatSignedPercent(item.rent_vs_market_pct)}
               </p>

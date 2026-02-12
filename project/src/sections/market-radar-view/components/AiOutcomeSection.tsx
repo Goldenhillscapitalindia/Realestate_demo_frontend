@@ -15,7 +15,7 @@ const AiOutcomeSection: React.FC<AiOutcomeSectionProps> = ({ data }) => (
     }}
   >
     <div className="flex items-center justify-between">
-      <h3 className="text-xl font-semibold text-slate-900">AI Expected Market Outcome</h3>
+      <h3 className="text-xl font-semibold text-black">AI Expected Market Outcome</h3>
       <span
         className="rounded-full px-3 py-1 text-xs font-semibold"
         style={{

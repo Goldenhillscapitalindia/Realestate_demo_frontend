@@ -76,7 +76,7 @@ const PfPropertyResponse: React.FC = () => {
 
   if (status === "loading") {
     return (
-      <div className="min-h-screen bg-slate-50 p-6 text-slate-700">
+      <div className="min-h-screen bg-slate-50 p-6 text-black">
         Loading property response...
       </div>
     );
@@ -84,7 +84,7 @@ const PfPropertyResponse: React.FC = () => {
 
   if (status === "error") {
     return (
-      <div className="min-h-screen bg-slate-50 p-6 text-slate-700">
+      <div className="min-h-screen bg-slate-50 p-6 text-black">
         Failed to load property response.
       </div>
     );

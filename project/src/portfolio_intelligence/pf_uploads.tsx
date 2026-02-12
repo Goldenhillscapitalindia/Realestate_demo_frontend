@@ -124,7 +124,7 @@ const PfUploads: React.FC = () => {
 
   return (
     <section
-      className="min-h-screen px-6 py-10 text-slate-900"
+      className="min-h-screen px-6 py-10 text-black"
       style={{
         background:
           "radial-gradient(1200px 600px at 10% 0%, rgba(214,237,255,0.7) 0%, rgba(248,250,255,0.9) 40%, rgba(255,255,255,1) 100%)",
@@ -133,9 +133,9 @@ const PfUploads: React.FC = () => {
       <div className="mx-auto max-w-5xl space-y-6">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="text-xs font-semibold tracking-[0.2em] text-slate-500">{tabLabel}</p>
-            <h1 className="mt-2 text-3xl font-semibold text-slate-900">Portfolio Uploads</h1>
-            <p className="mt-2 text-sm text-slate-600">
+            <p className="text-xs font-semibold tracking-[0.2em] text-black">{tabLabel}</p>
+            <h1 className="mt-2 text-3xl font-semibold text-black">Portfolio Uploads</h1>
+            <p className="mt-2 text-sm text-black">
               Manage data ingestion for analytics, property records, and AI rent intelligence.
             </p>
           </div>
@@ -149,7 +149,7 @@ const PfUploads: React.FC = () => {
                   onClick={() => setActiveTab(tab)}
                   className={`rounded-full px-4 py-2 text-sm font-semibold transition ${isActive
                       ? "bg-slate-900 text-white shadow-sm"
-                      : "text-slate-600 hover:text-slate-900"
+                      : "text-black hover:text-black"
                     }`}
                 >
                   {tab}
@@ -168,77 +168,77 @@ const PfUploads: React.FC = () => {
           {activeTab === "Portfolio Analytics" ? (
             <div className="space-y-6">
               <div>
-                <h2 className="text-xl font-semibold text-slate-900">Property Upload</h2>
-                <p className="mt-2 text-sm text-slate-600">
+                <h2 className="text-xl font-semibold text-black">Property Upload</h2>
+                <p className="mt-2 text-sm text-black">
                   Provide property metadata to enrich portfolio intelligence and downstream analysis.
                 </p>
               </div>
               <form className="grid gap-5 md:grid-cols-2">
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-black">
                     Property Name
                   </label>
                   <input
                     type="text"
-                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm focus:border-slate-400 focus:outline-none"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-black shadow-sm focus:border-slate-400 focus:outline-none"
                     placeholder="Enter property name"
                     value={portfolioAnalyticsForm.property_name}
                     onChange={handlePortfolioAnalyticsChange("property_name")}
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-black">
                     Submarket
                   </label>
                   <input
                     type="text"
-                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm focus:border-slate-400 focus:outline-none"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-black shadow-sm focus:border-slate-400 focus:outline-none"
                     placeholder="Enter submarket"
                     value={portfolioAnalyticsForm.submarket}
                     onChange={handlePortfolioAnalyticsChange("submarket")}
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-black">
                     Region
                   </label>
                   <input
                     type="text"
-                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm focus:border-slate-400 focus:outline-none"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-black shadow-sm focus:border-slate-400 focus:outline-none"
                     placeholder="Enter region"
                     value={portfolioAnalyticsForm.region}
                     onChange={handlePortfolioAnalyticsChange("region")}
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-black">
                     Address
                   </label>
                   <input
                     type="text"
-                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm focus:border-slate-400 focus:outline-none"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-black shadow-sm focus:border-slate-400 focus:outline-none"
                     placeholder="Street address"
                     value={portfolioAnalyticsForm.address}
                     onChange={handlePortfolioAnalyticsChange("address")}
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-black">
                     Location
                   </label>
                   <input
                     type="text"
-                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm focus:border-slate-400 focus:outline-none"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-black shadow-sm focus:border-slate-400 focus:outline-none"
                     placeholder="City, State"
                     value={portfolioAnalyticsForm.location}
                     onChange={handlePortfolioAnalyticsChange("location")}
                   />
                 </div>
                 <div className="space-y-2 md:col-span-2">
-                  <label className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-black">
                     Portfolio Analytics Response                  </label>
                   <textarea
-                    className="min-h-[120px] w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm focus:border-slate-400 focus:outline-none"
+                    className="min-h-[120px] w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-black shadow-sm focus:border-slate-400 focus:outline-none"
                     placeholder="Notes or responses about the property"
                     value={portfolioAnalyticsForm.portfolio_analytics_response}
                     onChange={handlePortfolioAnalyticsChange("portfolio_analytics_response")}
@@ -270,126 +270,126 @@ const PfUploads: React.FC = () => {
           {activeTab === "Properties" ? (
             <div className="space-y-6">
               <div>
-                <h2 className="text-xl font-semibold text-slate-900">Property Upload</h2>
-                <p className="mt-2 text-sm text-slate-600">
+                <h2 className="text-xl font-semibold text-black">Property Upload</h2>
+                <p className="mt-2 text-sm text-black">
                   Provide property metadata to enrich portfolio intelligence and downstream analysis.
                 </p>
               </div>
               <form className="grid gap-5 md:grid-cols-2">
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-black">
                     Property Name
                   </label>
                   <input
                     type="text"
-                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm focus:border-slate-400 focus:outline-none"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-black shadow-sm focus:border-slate-400 focus:outline-none"
                     placeholder="Enter property name"
                     value={propertyForm.property_name}
                     onChange={handlePropertyChange("property_name")}
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-black">
                     Submarket
                   </label>
                   <input
                     type="text"
-                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm focus:border-slate-400 focus:outline-none"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-black shadow-sm focus:border-slate-400 focus:outline-none"
                     placeholder="Enter submarket"
                     value={propertyForm.submarket}
                     onChange={handlePropertyChange("submarket")}
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-black">
                     Region
                   </label>
                   <input
                     type="text"
-                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm focus:border-slate-400 focus:outline-none"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-black shadow-sm focus:border-slate-400 focus:outline-none"
                     placeholder="Enter region"
                     value={propertyForm.region}
                     onChange={handlePropertyChange("region")}
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-black">
                     Address
                   </label>
                   <input
                     type="text"
-                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm focus:border-slate-400 focus:outline-none"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-black shadow-sm focus:border-slate-400 focus:outline-none"
                     placeholder="Street address"
                     value={propertyForm.address}
                     onChange={handlePropertyChange("address")}
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-black">
                     Location
                   </label>
                   <input
                     type="text"
-                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm focus:border-slate-400 focus:outline-none"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-black shadow-sm focus:border-slate-400 focus:outline-none"
                     placeholder="City, State"
                     value={propertyForm.location}
                     onChange={handlePropertyChange("location")}
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-black">
                     Class
                   </label>
                   <input
                     type="text"
-                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm focus:border-slate-400 focus:outline-none"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-black shadow-sm focus:border-slate-400 focus:outline-none"
                     placeholder="Class A / B / C"
                     value={propertyForm.class_type}
                     onChange={handlePropertyChange("class_type")}
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-black">
                     Units
                   </label>
                   <input
                     type="number"
-                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm focus:border-slate-400 focus:outline-none"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-black shadow-sm focus:border-slate-400 focus:outline-none"
                     placeholder="Total units"
                     value={propertyForm.units}
                     onChange={handlePropertyChange("units")}
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-black">
                     Occupancy
                   </label>
                   <input
                     type="text"
-                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm focus:border-slate-400 focus:outline-none"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-black shadow-sm focus:border-slate-400 focus:outline-none"
                     placeholder="e.g. 94%"
                     value={propertyForm.occupancy}
                     onChange={handlePropertyChange("occupancy")}
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-black">
                     Rent / Sqft
                   </label>
                   <input
                     type="text"
-                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm focus:border-slate-400 focus:outline-none"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-black shadow-sm focus:border-slate-400 focus:outline-none"
                     placeholder="e.g. $2.15"
                     value={propertyForm.rent_per_sqft}
                     onChange={handlePropertyChange("rent_per_sqft")}
                   />
                 </div>
                 <div className="space-y-2 md:col-span-2">
-                  <label className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-black">
                     Property Response
                   </label>
                   <textarea
-                    className="min-h-[120px] w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm focus:border-slate-400 focus:outline-none"
+                    className="min-h-[120px] w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-black shadow-sm focus:border-slate-400 focus:outline-none"
                     placeholder="Notes or responses about the property"
                     value={propertyForm.property_response}
                     onChange={handlePropertyChange("property_response")}
@@ -422,24 +422,24 @@ const PfUploads: React.FC = () => {
           {activeTab === "AI Rent Intelligence" ? (
             <div className="grid gap-6 lg:grid-cols-[1.1fr_1fr]">
               <div className="space-y-3">
-                <h2 className="text-xl font-semibold text-slate-900">AI Rent Intelligence Upload</h2>
-                <p className="text-sm text-slate-600">
+                <h2 className="text-xl font-semibold text-black">AI Rent Intelligence Upload</h2>
+                <p className="text-sm text-black">
                   Upload rent rolls or lease comps to activate AI-driven rent insights.
                 </p>
                 <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-6 py-8 text-center">
-                  <p className="text-sm font-semibold text-slate-700">Upload rent intelligence files</p>
-                  <p className="mt-2 text-xs text-slate-500">CSV, XLSX, or PDF accepted.</p>
+                  <p className="text-sm font-semibold text-black">Upload rent intelligence files</p>
+                  <p className="mt-2 text-xs text-black">CSV, XLSX, or PDF accepted.</p>
                   <button
                     type="button"
-                    className="mt-4 rounded-full border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 shadow-sm hover:border-slate-400"
+                    className="mt-4 rounded-full border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-black shadow-sm hover:border-slate-400"
                   >
                     Browse files
                   </button>
                 </div>
               </div>
               <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-5">
-                <p className="text-xs font-semibold text-slate-500">What gets smarter</p>
-                <ul className="mt-3 space-y-2 text-sm text-slate-600">
+                <p className="text-xs font-semibold text-black">What gets smarter</p>
+                <ul className="mt-3 space-y-2 text-sm text-black">
                   <li>• Market rent benchmarking vs. submarket</li>
                   <li>• Renewal risk and pricing sensitivity</li>
                   <li>• Unit-level rent lift suggestions</li>

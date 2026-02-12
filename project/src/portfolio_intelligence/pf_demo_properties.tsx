@@ -64,11 +64,11 @@ const handleRowClick = (row: PropertyRecord) => {
 
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-6 text-slate-900 shadow-sm">
+    <div className="rounded-2xl border border-slate-200 bg-white p-6 text-black shadow-sm">
       <div className="flex items-center justify-between gap-4">
         <div>
-          <h2 className="text-lg font-semibold text-slate-900">Properties</h2>
-          <p className="text-sm text-slate-500">Click a property to view the response.</p>
+          <h2 className="text-lg font-semibold text-black">Properties</h2>
+          <p className="text-sm text-black">Click a property to view the response.</p>
         </div>
       </div>
 
@@ -87,7 +87,7 @@ const handleRowClick = (row: PropertyRecord) => {
           <tbody>
             {status === "loading" ? (
               <tr>
-                <td className="px-4 py-4 text-slate-500" colSpan={6}>
+                <td className="px-4 py-4 text-black" colSpan={6}>
                   Loading...
                 </td>
               </tr>
@@ -101,7 +101,7 @@ const handleRowClick = (row: PropertyRecord) => {
             ) : null}
             {status === "idle" && data.length === 0 ? (
               <tr>
-                <td className="px-4 py-4 text-slate-500" colSpan={6}>
+                <td className="px-4 py-4 text-black" colSpan={6}>
                   No properties available.
                 </td>
               </tr>
@@ -116,19 +116,19 @@ const handleRowClick = (row: PropertyRecord) => {
                   }`}
               onClick={() => handleRowClick(row)}
             >
-              <td className="px-4 py-3 font-semibold text-slate-900">{row.property_name}</td>
-              <td className="px-4 py-3 text-slate-600">{row.location}</td>
-              <td className="px-4 py-3 text-slate-600">{row.class_type}</td>
-              <td className="px-4 py-3 text-slate-600">{row.units}</td>
-              <td className="px-4 py-3 text-slate-600">{row.occupancy}</td>
-              <td className="px-4 py-3 text-slate-600">{row.rent_per_sqft}</td>
+              <td className="px-4 py-3 font-semibold text-black">{row.property_name}</td>
+              <td className="px-4 py-3 text-black">{row.location}</td>
+              <td className="px-4 py-3 text-black">{row.class_type}</td>
+              <td className="px-4 py-3 text-black">{row.units}</td>
+              <td className="px-4 py-3 text-black">{row.occupancy}</td>
+              <td className="px-4 py-3 text-black">{row.rent_per_sqft}</td>
             </tr>
           );
         })}
       </tbody>
     </table>
   </div>
-      {/* <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
+      {/* <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-black">
         Select a property to view the response.
       </div> */}
     </div>

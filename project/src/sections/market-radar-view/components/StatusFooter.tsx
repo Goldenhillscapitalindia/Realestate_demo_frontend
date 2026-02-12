@@ -6,7 +6,7 @@ type StatusFooterProps = {
 };
 
 const StatusFooter: React.FC<StatusFooterProps> = ({ loading, error }) => (
-  <div className="text-xs text-slate-500">
+  <div className="text-xs text-black">
     {loading ? "Loading latest pulse..." : "Updated moments ago"} {error ? `- ${error}` : null}
   </div>
 );

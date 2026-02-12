@@ -103,8 +103,8 @@ const PfDemoPortfolioAnalytics: React.FC = () => {
       <PortfolioKpis />
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-semibold text-slate-900">Property-Level Analytics</h2>
-          <p className="mt-1 text-sm text-slate-600">
+          <h2 className="text-xl font-semibold text-black">Property-Level Analytics</h2>
+          <p className="mt-1 text-sm text-black">
             Select a property to view unit mix, expense impact, and risk signals.
           </p>
         </div>
@@ -131,7 +131,7 @@ const PfDemoPortfolioAnalytics: React.FC = () => {
       </div>
 
       {status === "loading" ? (
-        <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-6 text-sm text-slate-600">
+        <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-6 text-sm text-black">
           Loading analytics...
         </div>
       ) : status === "error" ? (
@@ -155,7 +155,7 @@ const PfDemoPortfolioAnalytics: React.FC = () => {
                   className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
                     isActive
                       ? "bg-slate-900 text-white shadow-sm"
-                      : "text-slate-600 hover:text-slate-900"
+                      : "text-black hover:text-black"
                   }`}
                 >
                   {tab.label}
@@ -165,7 +165,7 @@ const PfDemoPortfolioAnalytics: React.FC = () => {
           </div>
 
           {detailStatus === "loading" ? (
-            <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-6 text-sm text-slate-600">
+            <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-6 text-sm text-black">
               Loading property analytics...
             </div>
           ) : detailStatus === "error" ? (
@@ -185,7 +185,7 @@ const PfDemoPortfolioAnalytics: React.FC = () => {
               ) : null}
             </div>
           ) : (
-            <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-6 text-sm text-slate-600">
+            <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-6 text-sm text-black">
               Select a property to view analytics.
             </div>
           )}
@@ -252,10 +252,10 @@ type SelectFieldProps = {
 
 const SelectField: React.FC<SelectFieldProps> = ({ label, value, options, onChange }) => {
   return (
-    <label className="flex flex-col text-xs font-semibold uppercase tracking-wide text-slate-500">
+    <label className="flex flex-col text-xs font-semibold uppercase tracking-wide text-black">
       {label}
       <select
-        className="mt-2 min-w-[180px] rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 shadow-sm focus:border-slate-400 focus:outline-none"
+        className="mt-2 min-w-[180px] rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-black shadow-sm focus:border-slate-400 focus:outline-none"
         value={value}
         onChange={(e) => onChange(e.target.value)}
       >

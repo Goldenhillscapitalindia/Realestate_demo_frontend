@@ -8,7 +8,7 @@ type DecisionSupportSectionProps = {
 
 const DecisionSupportSection: React.FC<DecisionSupportSectionProps> = ({ data }) => (
   <div className="space-y-4">
-    <h3 className="text-xl font-semibold text-slate-900">Decision Support</h3>
+    <h3 className="text-xl font-semibold text-black">Decision Support</h3>
     <div className="grid gap-4 lg:grid-cols-3">
       <DecisionCard title="Positives" color="#2ED573" items={data.positives} />
       <DecisionCard title="Negatives" color="#FF5A4A" items={data.negatives} />

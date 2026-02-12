@@ -28,7 +28,7 @@ const PfDemo: React.FC = () => {
 
   return (
     <section
-      className="min-h-screen px-6 py-10 text-slate-900"
+      className="min-h-screen px-6 py-10 text-black"
       style={{
         background:
           "radial-gradient(1200px 600px at 10% 0%, rgba(214,237,255,0.7) 0%, rgba(248,250,255,0.92) 40%, rgba(255,255,255,1) 100%)",
@@ -41,8 +41,8 @@ const PfDemo: React.FC = () => {
               <span className="text-xl font-semibold">PI</span>
             </div>
             <div>
-              <h1 className="text-2xl font-semibold text-slate-900">Portfolio Intelligence</h1>
-              {/* <p className="text-sm text-slate-500">318 Properties - $30.2B AUM</p> */}
+              <h1 className="text-2xl font-semibold text-black">Portfolio Intelligence</h1>
+              {/* <p className="text-sm text-black">318 Properties - $30.2B AUM</p> */}
             </div>
           </div>
         </div>
@@ -59,7 +59,7 @@ const PfDemo: React.FC = () => {
                   className={`flex w-full items-center justify-between rounded-2xl px-4 py-3 text-left text-sm font-semibold transition ${
                     isActive
                       ? "bg-sky-500 text-white shadow-sm"
-                      : "bg-slate-50 text-slate-600 hover:text-slate-900"
+                      : "bg-slate-50 text-black hover:text-black"
                   }`}
                 >
                   <span>{tab}</span>

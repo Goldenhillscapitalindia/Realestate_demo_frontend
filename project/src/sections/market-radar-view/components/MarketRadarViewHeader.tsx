@@ -20,11 +20,11 @@ const MarketRadarViewHeader: React.FC<MarketRadarViewHeaderProps> = ({
 
   >
     <div className="flex flex-wrap items-center justify-between gap-4">
-      <div className="flex items-center gap-4 text-slate-900">
+      <div className="flex items-center gap-4 text-black">
         <button
           type="button"
           onClick={onBack}
-          className="flex h-10 w-10 items-center justify-center rounded-full border border-purple-500 text-purple-500 transition hover:border-slate-300 hover:text-slate-900"
+          className="flex h-10 w-10 items-center justify-center rounded-full border border-purple-500 text-purple-500 transition hover:border-slate-300 hover:text-black"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
             <path
@@ -38,7 +38,7 @@ const MarketRadarViewHeader: React.FC<MarketRadarViewHeaderProps> = ({
         </button>
         <div>
           <div className="flex items-center gap-3">
-            <h2 className="text-xl font-semibold text-slate-900">{sub_market_name}</h2>
+            <h2 className="text-xl font-semibold text-black">{sub_market_name}</h2>
             <span
               className="rounded-full px-2.5 py-1 text-xs font-semibold uppercase tracking-[0.12em]"
               style={{
@@ -50,7 +50,7 @@ const MarketRadarViewHeader: React.FC<MarketRadarViewHeaderProps> = ({
               {pulseLabel}
             </span>
           </div>
-          <p className="text-sm text-slate-500">{region}</p>
+          <p className="text-sm text-black">{region}</p>
         </div>
       </div>
       <div

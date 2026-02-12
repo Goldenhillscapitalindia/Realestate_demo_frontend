@@ -21,7 +21,7 @@ const kpis = [
     label: "Revenue at Risk",
     value: "$147.3M",
     delta: "5,914 units expiring in 60 days",
-    deltaClass: "text-slate-500",
+    deltaClass: "text-black",
     accent: "border-amber-200 bg-amber-50",
     icon: "⚠️",
   },
@@ -29,7 +29,7 @@ const kpis = [
     label: "Identified Upside",
     value: "$14.6M",
     delta: "Annualized NOI opportunity",
-    deltaClass: "text-slate-500",
+    deltaClass: "text-black",
     accent: "border-emerald-200 bg-emerald-50",
     icon: "📈",
   },
@@ -45,12 +45,12 @@ const PortfolioKpis: React.FC = () => {
         >
           <div className="flex items-start justify-between">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+              <p className="text-xs font-semibold uppercase tracking-wide text-black">
                 {kpi.label}
               </p>
-              <p className="mt-2 text-2xl font-semibold text-slate-900">{kpi.value}</p>
+              <p className="mt-2 text-2xl font-semibold text-black">{kpi.value}</p>
             </div>
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-lg text-slate-700 shadow-sm">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-lg text-black shadow-sm">
               {kpi.icon}
             </div>
           </div>

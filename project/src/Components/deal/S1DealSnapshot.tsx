@@ -23,8 +23,8 @@ type Props = {
 
 const InfoRow = ({ label, value }: { label: string; value: string }) => (
   <div className="flex justify-between px-3 py-2 even:bg-slate-50 rounded-md">
-    <span className="font-medium text-slate-600">{label}</span>
-    <span className="text-slate-900">{value}</span>
+    <span className="font-medium text-black">{label}</span>
+    <span className="text-black">{value}</span>
   </div>
 );
 
@@ -41,7 +41,7 @@ const S1DealSnapshot: React.FC<Props> = ({ dates, snapshot }) => {
     <section className="space-y-10">
       {/* TIMELINE */}
       <div className="rounded-2xl border border-slate-200 bg-white shadow-sm p-6">
-        <h2 className="text-base font-semibold text-slate-900 mb-6 flex items-center">
+        <h2 className="text-base font-semibold text-black mb-6 flex items-center">
           <span className="w-1.5 h-5 bg-blue-600 rounded-full mr-2"></span>
           Timeline
         </h2>
@@ -60,25 +60,25 @@ const S1DealSnapshot: React.FC<Props> = ({ dates, snapshot }) => {
               <div key={i} className="relative flex flex-col items-center w-1/4 text-center">
                 <div
                   className={`h-8 w-8 flex items-center justify-center rounded-full font-semibold text-xs shadow-md z-10
-                    ${isCompleted ? "bg-blue-600 text-white" : "bg-slate-200 text-slate-600"}`}
+                    ${isCompleted ? "bg-blue-600 text-white" : "bg-slate-200 text-black"}`}
                 >
                   {i + 1}
                 </div>
-                <div className="mt-2 text-sm font-medium text-slate-800">{n.k}</div>
-                <div className="text-xs text-slate-500">{dateFmt(n.v)}</div>
+                <div className="mt-2 text-sm font-medium text-black">{n.k}</div>
+                <div className="text-xs text-black">{dateFmt(n.v)}</div>
               </div>
             );
           })}
         </div>
 
-        <p className="mt-5 text-xs text-slate-500 text-center">
+        <p className="mt-5 text-xs text-black text-center">
           Dates shown in company/local filing context; check EDGAR for official timestamps.
         </p>
       </div>
 
       {/* DEAL SNAPSHOT */}
       <div className="rounded-2xl border border-slate-200 bg-white shadow-sm p-6">
-        <h2 className="text-base font-semibold text-slate-900 mb-6 flex items-center">
+        <h2 className="text-base font-semibold text-black mb-6 flex items-center">
           <span className="w-1.5 h-5 bg-indigo-600 rounded-full mr-2"></span>
           Deal Snapshot
         </h2>
@@ -88,12 +88,12 @@ const S1DealSnapshot: React.FC<Props> = ({ dates, snapshot }) => {
           <div className="space-y-2">
             {/* Sector + Bookrunners in one line */}
             <div className="flex justify-between px-3 py-2 bg-slate-50 rounded-md">
-              <span className="font-medium text-slate-600">Sector</span>
-              <span className="text-slate-900">{snapshot.sector}</span>
+              <span className="font-medium text-black">Sector</span>
+              <span className="text-black">{snapshot.sector}</span>
             </div>
             <div className="flex justify-between px-3 py-2 bg-slate-50 rounded-md">
-              <span className="font-medium text-slate-600">Bookrunners</span>
-              <span className="text-slate-900">{snapshot.bookrunners}</span>
+              <span className="font-medium text-black">Bookrunners</span>
+              <span className="text-black">{snapshot.bookrunners}</span>
             </div>
             <InfoRow label="Price Range" value={snapshot.priceRange} />
             <InfoRow label="Deal Size ($MM)" value={snapshot.dealSizeMM} />

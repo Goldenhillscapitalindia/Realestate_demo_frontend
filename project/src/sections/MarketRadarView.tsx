@@ -71,7 +71,7 @@ const MarketRadarView: React.FC = () => {
 
   return (
     <section
-      className="min-h-screen px-6 py-10 text-slate-900"
+      className="min-h-screen px-6 py-10 text-black"
       style={{
         background:
           "linear-gradient(180deg, rgba(248,250,255,1) 0%, rgba(240,244,255,1) 100%)",

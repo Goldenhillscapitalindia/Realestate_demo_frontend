@@ -56,7 +56,7 @@ const AddSubmarketModal: React.FC<AddSubmarketModalProps> = ({
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-900/50 px-4 py-8">
       <div
-        className="w-full max-w-xl rounded-2xl border border-slate-200 p-6 text-slate-900 shadow-[0_30px_60px_rgba(15,23,42,0.2)]"
+        className="w-full max-w-xl rounded-2xl border border-slate-200 p-6 text-black shadow-[0_30px_60px_rgba(15,23,42,0.2)]"
         style={{
           background:
             "linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(245,247,255,0.98) 100%)",
@@ -67,7 +67,7 @@ const AddSubmarketModal: React.FC<AddSubmarketModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-600 hover:border-slate-300 hover:text-slate-900"
+            className="rounded-full border border-slate-200 px-3 py-1 text-xs text-black hover:border-slate-300 hover:text-black"
             disabled={loading}
           >
             Close
@@ -76,57 +76,57 @@ const AddSubmarketModal: React.FC<AddSubmarketModalProps> = ({
 
         <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
           <div className="grid gap-4 sm:grid-cols-2">
-            <label className="text-xs text-slate-600">
+            <label className="text-xs text-black">
               Region
               <input
                 type="text"
                 value={region}
                 onChange={(event) => setRegion(event.target.value)}
-                className="mt-2 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 focus:border-slate-300 focus:outline-none"
+                className="mt-2 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-black focus:border-slate-300 focus:outline-none"
                 required
               />
             </label>
-            <label className="text-xs text-slate-600">
+            <label className="text-xs text-black">
               Submarket Name
               <input
                 type="text"
                 value={submarketName}
                 onChange={(event) => setSubmarketName(event.target.value)}
-                className="mt-2 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 focus:border-slate-300 focus:outline-none"
+                className="mt-2 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-black focus:border-slate-300 focus:outline-none"
                 required
               />
             </label>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2">
-            <label className="text-xs text-slate-600">
+            <label className="text-xs text-black">
               Latitude
               <input
                 type="text"
                 value={latitude}
                 onChange={(event) => setLatitude(event.target.value)}
-                className="mt-2 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 focus:border-slate-300 focus:outline-none"
+                className="mt-2 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-black focus:border-slate-300 focus:outline-none"
                 required
               />
             </label>
-            <label className="text-xs text-slate-600">
+            <label className="text-xs text-black">
               Longitude
               <input
                 type="text"
                 value={longitude}
                 onChange={(event) => setLongitude(event.target.value)}
-                className="mt-2 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 focus:border-slate-300 focus:outline-none"
+                className="mt-2 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-black focus:border-slate-300 focus:outline-none"
                 required
               />
             </label>
           </div>
 
-          <label className="text-xs text-slate-600">
+          <label className="text-xs text-black">
             Construction Type
             <select
               value={constructionType}
               onChange={(event) => setConstructionType(event.target.value)}
-              className="mt-2 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 focus:border-slate-300 focus:outline-none"
+              className="mt-2 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-black focus:border-slate-300 focus:outline-none"
               required
             >
               <option value="" disabled>
@@ -138,22 +138,22 @@ const AddSubmarketModal: React.FC<AddSubmarketModalProps> = ({
           </label>
 
           <div className="grid gap-4 sm:grid-cols-2">
-            <label className="text-xs text-slate-600">
+            <label className="text-xs text-black">
               Submarket PDF
               <input
                 type="file"
                 accept="application/pdf"
                 onChange={(event) => setSubmarketPdf(event.target.files?.[0] ?? null)}
-                className="mt-2 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-600 file:mr-2 file:rounded-md file:border-0 file:bg-violet-100 file:px-3 file:py-1 file:text-xs file:text-violet-700"
+                className="mt-2 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-black file:mr-2 file:rounded-md file:border-0 file:bg-violet-100 file:px-3 file:py-1 file:text-xs file:text-violet-700"
               />
             </label>
-            <label className="text-xs text-slate-600">
+            <label className="text-xs text-black">
               Capital PDF
               <input
                 type="file"
                 accept="application/pdf"
                 onChange={(event) => setCapitalPdf(event.target.files?.[0] ?? null)}
-                className="mt-2 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-600 file:mr-2 file:rounded-md file:border-0 file:bg-violet-100 file:px-3 file:py-1 file:text-xs file:text-violet-700"
+                className="mt-2 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-black file:mr-2 file:rounded-md file:border-0 file:bg-violet-100 file:px-3 file:py-1 file:text-xs file:text-violet-700"
               />
             </label>
           </div>
@@ -164,7 +164,7 @@ const AddSubmarketModal: React.FC<AddSubmarketModalProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="rounded-full border border-slate-200 px-4 py-2 text-xs text-slate-600 hover:border-slate-300 hover:text-slate-900"
+              className="rounded-full border border-slate-200 px-4 py-2 text-xs text-black hover:border-slate-300 hover:text-black"
               disabled={loading}
             >
               Cancel

@@ -137,14 +137,14 @@ const S1PdfUpload: React.FC = () => {
     >
       <div className="flex items-center justify-between gap-4">
         <div className="min-w-0">
-          <div className="text-sm font-semibold text-slate-800">{title}</div>
-          <div className="text-xs text-slate-500">{subtitle}</div>
+          <div className="text-sm font-semibold text-black">{title}</div>
+          <div className="text-xs text-black">{subtitle}</div>
           {file ? (
             <div className="mt-2 text-sm text-emerald-700 truncate">
               {file.name} • {formatBytes(file.size)}
             </div>
           ) : (
-            <div className="mt-2 text-sm text-slate-600">
+            <div className="mt-2 text-sm text-black">
               Drag & drop PDF here or <span className="underline">click to browse</span>
             </div>
           )}
@@ -152,7 +152,7 @@ const S1PdfUpload: React.FC = () => {
         {file ? (
           <button
             onClick={(e) => { e.stopPropagation(); onRemove(); }}
-            className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-700 hover:bg-slate-100"
+            className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm text-black hover:bg-slate-100"
           >
             Remove
           </button>
@@ -177,18 +177,18 @@ const S1PdfUpload: React.FC = () => {
         <div className={`${WRAP} px-4 py-3 flex items-center gap-2`}>
           <button
             onClick={() => navigate("/", { state: { scrollTo: "demos" } })}
-            className="inline-flex items-center gap-2 rounded-xl border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-100 transition"
+            className="inline-flex items-center gap-2 rounded-xl border border-slate-300 px-3 py-1.5 text-sm font-medium text-black hover:bg-slate-100 transition"
           >
             <span aria-hidden>←</span> Back
           </button>
-          <div className="ml-2 text-sm text-slate-500">IPO Docs • Dual PDF Upload</div>
+          <div className="ml-2 text-sm text-black">IPO Docs • Dual PDF Upload</div>
         </div>
       </div>
 
       <main className={`${WRAP} px-4 py-10`}>
         <header className="mb-6">
-          <h1 className="text-2xl md:text-3xl font-semibold text-slate-900">Upload S-1 & Report Card</h1>
-          <p className="mt-2 text-slate-600">We’ll extract with LlamaCloud and render a clean summary.</p>
+          <h1 className="text-2xl md:text-3xl font-semibold text-black">Upload S-1 & Report Card</h1>
+          <p className="mt-2 text-black">We’ll extract with LlamaCloud and render a clean summary.</p>
         </header>
 
         {showUploader && (
@@ -196,8 +196,8 @@ const S1PdfUpload: React.FC = () => {
             {/* How it works (simplified) */}
             <aside className="lg:col-span-1">
               <div className="rounded-2xl border border-slate-200 bg-white shadow-sm p-5">
-                <h2 className="text-sm font-semibold text-slate-800">How it works</h2>
-                <ol className="mt-3 space-y-3 text-sm text-slate-600">
+                <h2 className="text-sm font-semibold text-black">How it works</h2>
+                <ol className="mt-3 space-y-3 text-sm text-black">
                   <li className="flex gap-3">
                     <span className="mt-0.5 h-5 w-5 shrink-0 rounded-full border border-slate-300 text-xs flex items-center justify-center">1</span>
                     Add both PDFs below (S-1 and Report Card).
@@ -211,7 +211,7 @@ const S1PdfUpload: React.FC = () => {
                     You’ll be taken to the summary automatically.
                   </li>
                 </ol>
-                <div className="mt-5 text-xs text-slate-500">
+                <div className="mt-5 text-xs text-black">
                   PDF only • Max {formatBytes(MAX_SIZE_BYTES)} each
                 </div>
               </div>
@@ -244,7 +244,7 @@ const S1PdfUpload: React.FC = () => {
                 <div className="flex items-center justify-between">
                   <div className="text-sm">
                     {!!msg && (
-                      <span className={stage === "error" ? "text-red-600 font-medium" : "text-slate-600"}>
+                      <span className={stage === "error" ? "text-red-600 font-medium" : "text-black"}>
                         {msg}
                       </span>
                     )}
@@ -253,7 +253,7 @@ const S1PdfUpload: React.FC = () => {
                     <button
                       onClick={resetAll}
                       disabled={stage === "uploading"}
-                      className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 disabled:opacity-50"
+                      className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-black hover:bg-slate-100 disabled:opacity-50"
                     >
                       Reset
                     </button>
@@ -279,13 +279,13 @@ const S1PdfUpload: React.FC = () => {
                 {stage === "uploading" && (
                   <div className="mt-2 rounded-xl border border-slate-200 bg-slate-50 p-4">
                     <div className="flex items-center justify-between text-sm">
-                      <div className="font-medium text-slate-700">{statuses[statusIdx]}</div>
-                      <div className="text-slate-500">{progress}%</div>
+                      <div className="font-medium text-black">{statuses[statusIdx]}</div>
+                      <div className="text-black">{progress}%</div>
                     </div>
                     <div className="mt-3 h-2 w-full rounded-full bg-white overflow-hidden">
                       <div className="h-2 bg-blue-600 transition-all" style={{ width: `${progress}%` }} />
                     </div>
-                    <ul className="mt-3 grid grid-cols-2 gap-2 text-xs text-slate-600">
+                    <ul className="mt-3 grid grid-cols-2 gap-2 text-xs text-black">
                       <li className={progress >= 5 ? "text-emerald-700" : ""}>✓ Upload started</li>
                       <li className={progress >= 35 ? "text-emerald-700" : ""}>✓ Text extraction</li>
                       <li className={progress >= 65 ? "text-emerald-700" : ""}>✓ Section parsing</li>
@@ -348,7 +348,7 @@ const S1PdfUpload: React.FC = () => {
             <div className="mt-6 flex gap-3">
               <button
                 onClick={() => setShowUploader((v) => !v)}
-                className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100"
+                className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-black hover:bg-slate-100"
               >
                 {showUploader ? "Hide uploader" : "Show uploader"}
               </button>
