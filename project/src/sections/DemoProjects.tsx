@@ -176,12 +176,12 @@ const DemoProjects: React.FC = () => {
                         </div>
 
                         {/* market radar Demo */}
-                        <div className="group bg-gradient-to-br from-red-50 to-white border border-red-100 rounded-2xl p-8 hover:shadow-xl transition-all">
+                        <div className="group bg-gradient-to-br from-indigo-50 to-white border border-indigo-100 rounded-2xl p-8 hover:shadow-xl transition-all">
                             <div className="flex items-center justify-between mb-6">
-                                <div className="w-12 h-12 bg-red-600 rounded-xl flex items-center justify-center">
+                                <div className="w-12 h-12 bg-indigo-600 rounded-xl flex items-center justify-center">
                                     <Home className="w-6 h-6 text-white" />
                                 </div>
-                                <span className="px-3 py-1 bg-red-100 text-red-700 text-sm font-medium rounded-full">
+                                <span className="px-3 py-1 bg-indigo-100 text-indigo-700 text-sm font-medium rounded-full">
                                     Market Radar
                                 </span>
                             </div>
@@ -200,19 +200,19 @@ const DemoProjects: React.FC = () => {
                                 </div>
                                 <button
                                     onClick={() => navigate("/market_radar")}
-                                    className="bg-red-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-red-700 transition-colors group-hover:scale-105 transform">
+                                    className="bg-indigo-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition-colors group-hover:scale-105 transform">
                                     View Demo
                                 </button>
                             </div>
                         </div>
 
                         {/* portfolio intelligence Demo */}
-                        <div className="group bg-gradient-to-br from-red-50 to-white border border-red-100 rounded-2xl p-8 hover:shadow-xl transition-all">
+                        <div className="group bg-gradient-to-br from-purple-50 to-white border border-purple-100 rounded-2xl p-8 hover:shadow-xl transition-all">
                             <div className="flex items-center justify-between mb-6">
-                                <div className="w-12 h-12 bg-red-600 rounded-xl flex items-center justify-center">
+                                <div className="w-12 h-12 bg-purple-600 rounded-xl flex items-center justify-center">
                                     <Home className="w-6 h-6 text-white" />
                                 </div>
-                                <span className="px-3 py-1 bg-red-100 text-red-700 text-sm font-medium rounded-full">
+                                <span className="px-3 py-1 bg-purple-100 text-purple-700 text-sm font-medium rounded-full">
                                     portfolio intelligence                                </span>
                             </div>
                             <h3 className="text-2xl font-bold text-gray-900 mb-3">
@@ -230,7 +230,7 @@ const DemoProjects: React.FC = () => {
                                 </div>
                                 <button
                                     onClick={() => navigate("/portfolio_intelligence")}
-                                    className="bg-red-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-red-700 transition-colors group-hover:scale-105 transform">
+                                    className="bg-purple-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-purple-700 transition-colors group-hover:scale-105 transform">
                                     View Demo
                                 </button>
                             </div>
