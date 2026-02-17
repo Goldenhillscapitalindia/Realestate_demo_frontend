@@ -210,13 +210,13 @@ const PfDemoAiRentIntelligence: React.FC = () => {
       {
         label: "Renewals",
         data: renewalSplit.map((entry) => entry.renewals ?? 0),
-        backgroundColor: "#14b8a6",
+        backgroundColor: "#e47f3c",
         stack: "stacked",
       },
       {
         label: "New Leases",
         data: renewalSplit.map((entry) => entry.newLeases ?? 0),
-        backgroundColor: "#0ea5e9",
+        backgroundColor: "#7d5eec",
         stack: "stacked",
       },
     ],
@@ -226,37 +226,32 @@ const PfDemoAiRentIntelligence: React.FC = () => {
 
   return (
     <div className="space-y-6 text-slate-900">
-
-        <div className="mt-3 flex justify-end">
-          <div className="w-full max-w-sm">
-            <select
-              className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-3 py-3 text-sm text-slate-900 shadow-inner focus:border-sky-500 focus:outline-none"
-              value={selectedProperty?.property_name ?? ""}
-              onChange={(event) => setSelectedPropertyName(event.target.value)}
-            >
-              {properties.map((property, index) => {
-                const optionLabel = property.property_name ?? property.address ?? `Property ${index + 1}`;
-                return (
-                  <option key={`${optionLabel}-${index}`} value={property.property_name ?? optionLabel}>
-                    {optionLabel}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-        </div>
-        {error && <p className="mt-3 text-sm text-rose-600">{error}</p>}
+      {error && <p className="mt-3 text-sm text-rose-600">{error}</p>}
 
       {/* <div className="rounded-3xl border border-slate-200 bg-white/90 p-6 shadow-sm"> */}
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
-            <h2 className="text-2xl font-semibold text-indigo-900">{selectedProperty?.property_name ?? "No Property"}</h2>
-            {/* <p className="text-sm text-slate-500">
-              {selectedProperty?.address || "Address unavailable"} � {selectedProperty?.location || "Location"}
-            </p> */}
+            <h2 className="text-2xl font-semibold text-[#b1419d]">{selectedProperty?.property_name ?? "No Property"}</h2>
+
           </div>
-          <div className="rounded-2xl border border-slate-200 bg-emerald-100 px-4 py-1 text-xs font-semibold uppercase tracking-wide text-emerald-700">
-            AI Recommended
+          <div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-4">
+            <div className="w-full md:w-auto">
+              <select
+                className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-3 py-3 text-sm text-slate-900 shadow-inner focus:border-sky-500 focus:outline-none"
+                value={selectedProperty?.property_name ?? ""}
+                onChange={(event) => setSelectedPropertyName(event.target.value)}
+              >
+                {properties.map((property, index) => {
+                  const optionLabel = property.property_name ?? property.address ?? `Property ${index + 1}`;
+                  return (
+                    <option key={`${optionLabel}-${index}`} value={property.property_name ?? optionLabel}>
+                      {optionLabel}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+
           </div>
         </div>
         <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
@@ -283,7 +278,7 @@ const PfDemoAiRentIntelligence: React.FC = () => {
               {formatPercent(basicInfo?.avgrenewalrate)}
             </p>
           </div>
-                    <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
             <p className="text-lg font-semibold text-center  text-blue-700">MTM Capture</p>
             <p className="mt-1 text-2xl text-center font-semibold text-slate-900">
               {formatPercent(basicInfo?.mtmcapturepotential)}
@@ -295,13 +290,12 @@ const PfDemoAiRentIntelligence: React.FC = () => {
 
       <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
         <div className="flex items-center justify-between">
-          <h3 className="text-base font-semibold uppercase tracking-[0.3em] text-slate-500">Unit Type Analytics</h3>
-          <p className="text-xs text-slate-400">{unitSummary.length || 0} entries</p>
+          <h3 className="text-xl font-semibold  text-[#b1419d]">Unit Type Analytics</h3>
         </div>
-        <div className="mt-4 overflow-x-auto">
+        <div className="mt-4 overflow-x-auto bg-blue-50 rounded-lg shadow ">
           <table className="w-full table-fixed text-sm">
             <thead>
-              <tr className="text-left text-xs uppercase text-slate-500">
+              <tr className="text-center text-m text-blue-600  ">
                 <th className="pb-2 pr-4">Unit Type</th>
                 <th className="pb-2 pr-4">Units</th>
                 <th className="pb-2 pr-4">In-Place</th>
@@ -320,12 +314,12 @@ const PfDemoAiRentIntelligence: React.FC = () => {
                 </tr>
               )}
               {unitSummary.map((row) => (
-                <tr key={row.unitType} className="border-t border-slate-100 text-slate-600">
-                  <td className="py-3 pr-4 font-semibold text-slate-900">{row.unitType || "�"}</td>
-                  <td className="pr-4">{row.units ?? "�"}</td>
+                <tr key={row.unitType} className="border-t border-slate-100 text-black text-center">
+                  <td className="py-3 pr-4 font-semibold text-black">{row.unitType || "-"}</td>
+                  <td className="pr-4">{row.units ?? "-"}</td>
                   <td className="pr-4">{formatCurrency(row.inPlace)}</td>
                   <td className="pr-4">{formatCurrency(row.market)}</td>
-                  <td className="pr-4 text-slate-900">{formatCurrency(row.recommended)}</td>
+                  <td className="pr-4 text-black">{formatCurrency(row.recommended)}</td>
                   <td className={`pr-4 font-semibold ${row.percentIncrease && Number(row.percentIncrease) < 0 ? "text-rose-500" : "text-emerald-600"}`}>
                     {formatSignedPercent(row.percentIncrease)}
                   </td>
@@ -337,24 +331,25 @@ const PfDemoAiRentIntelligence: React.FC = () => {
         </div>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[2fr_1fr]">
+      <div >
         <div className={chartContainerClass}>
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-semibold uppercase tracking-[0.3em] text-slate-500">
+            <h3 className="text-xl font-semibold   text-[#b1419d]">
               In-Place vs Recommended Rent
             </h3>
-            <p className="text-xs text-slate-400">per unit</p>
           </div>
           <div className="mt-4 h-72">
             <Bar data={inPlaceChartData} options={baseChartOptions} />
           </div>
         </div>
-        <div className={chartContainerClass}>
+
+      </div>
+      <div >
+                <div className={chartContainerClass}>
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-semibold uppercase tracking-[0.3em] text-slate-500">
+            <h3 className="text-xl font-semibold   text-[#b1419d]">
               Renewal vs New Lease Split
             </h3>
-            <p className="text-xs text-slate-400">12 months</p>
           </div>
           <div className="mt-4 h-72">
             <Bar
@@ -372,14 +367,12 @@ const PfDemoAiRentIntelligence: React.FC = () => {
             />
           </div>
         </div>
-      </div>
-
+</div>
       <div className={chartContainerClass}>
         <div className="flex items-center justify-between">
-          <h3 className="text-sm font-semibold uppercase tracking-[0.3em] text-slate-500">
+            <h3 className="text-xl font-semibold   text-[#b1419d]">
             12-Month Revenue Projection
           </h3>
-          <p className="text-xs text-slate-400">Forecast</p>
         </div>
         <div className="mt-4 h-72">
           <Line data={revenueLineData} options={baseChartOptions} />
