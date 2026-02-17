@@ -81,7 +81,7 @@ export const Gauge: React.FC<{ indicator: HealthIndicator }> = ({ indicator }) =
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="text-[13px]  text-blue-500">Explanation</p>
-                <p className="mt-2 text-sm font-semibold text-slate-900">{indicator.label}</p>
+                <p className="mt-2 text-sm font-semibold text-black">{indicator.label}</p>
               </div>
               <button
                 type="button"
@@ -91,7 +91,7 @@ export const Gauge: React.FC<{ indicator: HealthIndicator }> = ({ indicator }) =
                 Close
               </button>
             </div>
-            <ul className="mt-4 space-y-3 text-[13px] text-slate-600">
+            <ul className="mt-4 space-y-3 text-[13px] text-black">
               {indicator.explanation?.map((item) => (
                 <li key={item} className="leading-relaxed">
                   {item}
@@ -118,7 +118,7 @@ export const TrendCardBlock: React.FC<{ trend: TrendCard }> = ({ trend }) => {
           "linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(245,248,255,0.98) 100%)",
       }}
     >
-      <div className="flex items-center justify-between text-xs text-slate-500">
+      <div className="flex items-center justify-between text-xs text-black">
         <span className="text-[15px] text-indigo-800 text-center">{trend.label}</span>
         <span className="text-[13px] " style={{ color: deltaColor }}>{trend.delta}</span>
       </div>
@@ -132,13 +132,13 @@ export const TrendCardBlock: React.FC<{ trend: TrendCard }> = ({ trend }) => {
 const TrendChart: React.FC<{ trend: TrendCard }> = ({ trend }) => {
   if (!trend.chartType || trend.chartType === "sparkline") {
     if (!trend.data || trend.data.length < 2) {
-      return <p className="text-xs text-slate-400">Not available</p>;
+      return <p className="text-xs text-black">Not available</p>;
     }
     return <Sparkline data={trend.data} color={trend.color} />;
   }
 
   if (!trend.data || trend.data.length === 0) {
-    return <p className="text-xs text-slate-400">Not available</p>;
+    return <p className="text-xs text-black">Not available</p>;
   }
 
   const labels = trend.labels ?? trend.data.map((_, idx) => `Value ${idx + 1}`);
@@ -307,7 +307,7 @@ export const MetricCard: React.FC<{ label: string; value: string; isDelta?: bool
 };
 
 export const NarrativeCard: React.FC<{ text: string }> = ({ text }) => (
-  <div className="mt-4 rounded-xl border border-violet-300/50 bg-violet-50/60 px-4 py-3 text-sm text-slate-600">
+  <div className="mt-4 rounded-xl border border-violet-300/50 bg-violet-50/60 px-4 py-3 text-sm text-black">
     <Sparkles size={16} className="mr-2 inline-block text-violet-500" />
    <span className="text-[15px]">{text}</span> 
   </div>
@@ -320,7 +320,7 @@ export const SectionHeading: React.FC<{ label: string; icon: React.ReactNode; ac
 }) => (
   <div className="flex items-center gap-2 text-m font-semibold">
     <span className={accent}>{icon}</span>
-    <span className="text-xl text-slate-900">{label}</span>
+    <span className="text-xl text-black">{label}</span>
   </div>
 );
 
@@ -371,24 +371,24 @@ export const OutcomeCard: React.FC<{
       borderTop: `3px solid ${color}`,
     }}
   >
-    <div className="flex items-center gap-2 text-sm font-semibold text-slate-900">
+    <div className="flex items-center gap-2 text-sm font-semibold text-black">
       <span className="text-lg" style={{ color }}>
         ~
       </span>
       <span className="text-[15px]">{title}</span>
     </div>
-    <div className="mt-2 space-y-1 text-xs text-slate-500">
+    <div className="mt-2 space-y-1 text-xs text-black">
       <div className="flex justify-between">
         <span className="text-[13px] ">Vacancy</span>
-        <span className="text-slate-900">{data.vacancy}</span>
+        <span className="text-black">{data.vacancy}</span>
       </div>
       <div className="flex justify-between">
         <span  className="text-[13px]">Rent Growth</span>
-        <span className="text-slate-900">{data.rentGrowth}</span>
+        <span className="text-black">{data.rentGrowth}</span>
       </div>
       <div className="flex justify-between">
         <span  className="text-[13px]">Absorption Delta</span>
-        <span className="text-slate-900">{data.absorptionDelta}</span>
+        <span className="text-black">{data.absorptionDelta}</span>
       </div>
     </div>
   </div>
@@ -432,7 +432,7 @@ export const DecisionCard: React.FC<{ title: string; color: string; items: strin
         borderLeft: `3px solid ${color}`,
       }}
     >
-      <div className="flex items-center gap-3 text-sm font-semibold text-slate-900">
+      <div className="flex items-center gap-3 text-sm font-semibold text-black">
         <span
           className="flex h-5 w-5 items-center justify-center rounded-full"
           style={{ border: `1px solid ${color}` }}
@@ -446,7 +446,7 @@ export const DecisionCard: React.FC<{ title: string; color: string; items: strin
         style={{ "--marker-color": color } as React.CSSProperties}
       >
         {items.map((item) => (
-          <li key={item} className="text-[14px] text-slate-600">
+          <li key={item} className="text-[14px] text-black">
             {item}
           </li>
         ))}

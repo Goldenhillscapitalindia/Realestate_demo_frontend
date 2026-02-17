@@ -10,15 +10,15 @@ const MarketRadarHeader: React.FC = () => (
     }}
   >
     <div className="flex flex-wrap items-center justify-between gap-4">
-      <div className="flex items-center gap-3 text-slate-900">
+      <div className="flex items-center gap-3 text-black">
         <div
           className="flex h-9 w-9 items-center justify-center rounded-full"
         >
     <Wifi size={23} className="mr-2 inline-block text-violet-500" />
         </div>
         <div>
-          {/* <p className="text-sm uppercase tracking-[0.2em] text-slate-500">Market Signal Radar</p> */}
-          <h2 className="text-xl font-semibold text-slate-900">Market Signal Radar</h2>
+          {/* <p className="text-sm uppercase tracking-[0.2em] text-black">Market Signal Radar</p> */}
+          <h2 className="text-xl font-semibold text-black">Market Signal Radar</h2>
         </div>
       </div>
       <div

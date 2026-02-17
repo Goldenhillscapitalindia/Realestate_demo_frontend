@@ -128,7 +128,7 @@ const MarketRadar: React.FC = () => {
 
   return (
     <section
-      className="min-h-screen px-6 py-10 text-slate-900"
+      className="min-h-screen px-6 py-10 text-black"
       style={{
         background:
           "linear-gradient(180deg, rgba(248,250,255,1) 0%, rgba(240,244,255,1) 100%)",
@@ -138,7 +138,7 @@ const MarketRadar: React.FC = () => {
         <div className="flex flex-wrap items-center gap-3">
           <button
             type="button"
-            className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-400 hover:text-slate-900"
+            className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-black shadow-sm transition hover:border-slate-400 hover:text-black"
             onClick={() => navigate("/", { state: { scrollTo: "demos" } })}
           >
             ← Back
@@ -154,7 +154,7 @@ const MarketRadar: React.FC = () => {
                   className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
                     isActive
                       ? "bg-blue-900 text-white shadow-sm"
-                      : "text-slate-600 hover:text-slate-900 bg-slate-200"
+                      : "text-black hover:text-black bg-slate-200"
                   }`}
                 >
                   {tab}

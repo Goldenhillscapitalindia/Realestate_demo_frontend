@@ -1,8 +1,8 @@
 // src/components/RealEstateResponses.tsx
 import React, { useState } from "react";
-import { Block } from "../Realestate_components/Utils/RComponentsUtils";
-import RRenderer from "../Realestate_components/RRenderer";
 import { useTheme } from "../sections/ThemeContext";
+import { Block } from "../portfolio_intelligence_components/Utils/RComponentsUtils";
+import RRenderer from "../portfolio_intelligence_components/RRenderer";
 
 type FileType = "memorandum" | "t12" | "rent_roll";
 
@@ -22,7 +22,7 @@ const TAB_LABELS: Record<FileType, string> = {
   rent_roll: "Rent Roll",
 };
 
-const RealEstateResponses: React.FC<Props> = ({
+const ShowPropertyResponse: React.FC<Props> = ({
   responses,
   onBack,
   embedded = false,
@@ -53,7 +53,7 @@ const RealEstateResponses: React.FC<Props> = ({
     <div
       className={`${embedded ? "w-full" : "min-h-screen transition-colors"}`}
       style={
-        embedded ? undefined : { backgroundColor: theme === "dark" ? "#09151A" : "#F5F5F5" }
+        embedded ? undefined : { backgroundColor: "#f8fafc" }
       }
     >
       {/* Back button */}
@@ -62,8 +62,9 @@ const RealEstateResponses: React.FC<Props> = ({
           onClick={onBack}
           className="fixed top-4 left-4 px-4 py-2 rounded-lg shadow-md z-50 transition-transform hover:scale-105"
           style={{
-            backgroundColor: theme === "dark" ? "#102330" : "#E5E5E5",
-            color: theme === "dark" ? "#E0F7FA" : "#000",
+            backgroundColor: "#ffffff",
+            color: "#111827",
+            border: "1px solid #e5e7eb",
           }}
         >
         Back
@@ -82,12 +83,9 @@ const RealEstateResponses: React.FC<Props> = ({
                   onClick={() => setActiveTab(tab)}
                   className="px-4 py-2 rounded-lg font-semibold transition-colors"
                   style={{
-                    backgroundColor: isActive
-                      ? "#1B4F72"
-                      : theme === "dark"
-                      ? "#102330"
-                      : "#E5E5E5",
-                    color: isActive ? "#E0F7FA" : theme === "dark" ? "#A0CFE8" : "#333",
+                    backgroundColor: isActive ? "#7495e2ff" : "#ffffff",
+                    color: isActive ? "#061842ff" : "#3d7cd3ff",
+                    border: "1px solid #e5e7eb",
                   }}
                 >
                   {labels[tab]}
@@ -100,15 +98,15 @@ const RealEstateResponses: React.FC<Props> = ({
         {/* Active Tab Content */}
         <div
           className="rounded-lg p-6"
-          style={{ backgroundColor: "#0d1d29" }} // response background
+          style={{ backgroundColor: "#ffffff", border: "1px solid #e5e7eb" }}
         >
-          <h2 className="text-2xl font-bold mb-4" style={{ color: "#E0F7FA" }}>
-            {titleText ?? `${labels[activeTab]} Response`}
+          <h2 className="text-2xl font-bold mb-4" style={{ color: "#000000ff" }}>
+            {titleText ?? `${labels[activeTab]} `}
           </h2>
           {activeBlocks.length > 0 ? (
             <RRenderer blocks={activeBlocks} />
           ) : (
-            <p style={{ color: "#A0CFE8" }}>No response available.</p>
+            <p style={{ color: "#6b7280" }}>No response available.</p>
           )}
         </div>
       </div>
@@ -116,4 +114,4 @@ const RealEstateResponses: React.FC<Props> = ({
   );
 };
 
-export default RealEstateResponses;
+export default ShowPropertyResponse;

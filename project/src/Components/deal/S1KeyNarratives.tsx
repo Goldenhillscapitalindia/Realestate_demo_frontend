@@ -23,16 +23,16 @@ const Section = ({
       backgroundColor: color ? `${color}10` : "#FFFFFF",
     }}
   >
-    <h3 className="mb-3 text-base font-semibold text-slate-900">{title}</h3>
+    <h3 className="mb-3 text-base font-semibold text-black">{title}</h3>
     {children}
   </section>
 );
 
 const ListBullets = ({ text }: { text?: string | null }) => {
   const items = bullets(text);
-  if (!items.length) return <p className="text-sm text-slate-500">{blank}</p>;
+  if (!items.length) return <p className="text-sm text-black">{blank}</p>;
   return (
-    <ul className="list-disc pl-5 space-y-1.5 text-sm text-slate-700">
+    <ul className="list-disc pl-5 space-y-1.5 text-sm text-black">
       {items.map((l, i) => (
         <li key={i}>{l}</li>
       ))}
@@ -117,7 +117,7 @@ const S1KeyNarratives: React.FC<{ data: S1DealData }> = ({ data: d }) => {
         <div className="overflow-x-auto rounded-xl border border-slate-200">
           <table className="min-w-full border-collapse">
             <thead>
-              <tr className="bg-slate-100 text-slate-700">
+              <tr className="bg-slate-100 text-black">
                 <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide">
                   Criteria
                 </th>
@@ -132,8 +132,8 @@ const S1KeyNarratives: React.FC<{ data: S1DealData }> = ({ data: d }) => {
                   key={i}
                   className="border-t border-slate-200 even:bg-slate-50 hover:bg-slate-100/60"
                 >
-                  <td className="px-4 py-3 text-sm text-slate-800">{r.crit}</td>
-                  <td className="px-4 py-3 text-sm text-slate-700">
+                  <td className="px-4 py-3 text-sm text-black">{r.crit}</td>
+                  <td className="px-4 py-3 text-sm text-black">
                     {safe(r.cat)}
                   </td>
                 </tr>
@@ -176,7 +176,7 @@ const S1KeyNarratives: React.FC<{ data: S1DealData }> = ({ data: d }) => {
       {/* Management */}
       <Section title="Key Management Personnel" color="#F0F9FF">
         {!mgmt.length ? (
-          <p className="text-sm text-slate-500">{blank}</p>
+          <p className="text-sm text-black">{blank}</p>
         ) : (
           <ul className="space-y-3">
             {mgmt.map((p, i) => {
@@ -195,11 +195,11 @@ const S1KeyNarratives: React.FC<{ data: S1DealData }> = ({ data: d }) => {
                     {initials || "—"}
                   </div>
                   <div>
-                    <div className="text-sm font-medium text-slate-900">
+                    <div className="text-sm font-medium text-black">
                       {p.name}
                     </div>
                     {p.meta && (
-                      <div className="text-sm text-slate-600">{p.meta}</div>
+                      <div className="text-sm text-black">{p.meta}</div>
                     )}
                   </div>
                 </li>

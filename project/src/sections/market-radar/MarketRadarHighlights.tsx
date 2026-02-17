@@ -79,7 +79,7 @@ const MarketRadarHighlights: React.FC<MarketRadarHighlightsProps> = ({ pulseCoun
       >
         <div className="flex items-center gap-2">
           <Sparkles size={18} className="mr-2 inline-block text-violet-500" />
-          <h3 className="text-m font-semibold text-slate-900">AI Market Pulse - ATLANTA</h3>
+          <h3 className="text-m font-semibold text-black">AI Market Pulse - ATLANTA</h3>
         </div>
         <p className="mt-3 text-sm leading-relaxed text-black">{aiPulseText}</p>
       </div>
@@ -90,12 +90,12 @@ const MarketRadarHighlights: React.FC<MarketRadarHighlightsProps> = ({ pulseCoun
             key={card.title}
             className="rounded-2xl border border-violet-400  p-4 shadow-[0_10px_24px_rgba(15,23,42,0.06)]"
           >
-            <div className="flex items-center gap-2 text-m font-semibold text-slate-900">
+            <div className="flex items-center gap-2 text-m font-semibold text-black">
               {card.icon}
               {card.title}
             </div>
-            <p className="mt-3 text-sm font-semibold text-slate-900">{card.value}</p>
-            <p className="mt-2 text-xs leading-relaxed text-slate-600">{card.description}</p>
+            <p className="mt-3 text-sm font-semibold text-black">{card.value}</p>
+            <p className="mt-2 text-xs leading-relaxed text-black">{card.description}</p>
           </div>
         ))}
       </div>
@@ -109,8 +109,8 @@ const MarketRadarHighlights: React.FC<MarketRadarHighlightsProps> = ({ pulseCoun
           }}
         >
           <p className="text-m text-black font-semibold">Market Cycle</p>
-          <p className="mt-3 text-sm font-semibold text-slate-900">Late Expansion - Stabilization</p>
-          <p className="mt-2 text-xs leading-relaxed text-slate-600">{marketCycleDesc}</p>
+          <p className="mt-3 text-sm font-semibold text-black">Late Expansion - Stabilization</p>
+          <p className="mt-2 text-xs leading-relaxed text-black">{marketCycleDesc}</p>
         </div>
 
         <div
@@ -121,7 +121,7 @@ const MarketRadarHighlights: React.FC<MarketRadarHighlightsProps> = ({ pulseCoun
           }}
         >
           <p className="text-s text-black font-semibold">Market Pulse</p>
-          <div className="mt-4 grid grid-cols-2 gap-3 text-sm text-slate-700">
+          <div className="mt-4 grid grid-cols-2 gap-3 text-sm text-black">
             {Object.keys(PULSE_COLORS).map((key) => (
               <div key={key} className="flex items-center gap-2">
                 <span
@@ -132,7 +132,7 @@ const MarketRadarHighlights: React.FC<MarketRadarHighlightsProps> = ({ pulseCoun
                   }}
                 />
                 <span className="flex-1">{PULSE_COLORS[key].label}</span>
-                <span className="text-slate-500">{pulseCounts[key] || 0}</span>
+                <span className="text-black">{pulseCounts[key] || 0}</span>
               </div>
             ))}
           </div>

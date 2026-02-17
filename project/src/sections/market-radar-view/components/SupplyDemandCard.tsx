@@ -24,7 +24,7 @@ const SupplyDemandCard: React.FC<SupplyDemandCardProps> = ({ ratio, insight }) =
         "linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(245,248,255,0.98) 100%)",
     }}
   >
-    <h3 className="text-xl font-bold text-slate-900">Supply-Demand Balance</h3>
+    <h3 className="text-xl font-bold text-black">Supply-Demand Balance</h3>
     <div className="mt-4 flex items-center justify-center">
       <div
         className="rounded-full px-5 py-2 text-sm font-semibold"
@@ -38,7 +38,7 @@ const SupplyDemandCard: React.FC<SupplyDemandCardProps> = ({ ratio, insight }) =
         <span className="text-lg">{formatRatio(ratio)}</span>
       </div>
     </div>
-    <div className="mt-4 rounded-xl border border-violet-300/50 bg-violet-50/60 px-4 py-3 text-sm text-slate-600">
+    <div className="mt-4 rounded-xl border border-violet-300/50 bg-violet-50/60 px-4 py-3 text-sm text-black">
     <Sparkles size={16} className="mr-2 inline-block text-violet-500" />
        <span className="text-[15px]"> {insight}</span> 
     </div>

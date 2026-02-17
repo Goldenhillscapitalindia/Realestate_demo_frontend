@@ -205,6 +205,36 @@ const DemoProjects: React.FC = () => {
                                 </button>
                             </div>
                         </div>
+
+                        {/* portfolio intelligence Demo */}
+                        <div className="group bg-gradient-to-br from-red-50 to-white border border-red-100 rounded-2xl p-8 hover:shadow-xl transition-all">
+                            <div className="flex items-center justify-between mb-6">
+                                <div className="w-12 h-12 bg-red-600 rounded-xl flex items-center justify-center">
+                                    <Home className="w-6 h-6 text-white" />
+                                </div>
+                                <span className="px-3 py-1 bg-red-100 text-red-700 text-sm font-medium rounded-full">
+                                    portfolio intelligence                                </span>
+                            </div>
+                            <h3 className="text-2xl font-bold text-gray-900 mb-3">
+                                 portfolio intelligence</h3>
+                            <p className="text-gray-600 mb-6">
+                               portfolio intelligence        </p>
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center space-x-4 text-sm text-gray-500">
+                                    <span className="flex items-center">
+                                        <CheckCircle className="w-4 h-4 mr-1" /> AI Powered
+                                    </span>
+                                    <span className="flex items-center">
+                                        <Shield className="w-4 h-4 mr-1" /> Secure
+                                    </span>
+                                </div>
+                                <button
+                                    onClick={() => navigate("/portfolio_intelligence")}
+                                    className="bg-red-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-red-700 transition-colors group-hover:scale-105 transform">
+                                    View Demo
+                                </button>
+                            </div>
+                        </div>
                         <div className="md:col-span-2">
                             <VideoShowcase />
                         </div>

@@ -35,8 +35,8 @@ const createKiteIcon = (color: string) =>
 const MarketRadarMap: React.FC<MarketRadarMapProps> = ({ data, mapCenter, mapBounds }) => (
   <div className="space-y-3">
     <div className="flex items-center justify-between">
-      <p className="text-xl font-semibold text-slate-900">Market Radar Map</p>
-      {/* <div className="flex gap-2 rounded-full border border-slate-200 bg-white/70 px-3 py-1 text-xs text-slate-600">
+      <p className="text-xl font-semibold text-black">Market Radar Map</p>
+      {/* <div className="flex gap-2 rounded-full border border-slate-200 bg-white/70 px-3 py-1 text-xs text-black">
         {Object.keys(PULSE_COLORS).map((key) => (
           <div key={key} className="flex items-center gap-1.5">
             <span className="h-2 w-2 rounded-full" style={{ backgroundColor: PULSE_COLORS[key].dot }} />
