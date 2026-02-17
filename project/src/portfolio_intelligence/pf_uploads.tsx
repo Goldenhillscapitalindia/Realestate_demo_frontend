@@ -32,6 +32,10 @@ const PfUploads: React.FC = () => {
     address: "",
     location: "",
     portfolio_analytics_response: "",
+    performance_drivers_response: "",
+    revenue_leases_response: "",
+    expense_intel_response: "",
+    risk_stability_response: "",
   });
   const [portfolioStatus, setPortfolioStatus] = useState<
     "idle" | "saving" | "success" | "error"
@@ -43,7 +47,7 @@ const PfUploads: React.FC = () => {
       (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setPropertyForm((prev) => ({ ...prev, [field]: e.target.value }));
       };
-   const handleaiRentIntelligenceChange =
+  const handleaiRentIntelligenceChange =
     (field: keyof typeof propertyForm) =>
       (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setPropertyForm((prev) => ({ ...prev, [field]: e.target.value }));
@@ -53,6 +57,16 @@ const PfUploads: React.FC = () => {
       (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setPortfolioAnalyticsForm((prev) => ({ ...prev, [field]: e.target.value }));
       };
+
+  const parseResponseField = (raw: string, label: string) => {
+    const trimmed = raw.trim();
+    if (!trimmed) return null;
+    try {
+      return JSON.parse(trimmed);
+    } catch {
+      throw new Error(`${label} must be valid JSON.`);
+    }
+  };
 
   const handlePropertySave = async () => {
     setPropertyStatus("saving");
@@ -95,16 +109,37 @@ const PfUploads: React.FC = () => {
     setPortfolioStatus("saving");
     setPortfolioError(null);
 
-    let parsedResponse: unknown = null;
-    const rawResponse = portfolioAnalyticsForm.portfolio_analytics_response.trim();
-    if (rawResponse) {
-      try {
-        parsedResponse = JSON.parse(rawResponse);
-      } catch {
-        setPortfolioStatus("error");
-        setPortfolioError("Portfolio Analytics Response must be valid JSON.");
-        return;
-      }
+    let parsedPortfolioResponse: unknown = null;
+    let parsedPerformanceDriversResponse: unknown = null;
+    let parsedRevenueLeasesResponse: unknown = null;
+    let parsedExpenseIntelResponse: unknown = null;
+    let parsedRiskStabilityResponse: unknown = null;
+
+    try {
+      parsedPortfolioResponse = parseResponseField(
+        portfolioAnalyticsForm.portfolio_analytics_response,
+        "Portfolio Analytics Response"
+      );
+      parsedPerformanceDriversResponse = parseResponseField(
+        portfolioAnalyticsForm.performance_drivers_response,
+        "Performance Drivers Response"
+      );
+      parsedRevenueLeasesResponse = parseResponseField(
+        portfolioAnalyticsForm.revenue_leases_response,
+        "Revenue & Leases Response"
+      );
+      parsedExpenseIntelResponse = parseResponseField(
+        portfolioAnalyticsForm.expense_intel_response,
+        "Expense Intel Response"
+      );
+      parsedRiskStabilityResponse = parseResponseField(
+        portfolioAnalyticsForm.risk_stability_response,
+        "Risk & Stability Response"
+      );
+    } catch (error) {
+      setPortfolioStatus("error");
+      setPortfolioError(error instanceof Error ? error.message : "Failed to parse JSON responses.");
+      return;
     }
 
     try {
@@ -114,7 +149,11 @@ const PfUploads: React.FC = () => {
         region: portfolioAnalyticsForm.region,
         address: portfolioAnalyticsForm.address,
         location: portfolioAnalyticsForm.location,
-        portfolio_analytics_response: parsedResponse,
+        portfolio_analytics_response: parsedPortfolioResponse,
+        performance_drivers_response: parsedPerformanceDriversResponse,
+        revenue_leases_response: parsedRevenueLeasesResponse,
+        expense_intel_response: parsedExpenseIntelResponse,
+        risk_stability_response: parsedRiskStabilityResponse,
       });
       setPortfolioStatus("success");
     } catch (error) {
@@ -123,7 +162,7 @@ const PfUploads: React.FC = () => {
       setPortfolioError("Failed to save portfolio analytics.");
     }
   };
-    const handleaiRentIntelligenceSave = async () => {
+  const handleaiRentIntelligenceSave = async () => {
     setPropertyStatus("saving");
     setPropertyError(null);
     let parsedResponse: unknown = null;
@@ -200,7 +239,7 @@ const PfUploads: React.FC = () => {
           {activeTab === "Portfolio Analytics" ? (
             <div className="space-y-6">
               <div>
-                <h2 className="text-xl font-semibold text-black">Property Upload</h2>
+                <h2 className="text-xl font-semibold text-black">Portfolio Analytics</h2>
                 <p className="mt-2 text-sm text-black">
                   Provide property metadata to enrich portfolio intelligence and downstream analysis.
                 </p>
@@ -274,6 +313,46 @@ const PfUploads: React.FC = () => {
                     placeholder="Notes or responses about the property"
                     value={portfolioAnalyticsForm.portfolio_analytics_response}
                     onChange={handlePortfolioAnalyticsChange("portfolio_analytics_response")}
+                  />
+                </div>
+                                <div className="space-y-2 md:col-span-2">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-black">
+                    Performance Drivers Response                  </label>
+                  <textarea
+                    className="min-h-[120px] w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-black shadow-sm focus:border-slate-400 focus:outline-none"
+                    placeholder="Notes or responses about the property"
+                    value={portfolioAnalyticsForm.performance_drivers_response}
+                    onChange={handlePortfolioAnalyticsChange("performance_drivers_response")}
+                  />
+                </div>
+                                <div className="space-y-2 md:col-span-2">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-black">
+                    Revenue & leases Response                  </label>
+                  <textarea
+                    className="min-h-[120px] w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-black shadow-sm focus:border-slate-400 focus:outline-none"
+                    placeholder="Notes or responses about the property"
+                    value={portfolioAnalyticsForm.revenue_leases_response}
+                    onChange={handlePortfolioAnalyticsChange("revenue_leases_response")}
+                  />
+                </div>
+                                <div className="space-y-2 md:col-span-2">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-black">
+                    Expense Intel Response                  </label>
+                  <textarea
+                    className="min-h-[120px] w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-black shadow-sm focus:border-slate-400 focus:outline-none"
+                    placeholder="Notes or responses about the property"
+                    value={portfolioAnalyticsForm.expense_intel_response}
+                    onChange={handlePortfolioAnalyticsChange("expense_intel_response")}
+                  />
+                </div>
+                                <div className="space-y-2 md:col-span-2">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-black">
+                    Risk & Stability Response                  </label>
+                  <textarea
+                    className="min-h-[120px] w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-black shadow-sm focus:border-slate-400 focus:outline-none"
+                    placeholder="Notes or responses about the property"
+                    value={portfolioAnalyticsForm.risk_stability_response}
+                    onChange={handlePortfolioAnalyticsChange("risk_stability_response")}
                   />
                 </div>
                 {portfolioStatus === "error" ? (
