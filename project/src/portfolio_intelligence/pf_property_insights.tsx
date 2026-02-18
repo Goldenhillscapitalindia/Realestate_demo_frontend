@@ -456,6 +456,7 @@ const InsightCard: React.FC<InsightCardProps> = ({
   >
     <div className="flex items-center justify-between">
       <p className="text-sm font-semibold text-slate-900">{title}</p>
+      
       {badge ? (
         <span className={`rounded-full px-3 py-1 text-[11px] font-semibold ${badgeClass ?? "bg-slate-100 text-slate-500"}`}>
           {badge}
@@ -911,27 +912,28 @@ const PfPropertyInsights: React.FC = () => {
             <div className="rounded-3xl border border-slate-100 bg-slate-50/50 p-6 shadow-sm">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <p className="text-xs uppercase tracking-wide text-slate-500">Selected insight</p>
-                  <h3 className="text-2xl font-semibold text-slate-900">{detailPanel.title}</h3>
-                </div>
-                <span className="rounded-full bg-white px-3 py-1 text-[11px] font-semibold text-slate-500 shadow-sm">
+                  {/* <p className="text-xs uppercase tracking-wide text-slate-500">Selected insight</p> */}
+                  <h3 className="text-2xl font-semibold text-indigo-900">{detailPanel.title}</h3>
+                  <p className="rounded-full bg-blue-50 px-1 py-1 text-[11px] font-semibold text-black shadow-sm">
                   {detailPanel.confidence}
-                </span>
+                </p>
+                </div>
+
               </div>
-              <p className="mt-2 text-sm text-slate-500">{detailPanel.description}</p>
+              <p className="mt-2 text-sm text-slate-900">{detailPanel.description}</p>
               <div className="mt-4 flex flex-wrap gap-2">
                 {detailPanel.keyStats.map((stat) => (
                   <div
                     key={stat.label}
                     className="rounded-2xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-600"
                   >
-                    <span className="block text-[10px] font-normal text-slate-400">{stat.label}</span>
+                    <span className="block text-[12px] font-normal text-indigo-700">{stat.label}</span>
                     <span className="text-sm text-slate-900">{stat.value}</span>
                   </div>
                 ))}
               </div>
               <div className="mt-4 space-y-2">
-                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Why this matters</p>
+                <p className="text-m font-semibold uppercase tracking-wide text-black">Why this matters</p>
                 <ul className="space-y-2 text-sm text-slate-600">
                   {detailPanel.whyThisMatters.map((item) => (
                     <li key={item} className="flex items-start gap-2">
@@ -943,20 +945,20 @@ const PfPropertyInsights: React.FC = () => {
               </div>
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 <div className="rounded-2xl border border-emerald-100 bg-emerald-50 p-3">
-                  <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">Monthly Impact</p>
+                  <p className="text-[13px] font-semibold  text-black">Monthly Impact</p>
                   <p className="text-2xl font-semibold text-emerald-700">
                     {formatCurrency(detailPanel.monthlyImpact)}
                   </p>
                 </div>
                 <div className="rounded-2xl border border-slate-100 bg-slate-50 p-3">
-                  <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">Annual NOI Impact</p>
+                  <p className="text-[13px] font-semibold  text-black">Annual NOI Impact</p>
                   <p className="text-2xl font-semibold text-slate-900">
                     {formatCurrency(detailPanel.annualImpact)}
                   </p>
                 </div>
               </div>
               <div className="mt-4 space-y-2">
-                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Next best actions</p>
+                <p className="text-m font-semibold uppercase tracking-wide text-black">Next best actions</p>
                 <ol className="space-y-2 text-sm text-slate-600">
                   {detailPanel.nextActions.map((action, index) => (
                     <li
