@@ -57,10 +57,19 @@ const SnapshotTab: React.FC<{ data?: PortfolioSnapshot }> = ({ data }) => {
 
   return (
     <div className="space-y-5 text-slate-900">
+      <div className="grid gap-4 sm:grid-cols-2">
+        {trendingMetrics.map((metric) => (
+          <div key={metric.label} className="rounded-2xl border border-blue-200 bg-blue-50 p-5 shadow-sm">
+            <p className="text-m font-semibold text-center text-purple-700">{metric.label}</p>
+            <p className="mt-3 text-3xl font-bold text-center text-slate-900">{metric.value}</p>
+            {metric.detail && <p className="text-sm text-center text-slate-500">{metric.detail}</p>}
+          </div>
+        ))}
+      </div>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {topCards.map((card) => (
-          <div key={card.label} className="rounded-2xl border border-blue-200 bg-blue-50 p-5">
-            <p className="text-xs uppercase tracking-wide text-slate-500">{card.label}</p>
+          <div key={card.label} className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+            <p className="text-m font-semibold text-indigo-700">{card.label}</p>
             <p className="mt-2 text-2xl font-semibold text-slate-900">{card.value}</p>
             <p className="text-sm text-slate-500">{card.note}</p>
           </div>
@@ -69,20 +78,12 @@ const SnapshotTab: React.FC<{ data?: PortfolioSnapshot }> = ({ data }) => {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {extraCards.map((card) => (
           <div key={card.label} className="rounded-2xl border border-slate-200 bg-white p-5">
-            <p className="text-xs uppercase tracking-wide text-slate-500">{card.label}</p>
+            <p className="text-m font-semibold text-indigo-700">{card.label}</p>
             <p className="mt-3 text-xl font-semibold text-slate-900">{card.value}</p>
           </div>
         ))}
       </div>
-      <div className="grid gap-4 sm:grid-cols-2">
-        {trendingMetrics.map((metric) => (
-          <div key={metric.label} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <p className="text-sm font-semibold text-slate-700">{metric.label}</p>
-            <p className="mt-3 text-3xl font-bold text-slate-900">{metric.value}</p>
-            {metric.detail && <p className="text-sm text-slate-500">{metric.detail}</p>}
-          </div>
-        ))}
-      </div>
+
     </div>
   );
 };
