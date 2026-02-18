@@ -134,88 +134,220 @@ const formatYoY = (value?: number | null): string | undefined => {
   return `${sign}${percent.toFixed(1)}%`;
 };
 
+
 const LineChart: React.FC<{
   title: string;
   series: Array<{ id: string; color: string; values: number[] }>;
   xLabels: string[];
   height?: number;
   width?: number;
-}> = ({ title, series, xLabels, height = 210, width = 360 }) => {
-  const padding = 14;
+}> = ({ title, series, xLabels, height = 240, width = 500 }) => {
+  const padding = 40;
   const chartHeight = height - padding * 2;
   const chartWidth = width - padding * 2;
-  const flatValues = series.flatMap((serie) => serie.values);
-  const validValues = flatValues.filter((value) => isValidNumber(value));
 
-  if (!validValues.length) {
-    return null;
-  }
+  const [hoverIndex, setHoverIndex] = useState<number | null>(null);
+
+  const flatValues = series.flatMap((s) => s.values);
+  const validValues = flatValues.filter((v) => typeof v === "number");
+
+  if (!validValues.length) return null;
 
   const maxValue = Math.max(...validValues);
   const minValue = Math.min(...validValues);
   const range = maxValue === minValue ? 1 : maxValue - minValue;
 
-  const horizontalLines = [0, 0.33, 0.66, 1];
+  const getPoint = (value: number, index: number, total: number) => {
+    const stepX = chartWidth / (total - 1);
+    const normalized = (value - minValue) / range;
 
-  const buildPoints = (values: number[]) => {
-    const pointCount = Math.max(values.length - 1, 1);
-    const stepX = chartWidth / pointCount;
+    return {
+      x: padding + index * stepX,
+      y: padding + chartHeight - normalized * chartHeight,
+    };
+  };
+  const formatYAxisValue = (value: number) => {
+    const abs = Math.abs(value);
 
-    return values
-      .map((value, idx) => {
-        const normalized = (value - minValue) / range;
-        const x = padding + idx * stepX;
-        const y = height - padding - normalized * chartHeight;
-        return `${x},${y}`;
-      })
-      .join(" ");
+    if (abs >= 1_000_000_000)
+      return `${value < 0 ? "-" : ""}${(abs / 1_000_000_000).toFixed(1)}B`;
+
+    if (abs >= 1_000_000)
+      return `${value < 0 ? "-" : ""}${(abs / 1_000_000).toFixed(1)}M`;
+
+    if (abs >= 1_000)
+      return `${value < 0 ? "-" : ""}${(abs / 1_000).toFixed(1)}K`;
+
+    return value.toString();
   };
 
+  const buildSmoothPath = (values: number[]) => {
+    const total = values.length;
+    if (total < 2) return "";
+
+    const points = values.map((v, i) => getPoint(v, i, total));
+
+    let d = `M ${points[0].x} ${points[0].y}`;
+
+    for (let i = 1; i < points.length - 1; i++) {
+      const midX = (points[i].x + points[i + 1].x) / 2;
+      const midY = (points[i].y + points[i + 1].y) / 2;
+      d += ` Q ${points[i].x} ${points[i].y} ${midX} ${midY}`;
+    }
+
+    d += ` T ${points[points.length - 1].x} ${points[points.length - 1].y
+      }`;
+
+    return d;
+  };
+
+  const yTicks = 5;
+  const yStep = range / (yTicks - 1);
+
   return (
-    <div className="rounded-3xl border border-slate-100 bg-white p-4 shadow-sm">
-      <div className="mb-3 flex items-center justify-between">
-        <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500">{title}</h3>
+    <div className="relative rounded-2xl border border-slate-100 bg-white p-5 shadow-sm">
+      <div className="mb-4 flex items-center justify-between">
+        <h3 className="text-sm font-semibold text-slate-600">{title}</h3>
         <span className="text-xs text-slate-400">Last 12 months</span>
       </div>
-      <div className="relative">
-        <svg viewBox={`0 0 ${width} ${height}`} className="w-full">
-          {horizontalLines.map((fraction) => (
-            <line
-              key={`line-${fraction}`}
-              x1={padding}
-              x2={width - padding}
-              y1={padding + chartHeight - chartHeight * fraction}
-              y2={padding + chartHeight - chartHeight * fraction}
-              strokeWidth={1}
-              stroke="#e2e8f0"
-              className="opacity-50"
-            />
-          ))}
-          {series.map((serie) => (
-            <polyline
-              key={serie.id}
-              points={buildPoints(serie.values)}
-              fill="none"
-              stroke={serie.color}
-              strokeWidth={3}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          ))}
-        </svg>
-      </div>
-      <div className="mt-3 flex items-center justify-between text-[10px] font-semibold uppercase tracking-wide text-slate-400">
-        {xLabels.map((label, index) => {
-          const modulus = Math.floor(xLabels.length / 6) || 1;
-          const shouldShow = index % modulus === 0 || index === xLabels.length - 1;
+
+      <svg
+        viewBox={`0 0 ${width} ${height}`}
+        className="w-full"
+        onMouseLeave={() => setHoverIndex(null)}
+      >
+        {/* Y Axis + Grid */}
+        {[...Array(yTicks)].map((_, i) => {
+          const value = minValue + yStep * i;
+          const y =
+            padding +
+            chartHeight -
+            ((value - minValue) / range) * chartHeight;
 
           return (
-            <span key={`${label}-${index}`} className="truncate">
-              {shouldShow ? label : ""}
-            </span>
+            <g key={i}>
+              <line
+                x1={padding}
+                x2={width - padding}
+                y1={y}
+                y2={y}
+                stroke="#e5e7eb"
+                strokeWidth={1}
+              />
+              <text
+                x={padding - 10}
+                y={y + 4}
+                textAnchor="end"
+                fontSize="11"
+                fill="#000000"
+              >
+                {formatYAxisValue(value)}
+              </text>
+
+            </g>
           );
         })}
+
+        {/* Lines */}
+        {series.map((serie) => (
+          <path
+            key={serie.id}
+            d={buildSmoothPath(serie.values)}
+            fill="none"
+            stroke={serie.color}
+            strokeWidth={2.5}
+            strokeLinecap="round"
+          />
+        ))}
+
+        {/* Hover Elements */}
+        {hoverIndex !== null && (
+          <>
+            {/* Vertical Line */}
+            <line
+              x1={
+                getPoint(
+                  series[0].values[hoverIndex],
+                  hoverIndex,
+                  series[0].values.length
+                ).x
+              }
+              x2={
+                getPoint(
+                  series[0].values[hoverIndex],
+                  hoverIndex,
+                  series[0].values.length
+                ).x
+              }
+              y1={padding}
+              y2={height - padding}
+              stroke="#000000"
+              strokeDasharray="4 4"
+            />
+
+            {/* Points */}
+            {series.map((serie) => {
+              const point = getPoint(
+                serie.values[hoverIndex],
+                hoverIndex,
+                serie.values.length
+              );
+
+              return (
+                <circle
+                  key={serie.id}
+                  cx={point.x}
+                  cy={point.y}
+                  r={5}
+                  fill={serie.color}
+                  stroke="white"
+                  strokeWidth={2}
+                />
+              );
+            })}
+          </>
+        )}
+
+        {/* Hover Detection Zones */}
+        {xLabels.map((_, i) => {
+          const total = xLabels.length;
+          const stepX = chartWidth / (total - 1);
+          const x = padding + i * stepX;
+
+          return (
+            <rect
+              key={i}
+              x={x - stepX / 2}
+              y={padding}
+              width={stepX}
+              height={chartHeight}
+              fill="transparent"
+              onMouseEnter={() => setHoverIndex(i)}
+            />
+          );
+        })}
+      </svg>
+
+      {/* X Labels */}
+      <div className="mt-4 flex justify-between text-[11px] text-black">
+        {xLabels.map((label, i) => (
+          <span key={i}>{label}</span>
+        ))}
       </div>
+
+      {/* Tooltip */}
+      {hoverIndex !== null && (
+        <div className="absolute right-6 top-6 rounded-lg border bg-white px-3 py-2 text-xs shadow-lg">
+          <div className="font-semibold text-black">
+            {xLabels[hoverIndex]}
+          </div>
+          {series.map((serie) => (
+            <div key={serie.id} style={{ color: serie.color }}>
+              {serie.id}: {serie.values[hoverIndex]}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
