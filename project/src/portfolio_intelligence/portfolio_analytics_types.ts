@@ -172,6 +172,10 @@ export type PortfolioAnalyticsResponse = {
 };
 
 export type PortfolioAnalyticsRecord = {
+  risk_stability_response: any;
+  expense_intel_response: any;
+  revenue_leases_response: any;
+  performance_drivers_response: any;
   property_name: string;
   submarket: string;
   region: string;

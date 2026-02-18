@@ -8,12 +8,13 @@ import {
   LineElement,
   Tooltip,
   Legend,
+  ChartOptions,
 } from "chart.js";
 import { PerformanceDriversPayload } from "../portfolio_analytics_types";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend);
 
-const baseOptions = {
+const baseOptions: ChartOptions<"line"> = {
   responsive: true,
   maintainAspectRatio: false,
   scales: {
@@ -28,7 +29,7 @@ const baseOptions = {
   },
   plugins: {
     legend: {
-      labels: { color: "#0f172a", font: { weight: "500" } },
+      labels: { color: "#0f172a", font: { weight: "bold" as const } },
     },
     tooltip: {
       callbacks: {
