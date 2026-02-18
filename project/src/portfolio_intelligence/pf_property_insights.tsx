@@ -279,7 +279,7 @@ const LineChart: React.FC<{
   return (
     <div className="relative rounded-2xl border border-slate-100 bg-white p-5 shadow-sm">
       <div className="mb-4 flex items-center justify-between">
-        <h3 className="text-sm font-semibold text-slate-600">{title}</h3>
+        <h3 className="text-m font-semibold text-black">{title}</h3>
         <span className="text-xs text-slate-400">Last 12 months</span>
       </div>
 
@@ -705,7 +705,7 @@ const PfPropertyInsights: React.FC = () => {
           <div className="grid gap-4">
             <div className="rounded-3xl border border-slate-100 bg-white p-4 shadow-sm">
               <div className="flex items-center justify-between">
-                <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500">Lease Expiration Ladder</h3>
+                <h3 className="text-sm font-semibold uppercase tracking-wide text-black">Lease Expiration Ladder</h3>
               </div>
               {leaseChartData ? (
                 <div className="mt-4 h-72">
@@ -717,7 +717,7 @@ const PfPropertyInsights: React.FC = () => {
             </div>
             <div className="rounded-3xl border border-slate-100 bg-white p-4 shadow-sm">
               <div className="flex items-center justify-between">
-                <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500">
+                <h3 className="text-sm font-semibold uppercase tracking-wide text-black">
                   In-Place vs Market Rent
                 </h3>
               </div>
