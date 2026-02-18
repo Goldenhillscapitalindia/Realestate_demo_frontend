@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
@@ -141,10 +141,44 @@ const LineChart: React.FC<{
   xLabels: string[];
   height?: number;
   width?: number;
-}> = ({ title, series, xLabels, height = 240, width = 500 }) => {
-  const padding = 40;
+  strokeWidth?: number;
+}> = ({
+  title,
+  series,
+  xLabels,
+  height = 220,
+  width = 520,
+  strokeWidth = 1.6,
+}) => {
+  const padding = 36;
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState<number | null>(null);
+
+  useEffect(() => {
+    const updateWidth = () => {
+      if (wrapperRef.current) {
+        setContainerWidth(wrapperRef.current.offsetWidth);
+      }
+    };
+
+    updateWidth();
+    const observer = new ResizeObserver(() => {
+      updateWidth();
+    });
+
+    if (wrapperRef.current) {
+      observer.observe(wrapperRef.current);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  const svgWidth =
+    containerWidth && containerWidth > width ? containerWidth : width;
   const chartHeight = height - padding * 2;
-  const chartWidth = width - padding * 2;
+  const chartWidth = svgWidth - padding * 2;
 
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
 
