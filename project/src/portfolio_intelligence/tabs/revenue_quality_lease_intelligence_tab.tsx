@@ -72,8 +72,8 @@ const RevenueQualityLeaseIntelligenceTab: React.FC<{ data?: RevenueQualityLeaseI
     <div className="space-y-6 text-slate-900">
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
         {cards.map((card) => (
-          <div key={card.label} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-            <p className="text-xs uppercase tracking-wide text-slate-500">{card.label}</p>
+          <div key={card.label} className="rounded-2xl border border-blue-200 bg-blue-50 p-4">
+            <p className="text-s text-indigo-700">{card.label}</p>
             <p className="mt-2 text-2xl font-semibold text-slate-900">{card.value}</p>
           </div>
         ))}

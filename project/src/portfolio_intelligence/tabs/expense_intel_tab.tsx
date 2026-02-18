@@ -68,16 +68,16 @@ const ExpenseIntelTab: React.FC<{ data?: ExpenseDashboard }> = ({ data }) => {
   return (
     <div className="space-y-6 text-slate-900">
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-          <p className="text-xs uppercase tracking-wide text-slate-500">Total Current</p>
+        <div className="rounded-2xl border border-blue-200 bg-blue-50 p-4">
+          <p className="text-m text-indigo-700">Total Current</p>
           <p className="mt-2 text-2xl font-semibold text-slate-900">{fmtCurrency(data.summary?.totalCurrent)}</p>
         </div>
-        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-          <p className="text-xs uppercase tracking-wide text-slate-500">Total Prior Year</p>
+        <div className="rounded-2xl border border-blue-200 bg-blue-50 p-4">
+          <p className="text-m  text-indigo-700">Total Prior Year</p>
           <p className="mt-2 text-2xl font-semibold text-slate-900">{fmtCurrency(data.summary?.totalPriorYear)}</p>
         </div>
-        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-          <p className="text-xs uppercase tracking-wide text-slate-500">Overall YoY</p>
+        <div className="rounded-2xl border border-blue-200 bg-blue-50 p-4">
+          <p className="text-m text-indigo-700">Overall YoY</p>
           <p className="mt-2 text-2xl font-semibold text-slate-900">{fmtPercent(data.summary?.overallYoYGrowth)}</p>
         </div>
       </div>

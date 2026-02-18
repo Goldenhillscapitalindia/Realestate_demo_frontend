@@ -95,21 +95,21 @@ const PerformanceDriversTab: React.FC<{ data?: PerformanceDriversPayload }> = ({
   return (
     <div className="space-y-6 text-slate-900">
       <div className="grid gap-4 sm:grid-cols-2">
-        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
-          <p className="text-xs uppercase tracking-wide text-slate-500">NOI Trend</p>
-          <p className="mt-2 text-2xl font-semibold text-slate-900">
+        <div className="rounded-2xl border border-blue-200 bg-blue-50 p-5">
+          <p className="text-m uppercase tracking-wide text-center text-indigo-700">NOI Trend</p>
+          <p className="mt-2 text-2xl font-semibold text-center text-slate-900">
             {noiTrend.length ? `$${noiTrend[noiTrend.length - 1].noi?.toLocaleString() ?? "0"}` : "-"}
           </p>
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-center text-slate-500">
             {data.noi_trend_2025?.frequency ?? "Monthly"} · {data.noi_trend_2025?.currency ?? "USD"}
           </p>
         </div>
-        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
-          <p className="text-xs uppercase tracking-wide text-slate-500">Revenue Margin</p>
-          <p className="mt-2 text-2xl font-semibold text-slate-900">
+        <div className="rounded-2xl border border-blue-200 bg-blue-50 p-5">
+          <p className="text-m uppercase tracking-wide text-center text-indigo-700">Revenue Margin</p>
+          <p className="mt-2 text-2xl font-semibold text-center text-slate-900">
             {derived?.end_margin_pct ? `${(derived.end_margin_pct * 100).toFixed(1)}%` : "-"}
           </p>
-          <p className="text-sm text-slate-500">End-period margin</p>
+          <p className="text-sm text-center text-slate-500">End-period margin</p>
         </div>
       </div>
 

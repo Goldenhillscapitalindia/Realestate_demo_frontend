@@ -59,7 +59,7 @@ const SnapshotTab: React.FC<{ data?: PortfolioSnapshot }> = ({ data }) => {
     <div className="space-y-5 text-slate-900">
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {topCards.map((card) => (
-          <div key={card.label} className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+          <div key={card.label} className="rounded-2xl border border-blue-200 bg-blue-50 p-5">
             <p className="text-xs uppercase tracking-wide text-slate-500">{card.label}</p>
             <p className="mt-2 text-2xl font-semibold text-slate-900">{card.value}</p>
             <p className="text-sm text-slate-500">{card.note}</p>

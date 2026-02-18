@@ -98,10 +98,9 @@ const PfDemoPortfolioAnalytics: React.FC = () => {
 
   return (
     <>
-      <section className="space-y-6 rounded-3xl bg-white/90 p-6 shadow-lg">
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
 
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 mb-2">
             {tabDefinitions.map((tab) => {
               const isActive = tab.id === activeTab;
               return (
@@ -121,7 +120,6 @@ const PfDemoPortfolioAnalytics: React.FC = () => {
           </div>
         </div>
 
-        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
           {status === "loading" ? (
             <p className="text-sm text-slate-500">Loading analytics...</p>
           ) : status === "error" ? (
@@ -131,8 +129,6 @@ const PfDemoPortfolioAnalytics: React.FC = () => {
           ) : (
             <p className="text-sm text-slate-500">No analytics data available.</p>
           )}
-        </div>
-      </section>
     </>
   );
 };
