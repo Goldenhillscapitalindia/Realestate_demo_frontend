@@ -131,7 +131,7 @@ const formatYoY = (value?: number | null): string | undefined => {
 
   const percent = value * 100;
   const sign = percent >= 0 ? "+" : "";
-  return `${sign}${percent.toFixed(1)}% YoY`;
+  return `${sign}${percent.toFixed(1)}%`;
 };
 
 const LineChart: React.FC<{
@@ -362,20 +362,21 @@ const PfPropertyInsights: React.FC = () => {
       {
         label: "NOI",
         value: formatCurrency(kpis.noi),
-        annotation: formatYoY(kpis.noiYoY),
       },
+      { label: "NOI YoY", value: formatYoY(kpis.noiYoY) },
+
       {
         label: "Revenue",
         value: formatCurrency(kpis.revenue),
-        annotation: formatYoY(kpis.revenueYoY),
       },
+      { label: "Revenue YoY", value: formatYoY(kpis.revenueYoY) },
+
       { label: "NOI Margin", value: formatPercent(kpis.noiMargin) },
       { label: "Renewal Rate", value: formatPercent(riskAlert?.renewalRate) },
       { label: "Expense Ratio", value: formatPercent(kpis.expenseRatio) },
+      { label: "Expense YoY", value: formatYoY(kpis.expenseYoY) },
       { label: "Loss to Lease", value: formatPercent(kpis.lossToLease) },
       { label: "Mark-to-Market", value: formatCurrency(kpis.markToMarket) },
-      { label: "Risk Score", value: reviewRating ? reviewRating.toFixed(1) : "-" },
-      { label: "Absorption", value: market?.absorption !== undefined ? market.absorption.toString() : "-" },
     ];
   }, [record]);
 
@@ -439,28 +440,26 @@ const PfPropertyInsights: React.FC = () => {
         <div className="space-y-6 rounded-3xl bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                Portfolio Intelligence
-              </p>
-              <h1 className="text-3xl font-semibold text-slate-900">{record.property_name}</h1>
-              <p className="text-sm text-slate-500">
+
+              <h1 className="text-3xl font-semibold text-indigo-900">{record.property_name}</h1>
+              <p className="text-sm text-pink-600">
                 {record.submarket} - {record.region}
               </p>
             </div>
-            <div className="text-right text-xs text-slate-500">
+            <div className="text-right text-s text-black">
               <p>
                 Units: {record.property_response?.property?.units ?? "-"}{" "}
                 {yearBuilt ? `- Built ${yearBuilt}` : ""}
               </p>
-              <p>{propertyMeta?.location ?? "-"}</p>
+              <p className="text-right text-s text-blue-600">{propertyMeta?.location ?? "-"}</p>
             </div>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {kpiCards.map((card) => (
-              <div key={card.label} className="space-y-1 rounded-3xl border border-slate-100 bg-slate-50/50 p-4">
-                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{card.label}</p>
-                <p className="text-2xl font-semibold text-slate-900">{card.value}</p>
-                {card.annotation ? <p className="text-xs text-emerald-600">{card.annotation}</p> : null}
+              <div key={card.label} className="space-y-1 rounded-3xl border border-slate-100 bg-blue-50/50 p-4">
+                <p className="text-s font-semibold uppercase tracking-wide text-center text-blue-700">{card.label}</p>
+                <p className="text-xl font-semibold text-center text-slate-900">{card.value}</p>
+                {/* {card.annotation ? <p className="text-xs text-emerald-600">{card.annotation}</p> : null} */}
               </div>
             ))}
           </div>
