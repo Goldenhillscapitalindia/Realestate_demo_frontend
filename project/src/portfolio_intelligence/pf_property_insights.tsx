@@ -1,6 +1,18 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { Bar } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 type TrendPoint = {
   month: string;
@@ -132,6 +144,32 @@ const formatYoY = (value?: number | null): string | undefined => {
   const percent = value * 100;
   const sign = percent >= 0 ? "+" : "";
   return `${sign}${percent.toFixed(1)}%`;
+};
+
+const baseBarOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  scales: {
+    x: {
+      ticks: { color: "#475569" },
+      grid: { color: "rgba(15,23,42,0.05)" },
+    },
+    y: {
+      beginAtZero: true,
+      ticks: { color: "#475569" },
+      grid: { color: "rgba(15,23,42,0.08)" },
+    },
+  },
+  plugins: {
+    legend: {
+      labels: { color: "#0f172a", font: { weight: 500 } },
+    },
+    tooltip: {
+      callbacks: {
+        label: (context: any) => `${context.dataset.label}: ${formatCurrency(context.raw)}`,
+      },
+    },
+  },
 };
 
 
@@ -386,60 +424,6 @@ const LineChart: React.FC<{
   );
 };
 
-const LadderChart: React.FC<{ data: { month: string; units: number }[] }> = ({ data }) => {
-  const maxUnits = Math.max(...data.map((item) => item.units), 1);
-
-  return (
-    <div className="flex items-end gap-3">
-      {data.map((item) => (
-        <div key={item.month} className="flex flex-col items-center gap-2 text-xs text-slate-500">
-          <div className="flex h-36 w-5 items-end justify-center">
-            <div
-              className="w-full rounded-t-full bg-emerald-400 transition"
-              style={{ height: `${(item.units / maxUnits) * 100}%` }}
-            />
-          </div>
-          <span className="uppercase tracking-wide">{item.month}</span>
-        </div>
-      ))}
-    </div>
-  );
-};
-
-const RentComparisonBar: React.FC<{
-  data: { unitType: string; market: number; inPlace: number }[];
-}> = ({ data }) => {
-  const maxValue = Math.max(...data.flatMap((entry) => [entry.market, entry.inPlace]), 1);
-
-  return (
-    <div className="space-y-3">
-      {data.map((entry) => (
-        <div key={entry.unitType} className="space-y-2">
-          <div className="flex items-center justify-between text-xs text-slate-500">
-            <span>{entry.unitType}</span>
-            <span>{formatCurrency(entry.market)}</span>
-          </div>
-          <div className="relative h-3 rounded-full bg-slate-100">
-            <div
-              className="absolute inset-y-0 rounded-full bg-slate-300"
-              style={{ width: `${(entry.market / maxValue) * 100}%` }}
-            />
-            <div
-              className="absolute inset-y-0 rounded-full bg-emerald-400"
-              style={{
-                width: `${(entry.inPlace / maxValue) * 100}%`,
-              }}
-            />
-          </div>
-          <div className="text-[11px] text-slate-400">
-            In-place {formatCurrency(entry.inPlace)}
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-};
-
 const InsightCard: React.FC<{
   title: string;
   value: string;
@@ -546,18 +530,18 @@ const PfPropertyInsights: React.FC = () => {
     ];
   }, [record]);
 
+  const rentComparisonList = record?.property_response?.rentComparison ?? [];
   const priceGap = useMemo(() => {
-    const rentComparison = record?.property_response?.rentComparison ?? [];
-    if (!rentComparison.length) {
+    if (!rentComparisonList.length) {
       return undefined;
     }
 
-    const gap = rentComparison.reduce(
+    const gap = rentComparisonList.reduce(
       (acc, entry) => acc + ((entry.market ?? 0) - (entry.inPlace ?? 0)),
       0
     );
-    return gap / rentComparison.length;
-  }, [record]);
+    return gap / rentComparisonList.length;
+  }, [rentComparisonList]);
 
   const reviewDetails = record?.property_response?.intelligence?.reviewIntelligence;
   const riskAlert = record?.property_response?.intelligence?.riskAlert;
@@ -569,13 +553,67 @@ const PfPropertyInsights: React.FC = () => {
   const noiTrend = trends?.noiTrend12Month ?? [];
   const revenueExpense = trends?.revenueVsExpense ?? [];
   const leaseData = record?.property_response?.leaseExpirationLadder ?? [];
-  const rentComparison = record?.property_response?.rentComparison
-    ?.filter((entry) => isValidNumber(entry.market) && isValidNumber(entry.inPlace))
-    .map((entry) => ({
-      unitType: entry.unitType ?? "Unknown",
-      market: entry.market ?? 0,
-      inPlace: entry.inPlace ?? 0,
-    })) ?? [];
+
+  const leaseChartData = useMemo(() => {
+    const entries = leaseData
+      .filter((item): item is { month: string; units: number } => Boolean(item.month) && isValidNumber(item.units))
+      .map((item) => ({ month: item.month, units: item.units }));
+
+    if (!entries.length) {
+      return null;
+    }
+
+    return {
+      labels: entries.map((entry) => entry.month),
+      datasets: [
+        {
+          label: "Expiring Units",
+          data: entries.map((entry) => entry.units),
+          backgroundColor: "#a974be",
+          borderRadius: 8,
+        },
+      ],
+    };
+  }, [leaseData]);
+
+  const rentComparisonEntries = useMemo(() => {
+    return rentComparisonList
+      .filter(
+        (entry) =>
+          Boolean(entry.unitType) &&
+          isValidNumber(entry.market) &&
+          isValidNumber(entry.inPlace)
+      )
+      .map((entry) => ({
+        unitType: entry.unitType ?? "Unknown",
+        market: entry.market ?? 0,
+        inPlace: entry.inPlace ?? 0,
+      }));
+  }, [rentComparisonList]);
+
+  const rentComparisonChartData = useMemo(() => {
+    if (!rentComparisonEntries.length) {
+      return null;
+    }
+
+    return {
+      labels: rentComparisonEntries.map((entry) => entry.unitType),
+      datasets: [
+        {
+          label: "In-Place",
+          data: rentComparisonEntries.map((entry) => entry.inPlace),
+          backgroundColor: "#0ea5e9",
+          borderRadius: 6,
+        },
+        {
+          label: "Market",
+          data: rentComparisonEntries.map((entry) => entry.market),
+          backgroundColor: "#f97316",
+          borderRadius: 6,
+        },
+      ],
+    };
+  }, [rentComparisonEntries]);
 
   if (status === "loading") {
     return (
@@ -664,24 +702,32 @@ const PfPropertyInsights: React.FC = () => {
             ) : null}
           </div>
 
-          <div className="grid gap-4 lg:grid-cols-2">
+          <div className="grid gap-4">
             <div className="rounded-3xl border border-slate-100 bg-white p-4 shadow-sm">
-              <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500">Lease Expiration Ladder</h3>
-              {leaseData.length ? (
-                <LadderChart
-                  data={leaseData
-                    .filter((item): item is { month: string; units: number } => Boolean(item.month) && isValidNumber(item.units))
-                    .map((item) => ({ month: item.month, units: item.units }))}
-                />
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500">Lease Expiration Ladder</h3>
+              </div>
+              {leaseChartData ? (
+                <div className="mt-4 h-72">
+                  <Bar data={leaseChartData} options={baseBarOptions} />
+                </div>
               ) : (
                 <p className="mt-3 text-sm text-slate-400">No lease ladder data available</p>
               )}
             </div>
             <div className="rounded-3xl border border-slate-100 bg-white p-4 shadow-sm">
-              <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500">
-                In-Place vs Market Rent
-              </h3>
-              {rentComparison.length ? <RentComparisonBar data={rentComparison} /> : <p className="mt-3 text-sm text-slate-400">Rent comparison unavailable</p>}
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500">
+                  In-Place vs Market Rent
+                </h3>
+              </div>
+              {rentComparisonChartData ? (
+                <div className="mt-4 h-72">
+                  <Bar data={rentComparisonChartData} options={baseBarOptions} />
+                </div>
+              ) : (
+                <p className="mt-3 text-sm text-slate-400">Rent comparison unavailable</p>
+              )}
             </div>
           </div>
         </div>
