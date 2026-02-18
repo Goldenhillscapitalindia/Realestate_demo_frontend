@@ -914,10 +914,14 @@ const PfPropertyInsights: React.FC = () => {
                 <div>
                   {/* <p className="text-xs uppercase tracking-wide text-slate-500">Selected insight</p> */}
                   <h3 className="text-2xl font-semibold text-indigo-900">{detailPanel.title}</h3>
-                  <p className="rounded-full bg-blue-50 px-1 py-1 text-[11px] font-semibold text-black shadow-sm">
+                  {/* <p className="rounded-full bg-blue-50 px-1 py-1 text-[11px] font-semibold text-black shadow-sm">
                   {detailPanel.confidence}
-                </p>
+                </p> */}
                 </div>
+                <span className="rounded-full bg-blue-50 px-1 py-1 text-[13px] font-semibold text-black shadow-sm">
+                  {detailPanel.confidence}
+                </span>
+                  
 
               </div>
               <p className="mt-2 text-sm text-slate-900">{detailPanel.description}</p>
@@ -937,8 +941,8 @@ const PfPropertyInsights: React.FC = () => {
                 <ul className="space-y-2 text-sm text-slate-600">
                   {detailPanel.whyThisMatters.map((item) => (
                     <li key={item} className="flex items-start gap-2">
-                      <span className="mt-0.5 h-2 w-2 shrink-0 rounded-full bg-slate-400" />
-                      <span>{item}</span>
+                      <span className="mt-0.5 h-2 w-2 shrink-0 rounded-full bg-black" />
+                      <span className="text-black">{item}</span>
                     </li>
                   ))}
                 </ul>
@@ -963,10 +967,10 @@ const PfPropertyInsights: React.FC = () => {
                   {detailPanel.nextActions.map((action, index) => (
                     <li
                       key={action}
-                      className="flex items-center gap-3 rounded-2xl border border-slate-100 bg-white px-3 py-2"
+                      className="flex items-center gap-3 rounded-2xl border border-slate-100 bg-indigo-50 px-3 py-2"
                     >
-                      <span className="text-xs font-semibold text-slate-400">{index + 1}</span>
-                      <span>{action}</span>
+                      <span className="text-xs font-semibold text-black">{index + 1}</span>
+                      <span className="text-black">{action}</span>
                     </li>
                   ))}
                 </ol>
