@@ -82,10 +82,10 @@ const ExpenseIntelTab: React.FC<{ data?: ExpenseDashboard }> = ({ data }) => {
         </div>
       </div>
 
-      <div className="overflow-x-auto rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+      <div className="overflow-x-auto rounded-3xl border border-blue-200 bg-white p-5 shadow-sm">
         <table className="min-w-full text-left text-sm">
           <thead>
-            <tr className="text-xs uppercase tracking-wide text-slate-500">
+            <tr className="text-m font-semibold tracking-wide text-blue-900">
               <th className="px-4 py-2">Category</th>
               <th className="px-4 py-2">Current</th>
               <th className="px-4 py-2">Prior Year</th>
@@ -96,9 +96,9 @@ const ExpenseIntelTab: React.FC<{ data?: ExpenseDashboard }> = ({ data }) => {
           <tbody>
             {categories.map((category) => (
               <tr key={category.name} className="border-t border-slate-100">
-                <td className="px-4 py-3 font-semibold text-slate-900">{category.name}</td>
-                <td className="px-4 py-3 text-slate-700">{fmtCurrency(category.current)}</td>
-                <td className="px-4 py-3 text-slate-500">{fmtCurrency(category.priorYear)}</td>
+                <td className="px-4 py-3 font-semibold text-black">{category.name}</td>
+                <td className="px-4 py-3 text-black">{fmtCurrency(category.current)}</td>
+                <td className="px-4 py-3 text-black">{fmtCurrency(category.priorYear)}</td>
                 <td
                   className={`px-4 py-3 font-semibold ${
                     (category.yoyGrowthPercent ?? 0) < 0 ? "text-rose-500" : "text-emerald-600"
@@ -106,7 +106,7 @@ const ExpenseIntelTab: React.FC<{ data?: ExpenseDashboard }> = ({ data }) => {
                 >
                   {fmtPercent(category.yoyGrowthPercent)}
                 </td>
-                <td className="px-4 py-3 text-slate-700">{fmtCurrency(category.perUnit)}</td>
+                <td className="px-4 py-3 text-black">{fmtCurrency(category.perUnit)}</td>
               </tr>
             ))}
           </tbody>
