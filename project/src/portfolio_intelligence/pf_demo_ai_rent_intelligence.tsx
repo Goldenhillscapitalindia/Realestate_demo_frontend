@@ -58,7 +58,7 @@ type PropertyRecord = {
 };
 
 const formatCurrency = (value?: number | string) => {
-  if (value === undefined || value === null) return "�";
+  if (value === undefined || value === null) return "-";
   const num = typeof value === "string" ? Number(value) : value;
   if (Number.isNaN(num)) return String(value);
   return new Intl.NumberFormat("en-US", {
@@ -69,7 +69,7 @@ const formatCurrency = (value?: number | string) => {
 };
 
 const formatCompactCurrency = (value?: number | string) => {
-  if (value === undefined || value === null) return "�";
+  if (value === undefined || value === null) return "-";
   const num = typeof value === "string" ? Number(value) : value;
   if (Number.isNaN(num)) return String(value);
   return new Intl.NumberFormat("en-US", {
@@ -81,18 +81,22 @@ const formatCompactCurrency = (value?: number | string) => {
 };
 
 const formatPercent = (value?: number | string) => {
-  if (value === undefined || value === null) return "�";
+  if (value === undefined || value === null) return "-";
   const num = typeof value === "string" ? Number(value) : value;
   if (Number.isNaN(num)) return String(value);
-  return `${num.toFixed(num % 1 === 0 ? 0 : 1)}%`;
+  const scaled = num * 100;
+  const decimals = scaled % 1 === 0 ? 0 : 1;
+  return `${scaled.toFixed(decimals)}%`;
 };
 
 const formatSignedPercent = (value?: number | string) => {
-  if (value === undefined || value === null) return "�";
+  if (value === undefined || value === null) return "-";
   const num = typeof value === "string" ? Number(value) : value;
   if (Number.isNaN(num)) return String(value);
   const sign = num > 0 ? "+" : "";
-  return `${sign}${num.toFixed(num % 1 === 0 ? 0 : 1)}%`;
+  const scaled = num * 100;
+  const decimals = scaled % 1 === 0 ? 0 : 1;
+  return `${sign}${scaled.toFixed(decimals)}%`;
 };
 
 const baseChartOptions: any = {
@@ -143,7 +147,7 @@ const PfDemoAiRentIntelligence: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const response =   await axios.post(`${API_URL}/api/get_ai_rent_intelligence_data/`, payload);
+      const response = await axios.post(`${API_URL}/api/get_ai_rent_intelligence_data/`, payload);
       const fetched = response.data?.data ?? [];
       setProperties(fetched);
       if (payload.property_name && fetched.length) {
@@ -229,63 +233,63 @@ const PfDemoAiRentIntelligence: React.FC = () => {
       {error && <p className="mt-3 text-sm text-rose-600">{error}</p>}
 
       {/* <div className="rounded-3xl border border-slate-200 bg-white/90 p-6 shadow-sm"> */}
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div>
-            <h2 className="text-2xl font-semibold text-[#b1419d]">{selectedProperty?.property_name ?? "No Property"}</h2>
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div>
+          <h2 className="text-2xl font-semibold text-[#b1419d]">{selectedProperty?.property_name ?? "No Property"}</h2>
 
+        </div>
+        <div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-4">
+          <div className="w-full md:w-auto">
+            <select
+              className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-3 py-3 text-sm text-slate-900 shadow-inner focus:border-sky-500 focus:outline-none"
+              value={selectedProperty?.property_name ?? ""}
+              onChange={(event) => setSelectedPropertyName(event.target.value)}
+            >
+              {properties.map((property, index) => {
+                const optionLabel = property.property_name ?? property.address ?? `Property ${index + 1}`;
+                return (
+                  <option key={`${optionLabel}-${index}`} value={property.property_name ?? optionLabel}>
+                    {optionLabel}
+                  </option>
+                );
+              })}
+            </select>
           </div>
-          <div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-4">
-            <div className="w-full md:w-auto">
-              <select
-                className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-3 py-3 text-sm text-slate-900 shadow-inner focus:border-sky-500 focus:outline-none"
-                value={selectedProperty?.property_name ?? ""}
-                onChange={(event) => setSelectedPropertyName(event.target.value)}
-              >
-                {properties.map((property, index) => {
-                  const optionLabel = property.property_name ?? property.address ?? `Property ${index + 1}`;
-                  return (
-                    <option key={`${optionLabel}-${index}`} value={property.property_name ?? optionLabel}>
-                      {optionLabel}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
 
-          </div>
         </div>
-        <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
-            <p className="text-lg font-semibold text-center  text-blue-700">Total Projected Revenue Lift</p>
-            <p className="mt-1 text-2xl text-center font-semibold text-slate-900">{formatCompactCurrency(totalProjectedLift)}</p>
-            <p className="text-[0.7rem] text-center  text-slate-500">per year</p>
-          </div>
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
-            <p className="text-lg font-semibold text-center  text-blue-700">12-Mo Projected Revenue</p>
-            <p className="mt-1 text-2xl text-center font-semibold text-slate-900">
-              {formatCompactCurrency(basicInfo?.projected12MonthRevenue)}
-            </p>
-          </div>
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
-            <p className="text-lg font-semibold text-center  text-blue-700">Revenue at Risk</p>
-            <p className="mt-1 text-2xl text-center font-semibold text-slate-900">
-              {formatCompactCurrency(basicInfo?.revenueAtRisk)}
-            </p>
-          </div>
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
-            <p className="text-lg font-semibold text-center  text-blue-700">Avg Renewal Rate</p>
-            <p className="mt-1 text-2xl text-center font-semibold text-slate-900">
-              {formatPercent(basicInfo?.avgrenewalrate)}
-            </p>
-          </div>
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
-            <p className="text-lg font-semibold text-center  text-blue-700">MTM Capture</p>
-            <p className="mt-1 text-2xl text-center font-semibold text-slate-900">
-              {formatPercent(basicInfo?.mtmcapturepotential)}
-            </p>
-            {/* <p className="text-[0.7rem] text-slate-500">MTM Capture: {formatCompactCurrency(basicInfo?.mtmcapturepotential)}</p> */}
-          </div>
+      </div>
+      <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
+          <p className="text-lg font-semibold text-center  text-blue-700">Total Projected Revenue Lift</p>
+          <p className="mt-1 text-2xl text-center font-semibold text-slate-900">{formatCompactCurrency(totalProjectedLift)}</p>
+          <p className="text-[0.7rem] text-center  text-slate-500">per year</p>
         </div>
+        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
+          <p className="text-lg font-semibold text-center  text-blue-700">12-Mo Projected Revenue</p>
+          <p className="mt-1 text-2xl text-center font-semibold text-slate-900">
+            {formatCompactCurrency(basicInfo?.projected12MonthRevenue)}
+          </p>
+        </div>
+        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
+          <p className="text-lg font-semibold text-center  text-blue-700">Revenue at Risk</p>
+          <p className="mt-1 text-2xl text-center font-semibold text-slate-900">
+            {formatCompactCurrency(basicInfo?.revenueAtRisk)}
+          </p>
+        </div>
+        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
+          <p className="text-lg font-semibold text-center  text-blue-700">Avg Renewal Rate</p>
+          <p className="mt-1 text-2xl text-center font-semibold text-slate-900">
+            {formatPercent(basicInfo?.avgrenewalrate)}
+          </p>
+        </div>
+        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
+          <p className="text-lg font-semibold text-center  text-blue-700">MTM Capture</p>
+          <p className="mt-1 text-2xl text-center font-semibold text-slate-900">
+            {formatCompactCurrency(basicInfo?.mtmcapturepotential)}
+          </p>
+          {/* <p className="text-[0.7rem] text-slate-500">MTM Capture: {formatCompactCurrency(basicInfo?.mtmcapturepotential)}</p> */}
+        </div>
+      </div>
       {/* </div> */}
 
       <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
@@ -345,7 +349,7 @@ const PfDemoAiRentIntelligence: React.FC = () => {
 
       </div>
       <div >
-                <div className={chartContainerClass}>
+        <div className={chartContainerClass}>
           <div className="flex items-center justify-between">
             <h3 className="text-xl font-semibold   text-[#b1419d]">
               Renewal vs New Lease Split
@@ -367,10 +371,10 @@ const PfDemoAiRentIntelligence: React.FC = () => {
             />
           </div>
         </div>
-</div>
+      </div>
       <div className={chartContainerClass}>
         <div className="flex items-center justify-between">
-            <h3 className="text-xl font-semibold   text-[#b1419d]">
+          <h3 className="text-xl font-semibold   text-[#b1419d]">
             12-Month Revenue Projection
           </h3>
         </div>
@@ -379,7 +383,7 @@ const PfDemoAiRentIntelligence: React.FC = () => {
         </div>
       </div>
 
-      {loading && <p className="text-sm font-semibold text-slate-500">Loading fresh AI recommendations�</p>}
+      {loading && <p className="text-sm font-semibold text-slate-500">Loading fresh AI recommendations-</p>}
       {!loading && properties.length === 0 && (
         <p className="text-sm text-rose-600">No rent intelligence data available for the requested property.</p>
       )}
