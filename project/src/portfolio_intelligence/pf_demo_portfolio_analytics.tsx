@@ -70,17 +70,10 @@ const PfDemoPortfolioAnalytics: React.FC = () => {
   }, [activeTab, selectedRecord]);
 
   return (
+    <>
     <section className="space-y-6 rounded-3xl bg-white/90 p-6 shadow-lg">
       <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <p className="text-xs uppercase tracking-wide text-slate-500">Portfolio Analytics</p>
-          <h2 className="text-3xl font-semibold text-slate-900">
-            {selectedRecord?.property_name ?? "Portfolio Snapshot"}
-          </h2>
-          <p className="text-sm text-slate-500">
-            {selectedRecord ? `${selectedRecord.region} - ${selectedRecord.submarket}` : "Loading portfolio metadata..."}
-          </p>
-        </div>
+
         <div className="flex flex-wrap gap-2">
           {tabDefinitions.map((tab) => {
             const isActive = tab.id === activeTab;
@@ -114,6 +107,7 @@ const PfDemoPortfolioAnalytics: React.FC = () => {
         )}
       </div>
     </section>
+  </>
   );
 };
 
