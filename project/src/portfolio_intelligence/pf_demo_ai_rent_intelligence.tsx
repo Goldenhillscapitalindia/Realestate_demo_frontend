@@ -118,7 +118,9 @@ const baseChartOptions: any = {
     },
     tooltip: {
       callbacks: {
-        label: (context: any) => `${context.dataset.label}: ${formatCurrency(context.raw)}`,
+        label: (context: any) => `${context.dataset.label}: ${context.raw}`,
+                // label: (context: any) => `${context.raw}`,
+
       },
     },
   },
