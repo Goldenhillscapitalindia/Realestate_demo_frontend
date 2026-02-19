@@ -166,7 +166,8 @@ const baseBarOptions = {
     },
     tooltip: {
       callbacks: {
-        label: (context: any) => `${context.dataset.label}: ${formatCurrency(context.raw)}`,
+        label: (context: any) => `${context.raw} units`,
+
       },
     },
   },
@@ -931,8 +932,8 @@ const PfPropertyInsights: React.FC = () => {
                     key={stat.label}
                     className="rounded-2xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-600"
                   >
-                    <span className="block text-[12px] font-normal text-indigo-700">{stat.label}</span>
-                    <span className="text-sm text-slate-900">{stat.value}</span>
+                    <span className="block text-[15px] font-normal text-indigo-700">{stat.label}</span>
+                    <span className="text-lg text-slate-900">{stat.value}</span>
                   </div>
                 ))}
               </div>
@@ -947,7 +948,7 @@ const PfPropertyInsights: React.FC = () => {
                   ))}
                 </ul>
               </div>
-              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              {/* <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 <div className="rounded-2xl border border-emerald-100 bg-emerald-50 p-3">
                   <p className="text-[13px] font-semibold  text-black">Monthly Impact</p>
                   <p className="text-2xl font-semibold text-emerald-700">
@@ -960,7 +961,7 @@ const PfPropertyInsights: React.FC = () => {
                     {formatCurrency(detailPanel.annualImpact)}
                   </p>
                 </div>
-              </div>
+              </div> */}
               <div className="mt-4 space-y-2">
                 <p className="text-m font-semibold uppercase tracking-wide text-black">Next best actions</p>
                 <ol className="space-y-2 text-sm text-slate-600">
