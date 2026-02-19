@@ -12,9 +12,9 @@ type Props = {
 };
 
 const severityStyles: Record<string, { badge: string; card: string }> = {
-  high: { badge: "bg-red-100 text-red-700", card: "border-red-200 bg-red-50" },
-  medium: { badge: "bg-amber-100 text-amber-700", card: "border-amber-200 bg-amber-50" },
-  low: { badge: "bg-emerald-100 text-emerald-700", card: "border-emerald-200 bg-emerald-50" },
+  High: { badge: "bg-red-100 text-red-700", card: "border-red-200 bg-red-50" },
+  Medium: { badge: "bg-amber-100 text-amber-700", card: "border-amber-200 bg-amber-50" },
+  Low: { badge: "bg-emerald-100 text-emerald-700", card: "border-emerald-200 bg-emerald-50" },
 };
 
 const RiskSignals: React.FC<Props> = ({ data }) => {
