@@ -76,10 +76,7 @@ const RiskStabilityTab: React.FC<{ data?: RiskStabilityDashboard }> = ({ data })
           <p className="text-m text-indigo-700">Revenue at Risk (90d)</p>
           <p className="mt-2 text-2xl font-semibold text-slate-900">{fmtCurrency(summary?.revenueAtRisk90Days)}</p>
         </div>
-        <div className="rounded-2xl border border-blue-200 bg-blue-50 p-4">
-          <p className="text-m text-indigo-700">Break-even Occupancy</p>
-          <p className="mt-2 text-2xl font-semibold text-slate-900">72.4%</p>
-        </div>
+
         <div className="rounded-2xl border border-blue-200 bg-blue-50 p-4">
           <p className="text-m text-indigo-700">Stability Score</p>
           <p className="mt-2 text-2xl font-semibold text-slate-900">
@@ -104,8 +101,8 @@ const RiskStabilityTab: React.FC<{ data?: RiskStabilityDashboard }> = ({ data })
       </div>
 
       {data.underperformingAssets?.length ? (
-        <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-          <p className="text-m font-semibold text-blue-700  tracking-wide">Underperforming Assets</p>
+        <div className="rounded-3xl border border-slate-200 bg-red-100 p-5 shadow-sm">
+          <p className="text-m font-semibold text-red-700  tracking-wide">Underperforming Assets</p>
           {data.underperformingAssets.map((asset) => (
             <div
               key={asset.propertyName}

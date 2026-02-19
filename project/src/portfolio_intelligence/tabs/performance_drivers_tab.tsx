@@ -76,7 +76,7 @@ const PerformanceDriversTab: React.FC<{ data?: PerformanceDriversPayload }> = ({
         data: revenueTrend.map((point) => point.revenue ?? 0),
         borderColor: "#2563eb",
         backgroundColor: "rgba(37,99,235,0.2)",
-        fill: true,
+        // fill: true,
         tension: 0.35,
         pointRadius: 3,
       },
@@ -85,7 +85,7 @@ const PerformanceDriversTab: React.FC<{ data?: PerformanceDriversPayload }> = ({
         data: revenueTrend.map((point) => point.expense ?? 0),
         borderColor: "#f97316",
         backgroundColor: "rgba(249,115,22,0.2)",
-        fill: true,
+        // fill: true,
         tension: 0.35,
         pointRadius: 3,
       },
@@ -95,23 +95,37 @@ const PerformanceDriversTab: React.FC<{ data?: PerformanceDriversPayload }> = ({
   return (
     <div className="space-y-6 text-slate-900">
       <div className="grid gap-4 sm:grid-cols-2">
+        {/* Revenue Growth */}
         <div className="rounded-2xl border border-blue-200 bg-blue-50 p-5">
-          <p className="text-m uppercase tracking-wide text-center text-indigo-700">NOI Trend</p>
+          <p className="text-m uppercase tracking-wide text-center text-indigo-700">
+            Revenue Growth
+          </p>
           <p className="mt-2 text-2xl font-semibold text-center text-slate-900">
-            {noiTrend.length ? `$${noiTrend[noiTrend.length - 1].noi?.toLocaleString() ?? "0"}` : "-"}
+            {derived?.revenue_growth_pct !== undefined
+              ? `${(derived.revenue_growth_pct * 100).toFixed(1)}%`
+              : "-"}
           </p>
           <p className="text-sm text-center text-slate-500">
-            {data.noi_trend_2025?.frequency ?? "Monthly"} · {data.noi_trend_2025?.currency ?? "USD"}
+            Period-over-period growth
           </p>
         </div>
+
+        {/* Expense Growth */}
         <div className="rounded-2xl border border-blue-200 bg-blue-50 p-5">
-          <p className="text-m uppercase tracking-wide text-center text-indigo-700">Revenue Margin</p>
-          <p className="mt-2 text-2xl font-semibold text-center text-slate-900">
-            {derived?.end_margin_pct ? `${(derived.end_margin_pct * 100).toFixed(1)}%` : "-"}
+          <p className="text-m uppercase tracking-wide text-center text-indigo-700">
+            Expense Growth
           </p>
-          <p className="text-sm text-center text-slate-500">End-period margin</p>
+          <p className="mt-2 text-2xl font-semibold text-center text-slate-900">
+            {derived?.expense_growth_pct !== undefined
+              ? `${(derived.expense_growth_pct * 100).toFixed(1)}%`
+              : "-"}
+          </p>
+          <p className="text-sm text-center text-slate-500">
+            Period-over-period growth
+          </p>
         </div>
       </div>
+
 
       {noiTrend.length > 0 && (
         <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">

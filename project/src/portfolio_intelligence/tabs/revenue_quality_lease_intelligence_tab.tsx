@@ -13,6 +13,7 @@ import { RevenueQualityLeaseIntelligence } from "../portfolio_analytics_types";
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
 const formatPercent = (value?: number) => (value === undefined ? "-" : `${value.toFixed(1)}%`);
+const formatPercentvalue = (value?: number) => (value === undefined ? "-" : `${(value * 100).toFixed(1)}%`);
 const formatCurrency = (value?: number) =>
   value === undefined ? "-" : `$${value.toLocaleString()}`;
 
@@ -59,11 +60,11 @@ const RevenueQualityLeaseIntelligenceTab: React.FC<{ data?: RevenueQualityLeaseI
 
   const cards = [
     { label: "Renewal Rate", value: formatPercent(summary?.renewal_rate_pct) },
-    { label: "Loss-to-Lease (WTD)", value: formatPercent(summary?.wtd_loss_to_lease_pct) },
-    { label: "Units Below Market", value: formatPercent(summary?.units_below_market_pct) },
+    { label: "Loss-to-Lease (WTD)", value: formatPercentvalue(summary?.wtd_loss_to_lease_pct) },
+    { label: "Units Below Market", value: formatPercentvalue(summary?.units_below_market_pct) },
     {
       label: "Avg Lease Remaining",
-      value: summary?.avg_lease_remaining_months ? `${summary.avg_lease_remaining_months.toFixed(1)} mo` : "-",
+      value: summary?.avg_lease_remaining_months ? `${summary.avg_lease_remaining_months.toFixed(1)} months` : "-",
     },
     { label: "Mark-to-Market Opportunity", value: formatCurrency(summary?.mark_to_market_opportunity_usd) },
   ];
@@ -92,12 +93,14 @@ const RevenueQualityLeaseIntelligenceTab: React.FC<{ data?: RevenueQualityLeaseI
           <div className="mt-4 h-56">
             <Bar data={ladderData} options={chartOptions} />
           </div>
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-2 bg-blue-50 p-4 rounded-xl mt-4">
           {data.lease_expiration_ladder_next_12_months?.risk_flags && (
-            <p className="mt-3 text-xs uppercase tracking-wide text-slate-500">
+            <p className="mt-3 text-lg uppercase tracking-wide text-red-500">
               Peak month: {data.lease_expiration_ladder_next_12_months.risk_flags.peak_month} (
               {data.lease_expiration_ladder_next_12_months.risk_flags.peak_expirations} expirations)
             </p>
           )}
+          </div>
         </div>
       ) : (
         <p className="text-sm text-slate-500">No lease expiration ladder data found.</p>
