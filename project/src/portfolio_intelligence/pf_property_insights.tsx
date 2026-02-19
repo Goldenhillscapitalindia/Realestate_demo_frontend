@@ -1,18 +1,30 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { Bar } from "react-chartjs-2";
+import { Bar, Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
   BarElement,
+  PointElement,
+  LineElement,
   Title,
   Tooltip,
   Legend,
+  ChartOptions,
 } from "chart.js";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 type TrendPoint = {
   month: string;
@@ -168,6 +180,7 @@ const baseBarOptions = {
       callbacks: {
         // label: (context: any) => `${context.raw} units`,
                 label: (context: any) => `${context.dataset.label}: ${context.raw} units`,
+ 
 
 
       },
@@ -175,257 +188,41 @@ const baseBarOptions = {
   },
 };
 
-
-const LineChart: React.FC<{
-  title: string;
-  series: Array<{ id: string; color: string; values: number[] }>;
-  xLabels: string[];
-  height?: number;
-  width?: number;
-  strokeWidth?: number;
-}> = ({
-  title,
-  series,
-  xLabels,
-  height = 220,
-  width = 520,
-  strokeWidth = 1.6,
-}) => {
-  const padding = 36;
-  const wrapperRef = useRef<HTMLDivElement>(null);
-  const [containerWidth, setContainerWidth] = useState<number | null>(null);
-
-  useEffect(() => {
-    const updateWidth = () => {
-      if (wrapperRef.current) {
-        setContainerWidth(wrapperRef.current.offsetWidth);
-      }
-    };
-
-    updateWidth();
-    const observer = new ResizeObserver(() => {
-      updateWidth();
-    });
-
-    if (wrapperRef.current) {
-      observer.observe(wrapperRef.current);
-    }
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
-
-  const svgWidth =
-    containerWidth && containerWidth > width ? containerWidth : width;
-  const chartHeight = height - padding * 2;
-  const chartWidth = svgWidth - padding * 2;
-
-  const [hoverIndex, setHoverIndex] = useState<number | null>(null);
-
-  const flatValues = series.flatMap((s) => s.values);
-  const validValues = flatValues.filter((v) => typeof v === "number");
-
-  if (!validValues.length) return null;
-
-  const maxValue = Math.max(...validValues);
-  const minValue = Math.min(...validValues);
-  const range = maxValue === minValue ? 1 : maxValue - minValue;
-
-  const getPoint = (value: number, index: number, total: number) => {
-    const stepX = chartWidth / (total - 1);
-    const normalized = (value - minValue) / range;
-
-    return {
-      x: padding + index * stepX,
-      y: padding + chartHeight - normalized * chartHeight,
-    };
-  };
-  const formatYAxisValue = (value: number) => {
-    const abs = Math.abs(value);
-
-    if (abs >= 1_000_000_000)
-      return `${value < 0 ? "-" : ""}${(abs / 1_000_000_000).toFixed(1)}B`;
-
-    if (abs >= 1_000_000)
-      return `${value < 0 ? "-" : ""}${(abs / 1_000_000).toFixed(1)}M`;
-
-    if (abs >= 1_000)
-      return `${value < 0 ? "-" : ""}${(abs / 1_000).toFixed(1)}K`;
-
-    return value.toString();
-  };
-
-  const buildSmoothPath = (values: number[]) => {
-    const total = values.length;
-    if (total < 2) return "";
-
-    const points = values.map((v, i) => getPoint(v, i, total));
-
-    let d = `M ${points[0].x} ${points[0].y}`;
-
-    for (let i = 1; i < points.length - 1; i++) {
-      const midX = (points[i].x + points[i + 1].x) / 2;
-      const midY = (points[i].y + points[i + 1].y) / 2;
-      d += ` Q ${points[i].x} ${points[i].y} ${midX} ${midY}`;
-    }
-
-    d += ` T ${points[points.length - 1].x} ${points[points.length - 1].y
-      }`;
-
-    return d;
-  };
-
-  const yTicks = 5;
-  const yStep = range / (yTicks - 1);
-
-  return (
-    <div className="relative rounded-2xl border border-slate-100 bg-white p-5 shadow-sm">
-      <div className="mb-4 flex items-center justify-between">
-        <h3 className="text-m font-semibold text-black">{title}</h3>
-        <span className="text-xs text-slate-400">Last 12 months</span>
-      </div>
-
-      <svg
-        viewBox={`0 0 ${width} ${height}`}
-        className="w-full"
-        onMouseLeave={() => setHoverIndex(null)}
-      >
-        {/* Y Axis + Grid */}
-        {[...Array(yTicks)].map((_, i) => {
-          const value = minValue + yStep * i;
-          const y =
-            padding +
-            chartHeight -
-            ((value - minValue) / range) * chartHeight;
-
-          return (
-            <g key={i}>
-              <line
-                x1={padding}
-                x2={width - padding}
-                y1={y}
-                y2={y}
-                stroke="#e5e7eb"
-                strokeWidth={1}
-              />
-              <text
-                x={padding - 10}
-                y={y + 4}
-                textAnchor="end"
-                fontSize="11"
-                fill="#000000"
-              >
-                {formatYAxisValue(value)}
-              </text>
-
-            </g>
-          );
-        })}
-
-        {/* Lines */}
-        {series.map((serie) => (
-          <path
-            key={serie.id}
-            d={buildSmoothPath(serie.values)}
-            fill="none"
-            stroke={serie.color}
-            strokeWidth={2.5}
-            strokeLinecap="round"
-          />
-        ))}
-
-        {/* Hover Elements */}
-        {hoverIndex !== null && (
-          <>
-            {/* Vertical Line */}
-            <line
-              x1={
-                getPoint(
-                  series[0].values[hoverIndex],
-                  hoverIndex,
-                  series[0].values.length
-                ).x
-              }
-              x2={
-                getPoint(
-                  series[0].values[hoverIndex],
-                  hoverIndex,
-                  series[0].values.length
-                ).x
-              }
-              y1={padding}
-              y2={height - padding}
-              stroke="#000000"
-              strokeDasharray="4 4"
-            />
-
-            {/* Points */}
-            {series.map((serie) => {
-              const point = getPoint(
-                serie.values[hoverIndex],
-                hoverIndex,
-                serie.values.length
-              );
-
-              return (
-                <circle
-                  key={serie.id}
-                  cx={point.x}
-                  cy={point.y}
-                  r={5}
-                  fill={serie.color}
-                  stroke="white"
-                  strokeWidth={2}
-                />
-              );
-            })}
-          </>
-        )}
-
-        {/* Hover Detection Zones */}
-        {xLabels.map((_, i) => {
-          const total = xLabels.length;
-          const stepX = chartWidth / (total - 1);
-          const x = padding + i * stepX;
-
-          return (
-            <rect
-              key={i}
-              x={x - stepX / 2}
-              y={padding}
-              width={stepX}
-              height={chartHeight}
-              fill="transparent"
-              onMouseEnter={() => setHoverIndex(i)}
-            />
-          );
-        })}
-      </svg>
-
-      {/* X Labels */}
-      <div className="mt-4 flex justify-between text-[11px] text-black">
-        {xLabels.map((label, i) => (
-          <span key={i}>{label}</span>
-        ))}
-      </div>
-
-      {/* Tooltip */}
-      {hoverIndex !== null && (
-        <div className="absolute right-6 top-6 rounded-lg border bg-white px-3 py-2 text-xs shadow-lg">
-          <div className="font-semibold text-black">
-            {xLabels[hoverIndex]}
-          </div>
-          {series.map((serie) => (
-            <div key={serie.id} style={{ color: serie.color }}>
-              {serie.id}: {serie.values[hoverIndex]}
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
+const trendLineOptions: ChartOptions<"line"> = {
+  responsive: true,
+  maintainAspectRatio: false,
+  scales: {
+    x: {
+      grid: { display: false },
+      ticks: { color: "#475569" },
+    },
+    y: {
+      grid: { color: "rgba(148,163,184,0.2)" },
+      ticks: {
+        color: "#475569",
+        callback: (value) => formatCurrency(Number(value)),
+      },
+    },
+  },
+  plugins: {
+    legend: {
+      display: false,
+      labels: { color: "#0f172a", font: { weight: 600 } },
+    },
+    tooltip: {
+      callbacks: {
+        label: (context: any) => {
+          const value = context.raw;
+          if (typeof value === "number") {
+            return `${context.dataset.label}: ${formatCurrency(value)}`;
+          }
+          return context.dataset.label;
+        },
+      },
+    },
+  },
 };
+
 
 type InsightCardProps = {
   title: string;
@@ -617,6 +414,62 @@ const PfPropertyInsights: React.FC = () => {
   const trends = record?.property_response?.trends;
   const noiTrend = trends?.noiTrend12Month ?? [];
   const revenueExpense = trends?.revenueVsExpense ?? [];
+  const noiChartData = useMemo(
+    () => ({
+      labels: noiTrend.map((point) => point.month),
+      datasets: [
+        {
+          label: "NOI",
+          data: noiTrend.map((point) => point.value ?? 0),
+          borderColor: "#047857",
+          backgroundColor: "rgba(4, 120, 87, 0.15)",
+          fill: true,
+          tension: 0.35,
+          pointRadius: 3,
+          borderWidth: 2,
+        },
+      ],
+    }),
+    [noiTrend]
+  );
+  const revenueExpenseChartData = useMemo(
+    () => ({
+      labels: revenueExpense.map((point) => point.month),
+      datasets: [
+        {
+          label: "Revenue",
+          data: revenueExpense.map((point) => point.revenue ?? 0),
+          borderColor: "#2563eb",
+          backgroundColor: "rgba(37, 99, 235, 0.2)",
+          tension: 0.35,
+          pointRadius: 3,
+          borderWidth: 2,
+        },
+        {
+          label: "Expense",
+          data: revenueExpense.map((point) => point.expense ?? 0),
+          borderColor: "#f97316",
+          backgroundColor: "rgba(249, 115, 22, 0.2)",
+          tension: 0.35,
+          pointRadius: 3,
+          borderWidth: 2,
+        },
+      ],
+    }),
+    [revenueExpense]
+  );
+  const revenueLineOptions = useMemo<ChartOptions<"line">>(() => {
+    return {
+      ...trendLineOptions,
+      plugins: {
+        ...trendLineOptions.plugins,
+        legend: {
+          ...trendLineOptions.plugins?.legend,
+          display: true,
+        },
+      },
+    };
+  }, []);
   const leaseData = record?.property_response?.leaseExpirationLadder ?? [];
 
   const leaseChartData = useMemo(() => {
@@ -830,35 +683,26 @@ const PfPropertyInsights: React.FC = () => {
 
           <div className="grid gap-4 lg:grid-cols-2">
             {noiTrend.length ? (
-              <LineChart
-                title="NOI Trend (12 Month)"
-                series={[
-                  {
-                    id: "noi",
-                    color: "#047857",
-                    values: noiTrend.map((point) => point.value),
-                  },
-                ]}
-                xLabels={noiTrend.map((point) => point.month)}
-              />
+              <div className="relative rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+                <div className="mb-4 flex items-center justify-between">
+                  <h3 className="text-m font-semibold text-black">NOI Trend (12 Month)</h3>
+                  <span className="text-xs text-slate-400">Last 12 months</span>
+                </div>
+                <div className="mt-4 h-64">
+                  <Line data={noiChartData} options={trendLineOptions} />
+                </div>
+              </div>
             ) : null}
             {revenueExpense.length ? (
-              <LineChart
-                title="Revenue vs Expense"
-                series={[
-                  {
-                    id: "revenue",
-                    color: "#2563eb",
-                    values: revenueExpense.map((point) => point.revenue),
-                  },
-                  {
-                    id: "expense",
-                    color: "#f97316",
-                    values: revenueExpense.map((point) => point.expense),
-                  },
-                ]}
-                xLabels={revenueExpense.map((point) => point.month)}
-              />
+              <div className="relative rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+                <div className="mb-4 flex items-center justify-between">
+                  <h3 className="text-m font-semibold text-black">Revenue vs Expense</h3>
+                  <span className="text-xs text-slate-400">Last 12 months</span>
+                </div>
+                <div className="mt-4 h-64">
+                  <Line data={revenueExpenseChartData} options={revenueLineOptions} />
+                </div>
+              </div>
             ) : null}
           </div>
 
