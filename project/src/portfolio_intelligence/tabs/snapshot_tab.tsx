@@ -5,22 +5,10 @@ const SnapshotTab: React.FC<{ data?: PortfolioSnapshot }> = ({ data }) => {
   if (!data) {
     return <p className="text-sm text-slate-500">Snapshot is not yet available.</p>;
   }
-
-  const topCards = [
+  const trendingMetrics = [
     { label: "Total Properties", value: data.totalProperties?.toLocaleString() ?? "-", note: "Active assets" },
     { label: "Total Units", value: data.totalUnits?.toLocaleString() ?? "-", note: "Units under management" },
-    { label: "Average Occupancy", value: data.averageOccupancy?.display ?? "-", note: "Trailing average" },
     { label: "NOI Margin", value: data.noiMargin?.display ?? "-", note: "Trailing 12 months" },
-  ];
-
-  const extraCards = [
-    { label: "Bad Debt", value: data.badDebt?.display ?? "-" },
-    { label: "Expense / Unit", value: data.expensePerUnit?.display ?? "-" },
-    { label: "Revenue / Unit", value: data.revenuePerUnit?.display ?? "-" },
-    { label: "Operating Expense Ratio", value: data.operatingExpenseRatio?.display ?? "-" },
-  ];
-
-  const trendingMetrics = [
     {
       label: "Vacancy Loss",
       value: data.vacancyLoss?.display ?? "-",
@@ -37,6 +25,18 @@ const SnapshotTab: React.FC<{ data?: PortfolioSnapshot }> = ({ data }) => {
           ? `YoY ${(data.grossPotentialRent.yoyChange * 100).toFixed(1)}%`
           : undefined,
     },
+    { label: "Average Occupancy", value: data.averageOccupancy?.display ?? "-", note: "Trailing average" },
+
+  ];
+
+
+  const extraCards = [
+    { label: "Expense / Unit", value: data.expensePerUnit?.display ?? "-" },
+    { label: "Revenue / Unit", value: data.revenuePerUnit?.display ?? "-" },
+  ];
+
+  const topCards = [
+
     {
       label: "Net Operating Income",
       value: data.netOperatingIncome?.display ?? "-",
@@ -53,6 +53,10 @@ const SnapshotTab: React.FC<{ data?: PortfolioSnapshot }> = ({ data }) => {
           ? `YoY ${(data.concessions.yoyChange * 100).toFixed(1)}%`
           : undefined,
     },
+    { label: "Operating Expense Ratio", value: data.operatingExpenseRatio?.display ?? "-" },
+    { label: "Bad Debt", value: data.badDebt?.display ?? "-" },
+
+
   ];
 
   return (
@@ -63,6 +67,8 @@ const SnapshotTab: React.FC<{ data?: PortfolioSnapshot }> = ({ data }) => {
             <p className="text-m font-semibold text-center text-purple-700">{metric.label}</p>
             <p className="mt-3 text-3xl font-bold text-center text-slate-900">{metric.value}</p>
             {metric.detail && <p className="text-sm text-center text-slate-500">{metric.detail}</p>}
+            <p className="text-sm text-center text-slate-500">{metric.note}</p>
+
           </div>
         ))}
       </div>
@@ -71,7 +77,7 @@ const SnapshotTab: React.FC<{ data?: PortfolioSnapshot }> = ({ data }) => {
           <div key={card.label} className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
             <p className="text-m font-semibold text-indigo-700">{card.label}</p>
             <p className="mt-2 text-2xl font-semibold text-slate-900">{card.value}</p>
-            <p className="text-sm text-slate-500">{card.note}</p>
+            {/* <p className="text-sm text-slate-500">{card.note}</p> */}
           </div>
         ))}
       </div>
