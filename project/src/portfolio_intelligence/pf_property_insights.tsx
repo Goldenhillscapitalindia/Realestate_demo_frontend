@@ -166,7 +166,9 @@ const baseBarOptions = {
     },
     tooltip: {
       callbacks: {
-        label: (context: any) => `${context.raw} units`,
+        // label: (context: any) => `${context.raw} units`,
+                label: (context: any) => `${context.dataset.label}: ${context.raw} units`,
+
 
       },
     },
