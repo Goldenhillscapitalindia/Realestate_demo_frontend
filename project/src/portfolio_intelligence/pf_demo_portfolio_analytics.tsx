@@ -17,6 +17,41 @@ export const portfolioAnalyticsTabDefinitions = [
 
 export type PortfolioAnalyticsTabId = (typeof portfolioAnalyticsTabDefinitions)[number]["id"];
 
+const portfolioAnalyticsHeroStyles: Record<
+  PortfolioAnalyticsTabId,
+  {
+    subtitle: string;
+    containerClass: string;
+    glowClass: string;
+  }
+> = {
+  snapshot: {
+    subtitle: "Portfolio pulse at a glance",
+    containerClass: "bg-[#1e3a8a]",
+    glowClass: "bg-white/10",
+  },
+  performance_drivers: {
+    subtitle: "Growth, efficiency, and operating momentum",
+    containerClass: "bg-[#1e3a8a]",
+    glowClass: "bg-white/10",
+  },
+  revenue_quality_lease_intelligence: {
+    subtitle: "Revenue quality and lease health insights",
+    containerClass: "bg-[#1e3a8a]",
+    glowClass: "bg-white/10",
+  },
+  expenses_dashboard: {
+    subtitle: "Spend control and efficiency breakdown",
+    containerClass: "bg-[#1e3a8a]",
+    glowClass: "bg-white/10",
+  },
+  risk_stability_dashboard: {
+    subtitle: "Exposure signals and stability scoring",
+    containerClass: "bg-[#1e3a8a]",
+    glowClass: "bg-white/10",
+  },
+};
+
 type PfDemoPortfolioAnalyticsProps = {
   activeSubTab?: PortfolioAnalyticsTabId;
   onSubTabChange?: (tab: PortfolioAnalyticsTabId) => void;
@@ -84,6 +119,13 @@ const PfDemoPortfolioAnalytics: React.FC<PfDemoPortfolioAnalyticsProps> = ({
     }
   }, [activeTab, selectedRecord]);
 
+  const activeTabDefinition = useMemo(
+    () => portfolioAnalyticsTabDefinitions.find((tab) => tab.id === activeTab),
+    [activeTab]
+  );
+
+  const heroStyle = portfolioAnalyticsHeroStyles[activeTab];
+
   return (
     <>
       {showTabMenu && (
@@ -122,7 +164,19 @@ const PfDemoPortfolioAnalytics: React.FC<PfDemoPortfolioAnalyticsProps> = ({
         ) : status === "error" ? (
           <p className="text-sm text-rose-600">Unable to load analytics right now. Please try again later.</p>
         ) : selectedRecord ? (
-          activeTabContent
+          <div className="space-y-4">
+            <section
+              className={`relative overflow-hidden rounded-2xl px-6 py-5 text-white shadow-md ${heroStyle.containerClass}`}
+            >
+              <div className="relative z-10">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/80">Portfolio Intelligence</p>
+                <h2 className="mt-2 text-3xl font-semibold leading-tight">{activeTabDefinition?.label ?? "Overview"}</h2>
+                <p className="mt-1 text-sm text-white/85">{heroStyle.subtitle}</p>
+              </div>
+              <div className={`pointer-events-none absolute -right-10 -top-10 h-36 w-36 rounded-full blur-2xl ${heroStyle.glowClass}`} />
+            </section>
+            {activeTabContent}
+          </div>
         ) : (
           <p className="text-sm text-slate-500">No analytics data available.</p>
         )}
