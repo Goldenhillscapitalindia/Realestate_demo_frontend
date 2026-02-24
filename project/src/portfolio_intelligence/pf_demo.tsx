@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import PfDemoPortfolioAnalytics, {
@@ -50,6 +50,7 @@ const PfDemo: React.FC = () => {
   const [activeTab, setActiveTab] = useState<DemoTab>("Portfolio Analytics");
   const [portfolioSubTab, setPortfolioSubTab] = useState<PortfolioAnalyticsTabId>("snapshot");
   const [isPortfolioMenuOpen, setIsPortfolioMenuOpen] = useState(true);
+  const mainScrollRef = useRef<HTMLElement | null>(null);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -59,6 +60,10 @@ const PfDemo: React.FC = () => {
       setActiveTab(requestedTab);
     }
   }, [location.state]);
+
+  useEffect(() => {
+    mainScrollRef.current?.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, [activeTab, portfolioSubTab]);
 
   const activeContent = useMemo(() => {
     if (activeTab === "Portfolio Analytics") {
@@ -211,3 +216,4 @@ const PfDemo: React.FC = () => {
 };
 
 export default PfDemo;
+

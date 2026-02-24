@@ -1,3 +1,107 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.back-button-hex {
+  --bb-bg-start: #f3f6fb;
+  --bb-bg-end: #dce5f3;
+  --bb-border: #90a2be;
+  --bb-text: #13294b;
+  --bb-outline: #4b6a95;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 88px;
+  height: 34px;
+  padding: 0 14px 0 20px;
+  border: 1px solid var(--bb-border);
+  color: var(--bb-text);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  background: linear-gradient(180deg, var(--bb-bg-start) 0%, var(--bb-bg-end) 100%);
+  clip-path: polygon(14px 0, 100% 0, 100% 100%, 14px 100%, 0 50%);
+  box-shadow:
+    inset 1px 1px 0 rgba(255, 255, 255, 0.65),
+    inset -1px -1px 0 rgba(9, 25, 51, 0.2),
+    0 2px 4px rgba(9, 25, 51, 0.22);
+  transition: transform 120ms ease, filter 120ms ease, box-shadow 120ms ease;
+}
+
+.back-button-theme-ocean {
+  --bb-bg-start: #eef4ff;
+  --bb-bg-end: #cfdcf8;
+  --bb-border: #7f95c2;
+  --bb-text: #17345f;
+  --bb-outline: #395f98;
+}
+
+.back-button-theme-sidebar {
+  --bb-bg-start: #dbe6ff;
+  --bb-bg-end: #9fb6e8;
+  --bb-border: #607eb8;
+  --bb-text: #102854;
+  --bb-outline: #aac4ff;
+}
+
+.back-button-theme-dark {
+  --bb-bg-start: #2a3e67;
+  --bb-bg-end: #182844;
+  --bb-border: #6786c0;
+  --bb-text: #ecf2ff;
+  --bb-outline: #9ec0ff;
+  box-shadow:
+    inset 1px 1px 0 rgba(255, 255, 255, 0.22),
+    inset -1px -1px 0 rgba(0, 0, 0, 0.28),
+    0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.back-button-hex:hover {
+  filter: brightness(1.05);
+}
+
+.back-button-hex:active {
+  transform: translateY(1px);
+  box-shadow:
+    inset 1px 1px 0 rgba(255, 255, 255, 0.45),
+    inset -1px -1px 0 rgba(0, 0, 0, 0.25),
+    0 1px 2px rgba(9, 25, 51, 0.22);
+}
+
+.back-button-hex:focus-visible {
+  outline: 2px solid var(--bb-outline);
+  outline-offset: 2px;
+}
+
+.back-button-fixed {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 50;
+}
+
+@keyframes portfolioFloat {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.portfolio-float-icon {
+  animation: portfolioFloat 4s ease-in-out infinite;
+}
+
+.portfolio-story-card,
+.portfolio-recommendation-card {
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.portfolio-story-card:hover,
+.portfolio-recommendation-card:hover {
+  transform: translateY(-2px);
+}
