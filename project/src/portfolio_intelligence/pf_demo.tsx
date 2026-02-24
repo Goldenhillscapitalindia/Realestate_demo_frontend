@@ -6,7 +6,9 @@ import PfDemoPortfolioAnalytics, {
   PortfolioAnalyticsTabId,
 } from "./pf_demo_portfolio_analytics";
 import PfDemoProperties from "./pf_demo_properties";
+import type { PropertySelection } from "./pf_demo_properties";
 import PfDemoAiRentIntelligence from "./pf_demo_ai_rent_intelligence";
+import PfPropertyInsights from "./pf_property_insights";
 
 const tabs = ["Portfolio Analytics", "Properties", "AI Rent Intelligence"] as const;
 type DemoTab = (typeof tabs)[number];
@@ -50,6 +52,7 @@ const PfDemo: React.FC = () => {
   const [activeTab, setActiveTab] = useState<DemoTab>("Portfolio Analytics");
   const [portfolioSubTab, setPortfolioSubTab] = useState<PortfolioAnalyticsTabId>("snapshot");
   const [isPortfolioMenuOpen, setIsPortfolioMenuOpen] = useState(true);
+  const [selectedProperty, setSelectedProperty] = useState<PropertySelection | null>(null);
   const mainScrollRef = useRef<HTMLElement | null>(null);
   const location = useLocation();
   const navigate = useNavigate();
@@ -63,7 +66,7 @@ const PfDemo: React.FC = () => {
 
   useEffect(() => {
     mainScrollRef.current?.scrollTo({ top: 0, left: 0, behavior: "auto" });
-  }, [activeTab, portfolioSubTab]);
+  }, [activeTab, portfolioSubTab, selectedProperty]);
 
   const activeContent = useMemo(() => {
     if (activeTab === "Portfolio Analytics") {
@@ -75,9 +78,20 @@ const PfDemo: React.FC = () => {
         />
       );
     }
-    if (activeTab === "Properties") return <PfDemoProperties />;
+    if (activeTab === "Properties") {
+      if (selectedProperty) {
+        return (
+          <PfPropertyInsights
+            inlineProperty={selectedProperty}
+            onBackToProperties={() => setSelectedProperty(null)}
+            embedded
+          />
+        );
+      }
+      return <PfDemoProperties onPropertySelect={setSelectedProperty} />;
+    }
     return <PfDemoAiRentIntelligence />;
-  }, [activeTab, portfolioSubTab]);
+  }, [activeTab, portfolioSubTab, selectedProperty]);
 
   return (
     <section
@@ -160,7 +174,10 @@ const PfDemo: React.FC = () => {
 
               <button
                 type="button"
-                onClick={() => setActiveTab("Properties")}
+                onClick={() => {
+                  setActiveTab("Properties");
+                  setSelectedProperty(null);
+                }}
               className={`flex w-full items-center gap-3 rounded-xl px-4 py-2.5 text-left text-base font-semibold transition ${
                 activeTab === "Properties"
                   ? "bg-[#0fa77d] text-white shadow-[0_6px_18px_rgba(15,167,125,0.35)]"
@@ -187,6 +204,7 @@ const PfDemo: React.FC = () => {
         </aside>
 
         <main
+          ref={mainScrollRef}
           className="h-screen min-w-0 overflow-y-auto bg-[#f3f6fb] px-4 py-6 md:px-6 md:pt-7"
           style={{ marginLeft: SIDEBAR_WIDTH }}
         >

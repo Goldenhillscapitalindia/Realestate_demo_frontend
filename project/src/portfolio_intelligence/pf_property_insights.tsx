@@ -135,6 +135,18 @@ type PropertyRecord = {
   property_response: PropertyResponseDetails | null;
 };
 
+type InlinePropertyParams = {
+  property_name: string;
+  submarket: string;
+  region: string;
+};
+
+type PfPropertyInsightsProps = {
+  inlineProperty?: InlinePropertyParams;
+  onBackToProperties?: () => void;
+  embedded?: boolean;
+};
+
 const isValidNumber = (value: number | undefined | null): value is number =>
   typeof value === "number" && !Number.isNaN(value);
 
@@ -289,13 +301,17 @@ type InsightDetail = {
   nextActions: string[];
 };
 
-const PfPropertyInsights: React.FC = () => {
+const PfPropertyInsights: React.FC<PfPropertyInsightsProps> = ({
+  inlineProperty,
+  onBackToProperties,
+  embedded = false,
+}) => {
   const API_URL = import.meta.env.VITE_API_URL;
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const propertyName = searchParams.get("property_name") ?? "";
-  const submarket = searchParams.get("submarket") ?? "";
-  const region = searchParams.get("region") ?? "";
+  const propertyName = inlineProperty?.property_name ?? searchParams.get("property_name") ?? "";
+  const submarket = inlineProperty?.submarket ?? searchParams.get("submarket") ?? "";
+  const region = inlineProperty?.region ?? searchParams.get("region") ?? "";
   const [record, setRecord] = useState<PropertyRecord | null>(null);
   const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
 
@@ -613,7 +629,7 @@ const PfPropertyInsights: React.FC = () => {
 
   if (status === "loading") {
     return (
-      <div className="min-h-screen bg-slate-50 p-6 text-slate-900">
+      <div className={`${embedded ? "p-2" : "min-h-screen bg-slate-50 p-6"} text-slate-900`}>
         <p className="text-sm font-semibold">Loading property insights...</p>
       </div>
     );
@@ -621,18 +637,24 @@ const PfPropertyInsights: React.FC = () => {
 
   if (status === "error" || !record) {
     return (
-      <div className="min-h-screen bg-slate-50 p-6 text-slate-900">
+      <div className={`${embedded ? "p-2" : "min-h-screen bg-slate-50 p-6"} text-slate-900`}>
         <p className="text-sm font-semibold text-red-500">Unable to load property insights.</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 p-6 text-slate-900">
-      <div className="mx-auto max-w-6xl space-y-6">
+    <div className={`${embedded ? "" : "min-h-screen bg-slate-50 p-6"} text-slate-900`}>
+      <div className={`${embedded ? "space-y-6" : "mx-auto max-w-6xl space-y-6"}`}>
         <button
           type="button"
-          onClick={() => navigate("/portfolio_intelligence", { state: { activeTab: "Properties" } })}
+          onClick={() => {
+            if (onBackToProperties) {
+              onBackToProperties();
+              return;
+            }
+            navigate("/portfolio_intelligence", { state: { activeTab: "Properties" } });
+          }}
           className="rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-800 shadow-sm transition hover:bg-slate-50"
         >
           Back
