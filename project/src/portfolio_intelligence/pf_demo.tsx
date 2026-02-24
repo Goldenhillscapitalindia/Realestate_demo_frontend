@@ -9,12 +9,23 @@ import PfDemoProperties from "./pf_demo_properties";
 import type { PropertySelection } from "./pf_demo_properties";
 import PfDemoAiRentIntelligence from "./pf_demo_ai_rent_intelligence";
 import PfPropertyInsights from "./pf_property_insights";
+import MarketRadar from "../sections/MarketRadar";
+import RealEstateUploader from "../sections/RealEstateUploader";
 
-const tabs = ["Portfolio Analytics", "Properties", "AI Rent Intelligence"] as const;
+const tabs = [
+  "Portfolio Analytics",
+  "Properties",
+  "AI Rent Intelligence",
+  "Market Signal Radar",
+  "Deal Underwriting Lens",
+] as const;
 type DemoTab = (typeof tabs)[number];
 const SIDEBAR_WIDTH = 280;
 
-const TopLevelIcon: React.FC<{ type: "analytics" | "properties" | "ai"; className?: string }> = ({
+const TopLevelIcon: React.FC<{
+  type: "analytics" | "properties" | "ai" | "market" | "underwriting";
+  className?: string;
+}> = ({
   type,
   className = "h-4 w-4",
 }) => {
@@ -36,6 +47,27 @@ const TopLevelIcon: React.FC<{ type: "analytics" | "properties" | "ai"; classNam
         <path d="M4 20h16" />
         <path d="M6 20V9l6-4 6 4v11" />
         <path d="M10 20v-5h4v5" />
+      </svg>
+    );
+  }
+  if (type === "market") {
+    return (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={className} aria-hidden="true">
+        <path d="M4 19h16" />
+        <path d="M6 16V10" />
+        <path d="M10 16V7" />
+        <path d="M14 16v-4" />
+        <path d="M18 16V9" />
+      </svg>
+    );
+  }
+  if (type === "underwriting") {
+    return (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={className} aria-hidden="true">
+        <path d="M8 4h8l4 4v12H8z" />
+        <path d="M16 4v4h4" />
+        <path d="M11 13h6" />
+        <path d="M11 17h6" />
       </svg>
     );
   }
@@ -89,6 +121,12 @@ const PfDemo: React.FC = () => {
         );
       }
       return <PfDemoProperties onPropertySelect={setSelectedProperty} />;
+    }
+    if (activeTab === "Market Signal Radar") {
+      return <MarketRadar />;
+    }
+    if (activeTab === "Deal Underwriting Lens") {
+      return <RealEstateUploader />;
     }
     return <PfDemoAiRentIntelligence />;
   }, [activeTab, portfolioSubTab, selectedProperty]);
@@ -199,6 +237,32 @@ const PfDemo: React.FC = () => {
               >
                 <TopLevelIcon type="ai" />
                 <span className="flex-1">AI Rent Intelligence</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setActiveTab("Market Signal Radar")}
+              className={`flex w-full items-center gap-3 rounded-xl px-4 py-2.5 text-left text-base font-semibold transition ${
+                activeTab === "Market Signal Radar"
+                  ? "bg-[#0fa77d] text-white shadow-[0_6px_18px_rgba(15,167,125,0.35)]"
+                  : "bg-white/5 text-blue-100 hover:bg-white/10"
+              }`}
+              >
+                <TopLevelIcon type="market" />
+                <span className="flex-1">Market Signal Radar</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setActiveTab("Deal Underwriting Lens")}
+              className={`flex w-full items-center gap-3 rounded-xl px-4 py-2.5 text-left text-base font-semibold transition ${
+                activeTab === "Deal Underwriting Lens"
+                  ? "bg-[#0fa77d] text-white shadow-[0_6px_18px_rgba(15,167,125,0.35)]"
+                  : "bg-white/5 text-blue-100 hover:bg-white/10"
+              }`}
+              >
+                <TopLevelIcon type="underwriting" />
+                <span className="flex-1">Deal Underwriting Lens</span>
               </button>
           </nav>
         </aside>
