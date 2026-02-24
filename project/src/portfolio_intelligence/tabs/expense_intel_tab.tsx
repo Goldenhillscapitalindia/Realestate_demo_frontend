@@ -19,6 +19,44 @@ const fmtCurrency = (value?: number) =>
 const fmtPercent = (value?: number) =>
   value === undefined ? "-" : `${(value * 100).toFixed(1)}%`;
 
+const EXPENSE_CATEGORY_COLOR_MAP: Record<string, string> = {
+  renting: "#1192E8",
+  administrative: "#6929C4",
+  payroll: "#005D5D",
+  "operating expenses": "#9F1853",
+  utilities: "#FA4D56",
+  maintenance: "#198038",
+  grounds: "#002D9C",
+  "management fees": "#EE538B",
+  "professional fees": "#B28600",
+  taxes: "#009D9A",
+  insurance: "#8A3800",
+};
+
+const EXPENSE_FALLBACK_PALETTE = [
+  "#1192E8",
+  "#6929C4",
+  "#005D5D",
+  "#9F1853",
+  "#FA4D56",
+  "#198038",
+  "#002D9C",
+  "#EE538B",
+  "#B28600",
+  "#009D9A",
+  "#8A3800",
+  "#A56EFF",
+  "#570408",
+  "#012749",
+];
+
+const normalizeCategoryName = (name?: string) =>
+  (name ?? "").trim().toLowerCase();
+
+const getCategoryColor = (name: string, index: number) =>
+  EXPENSE_CATEGORY_COLOR_MAP[normalizeCategoryName(name)] ??
+  EXPENSE_FALLBACK_PALETTE[index % EXPENSE_FALLBACK_PALETTE.length];
+
 const ExpenseIntelTab: React.FC<{ data?: ExpenseDashboard }> = ({ data }) => {
   if (!data) {
     return (
@@ -29,6 +67,9 @@ const ExpenseIntelTab: React.FC<{ data?: ExpenseDashboard }> = ({ data }) => {
   }
 
   const categories = data.categories ?? [];
+  const categoryColors = categories.map((cat, index) =>
+    getCategoryColor(cat.name ?? `category-${index}`, index)
+  );
 
   /* -------------------- Doughnut Data -------------------- */
 
@@ -39,14 +80,8 @@ const ExpenseIntelTab: React.FC<{ data?: ExpenseDashboard }> = ({ data }) => {
         data: categories.map(
           (cat) => (cat.compositionPercent ?? 0) * 100
         ),
-        backgroundColor: [
-          "#3b82f6",
-          "#6366f1",
-          "#0ea5e9",
-          "#14b8a6",
-          "#f97316",
-          "#ef4444",
-        ],
+        backgroundColor: categoryColors,
+        borderColor: "#ffffff",
         borderWidth: 2,
       },
     ],
@@ -95,18 +130,20 @@ const compositionOptions = {
           (cat) => (cat.yoyGrowthPercent ?? 0) * 100
         ),
         borderRadius: 8,
+        borderSkipped: false,
         barThickness: 28,
-        backgroundColor: categories.map((cat) =>
-          (cat.yoyGrowthPercent ?? 0) >= 0
-            ? "#fbbf24"
-            : "#ef4444"
-        ),
+        minBarLength: 4,
+        backgroundColor: categoryColors,
       },
     ],
   };
 const chartOptions = {
   responsive: true,
   maintainAspectRatio: false,
+  interaction: {
+    mode: "index" as const,
+    intersect: false,
+  },
   layout: {
     padding: 10,
   },
@@ -119,7 +156,14 @@ const chartOptions = {
       },
     },
     y: {
-      grid: { color: "rgba(148,163,184,0.15)" },
+      grid: {
+        color: (context: any) =>
+          Number(context.tick?.value) === 0
+            ? "rgba(15,23,42,0.35)"
+            : "rgba(148,163,184,0.15)",
+        lineWidth: (context: any) =>
+          Number(context.tick?.value) === 0 ? 1.5 : 1,
+      },
       ticks: {
         color: "#475569",
         font: { size: 12 },
@@ -140,8 +184,9 @@ const chartOptions = {
       borderRadius: 8,
       callbacks: {
         label: function (context: any) {
+          const category = context.label ?? "";
           const value = context.raw;
-          return `${value.toFixed(1)}%`;
+          return `${category}: ${value.toFixed(1)}%`;
         },
       },
     },

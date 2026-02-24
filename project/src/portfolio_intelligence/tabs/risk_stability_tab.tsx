@@ -31,6 +31,15 @@ const chartOptions = {
   },
 };
 
+const PROPERTY_CHART_COLORS = [
+  "#1D4ED8",
+  "#0F766E",
+  "#7C3AED",
+  "#BE185D",
+  "#B45309",
+  "#0369A1",
+];
+
 const fmtCurrency = (value?: number) => (value === undefined ? "-" : `$${value.toLocaleString()}`);
 const fmtPercent = (value?: number) => (value === undefined ? "-" : `${value.toFixed(1)}%`);
 
@@ -40,26 +49,34 @@ const RiskStabilityTab: React.FC<{ data?: RiskStabilityDashboard }> = ({ data })
   }
 
   const summary = data.summaryMetrics;
+  const riskLabels = data.riskScoreByProperty?.map((row) => row.propertyName ?? "Property") ?? [];
+  const concentrationLabels = data.revenueConcentration?.map((row) => row.propertyName ?? "Property") ?? [];
+  const allPropertyNames = Array.from(new Set([...riskLabels, ...concentrationLabels]));
+  const propertyColorMap = new Map(
+    allPropertyNames.map((property, index) => [property, PROPERTY_CHART_COLORS[index % PROPERTY_CHART_COLORS.length]])
+  );
+  const getPropertyColor = (propertyName: string, index: number) =>
+    propertyColorMap.get(propertyName) ?? PROPERTY_CHART_COLORS[index % PROPERTY_CHART_COLORS.length];
 
   const riskBars = {
-    labels: data.riskScoreByProperty?.map((row) => row.propertyName ?? "Property") ?? [],
+    labels: riskLabels,
     datasets: [
       {
         label: "Risk Score",
         data: data.riskScoreByProperty?.map((row) => row.riskScore ?? 0) ?? [],
-        backgroundColor: "#ef4444",
+        backgroundColor: riskLabels.map((propertyName, index) => getPropertyColor(propertyName, index)),
         borderRadius: 6,
       },
     ],
   };
 
   const concentrationBars = {
-    labels: data.revenueConcentration?.map((row) => row.propertyName ?? "Property") ?? [],
+    labels: concentrationLabels,
     datasets: [
       {
         label: "Revenue Share",
         data: data.revenueConcentration?.map((row) => (row.revenueSharePercent ?? 0) * 100) ?? [],
-        backgroundColor: "#2563eb",
+        backgroundColor: concentrationLabels.map((propertyName, index) => getPropertyColor(propertyName, index)),
         borderRadius: 6,
       },
     ],
