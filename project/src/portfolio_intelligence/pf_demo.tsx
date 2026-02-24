@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import PfDemoPortfolioAnalytics, {
@@ -15,6 +15,7 @@ const PfDemo: React.FC = () => {
   const [activeTab, setActiveTab] = useState<DemoTab>("Portfolio Analytics");
   const [portfolioSubTab, setPortfolioSubTab] = useState<PortfolioAnalyticsTabId>("snapshot");
   const [isPortfolioMenuOpen, setIsPortfolioMenuOpen] = useState(true);
+  const mainScrollRef = useRef<HTMLElement | null>(null);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -24,6 +25,10 @@ const PfDemo: React.FC = () => {
       setActiveTab(requestedTab);
     }
   }, [location.state]);
+
+  useEffect(() => {
+    mainScrollRef.current?.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, [activeTab, portfolioSubTab]);
 
   const activeContent = useMemo(() => {
     if (activeTab === "Portfolio Analytics") {
@@ -51,13 +56,15 @@ const PfDemo: React.FC = () => {
         <aside
           className="sticky top-0 z-30 h-screen w-[220px] overflow-y-auto bg-[#0d1b4f] px-4 py-5 text-white md:w-[240px] lg:w-[260px] xl:w-[280px]"
         >
-          <button
-            type="button"
-            onClick={() => navigate("/", { state: { scrollTo: "demos" } })}
-            className="mb-4 rounded-2xl border border-white/20 bg-white/10 px-4 py-2 text-base font-semibold text-white shadow-sm transition hover:bg-white/20"
-          >
-            {"<-"} Back
-          </button>
+          <div className="mb-4">
+            <button
+              type="button"
+              onClick={() => navigate("/", { state: { scrollTo: "demos" } })}
+              className="back-button-hex back-button-theme-sidebar"
+            >
+              Back
+            </button>
+          </div>
           <div className="mb-6 rounded-2xl border border-white/10 bg-white/5 p-4">
             <h1 className="text-2xl font-semibold">Portfolio Intelligence</h1>
           </div>
@@ -140,7 +147,7 @@ const PfDemo: React.FC = () => {
           </nav>
         </aside>
 
-        <main className="h-screen min-w-0 overflow-y-auto bg-[#f3f6fb] px-4 py-6 md:px-6 md:pt-7">
+        <main ref={mainScrollRef} className="h-screen min-w-0 overflow-y-auto bg-[#f3f6fb] px-4 py-6 md:px-6 md:pt-7">
           <div className="mx-auto w-full max-w-[1420px]">
             {activeContent}
           </div>
@@ -151,3 +158,4 @@ const PfDemo: React.FC = () => {
 };
 
 export default PfDemo;
+

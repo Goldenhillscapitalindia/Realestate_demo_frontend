@@ -5,7 +5,11 @@ import PerformanceDriversTab from "./tabs/performance_drivers_tab";
 import RevenueQualityLeaseIntelligenceTab from "./tabs/revenue_quality_lease_intelligence_tab";
 import ExpenseIntelTab from "./tabs/expense_intel_tab";
 import RiskStabilityTab from "./tabs/risk_stability_tab";
+import {
+  PortfolioGuidedRecommendationCard,
+} from "./tabs/portfolio_narrative_cards";
 import { PortfolioAnalyticsRecord } from "./portfolio_analytics_types";
+import { portfolioNarratives } from "./portfolio_narratives";
 
 export const portfolioAnalyticsTabDefinitions = [
   { id: "snapshot", label: "Snapshot" },
@@ -16,41 +20,6 @@ export const portfolioAnalyticsTabDefinitions = [
 ] as const;
 
 export type PortfolioAnalyticsTabId = (typeof portfolioAnalyticsTabDefinitions)[number]["id"];
-
-const portfolioAnalyticsHeroStyles: Record<
-  PortfolioAnalyticsTabId,
-  {
-    subtitle: string;
-    containerClass: string;
-    glowClass: string;
-  }
-> = {
-  snapshot: {
-    subtitle: "Portfolio pulse at a glance",
-    containerClass: "bg-[#1e3a8a]",
-    glowClass: "bg-white/10",
-  },
-  performance_drivers: {
-    subtitle: "Growth, efficiency, and operating momentum",
-    containerClass: "bg-[#1e3a8a]",
-    glowClass: "bg-white/10",
-  },
-  revenue_quality_lease_intelligence: {
-    subtitle: "Revenue quality and lease health insights",
-    containerClass: "bg-[#1e3a8a]",
-    glowClass: "bg-white/10",
-  },
-  expenses_dashboard: {
-    subtitle: "Spend control and efficiency breakdown",
-    containerClass: "bg-[#1e3a8a]",
-    glowClass: "bg-white/10",
-  },
-  risk_stability_dashboard: {
-    subtitle: "Exposure signals and stability scoring",
-    containerClass: "bg-[#1e3a8a]",
-    glowClass: "bg-white/10",
-  },
-};
 
 type PfDemoPortfolioAnalyticsProps = {
   activeSubTab?: PortfolioAnalyticsTabId;
@@ -124,7 +93,7 @@ const PfDemoPortfolioAnalytics: React.FC<PfDemoPortfolioAnalyticsProps> = ({
     [activeTab]
   );
 
-  const heroStyle = portfolioAnalyticsHeroStyles[activeTab];
+  const activeNarrative = portfolioNarratives[activeTab];
 
   return (
     <>
@@ -166,16 +135,27 @@ const PfDemoPortfolioAnalytics: React.FC<PfDemoPortfolioAnalyticsProps> = ({
         ) : selectedRecord ? (
           <div className="space-y-4">
             <section
-              className={`relative overflow-hidden rounded-2xl px-6 py-5 text-white shadow-md ${heroStyle.containerClass}`}
+              className="portfolio-recommendation-card relative overflow-hidden rounded-[30px] border border-blue-900/20 bg-gradient-to-br from-[#0f172a] via-[#1d2f6f] to-[#143f7a] p-6 text-white shadow-[0_24px_64px_rgba(15,23,42,0.35)] md:p-8"
             >
               <div className="relative z-10">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/80">Portfolio Intelligence</p>
-                <h2 className="mt-2 text-3xl font-semibold leading-tight">{activeTabDefinition?.label ?? "Overview"}</h2>
-                <p className="mt-1 text-sm text-white/85">{heroStyle.subtitle}</p>
+                <h2 className="text-3xl font-semibold leading-tight">
+                  {activeTabDefinition?.label ?? "Overview"}
+                </h2>
+                <p className="mt-5 text-xs font-semibold uppercase tracking-[0.16em] text-white/80">
+                  Overview
+                </p>
+                <p className="mt-3 text-sm leading-7 text-white/95 md:text-[15px]">
+                  {activeNarrative.overview.join(" ")}
+                </p>
               </div>
-              <div className={`pointer-events-none absolute -right-10 -top-10 h-36 w-36 rounded-full blur-2xl ${heroStyle.glowClass}`} />
+              <div className="pointer-events-none absolute -right-10 -top-10 h-36 w-36 rounded-full bg-sky-300/20 blur-2xl" />
+              <div className="pointer-events-none absolute -bottom-14 -left-10 h-36 w-36 rounded-full bg-indigo-300/20 blur-2xl" />
             </section>
             {activeTabContent}
+            <PortfolioGuidedRecommendationCard
+              tabLabel={activeTabDefinition?.label ?? "Portfolio Analytics"}
+              narrative={activeNarrative}
+            />
           </div>
         ) : (
           <p className="text-sm text-slate-500">No analytics data available.</p>

@@ -831,3 +831,4 @@ const PfPropertyInsights: React.FC = () => {
 };
 
 export default PfPropertyInsights;
+
