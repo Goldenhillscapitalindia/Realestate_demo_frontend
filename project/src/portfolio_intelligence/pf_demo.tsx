@@ -174,7 +174,14 @@ const PfDemo: React.FC = () => {
                 >
                   <TopLevelIcon type="analytics" />
                   <span className="flex-1">Portfolio Analytics</span>
-                  <span className="text-sm opacity-80">{isPortfolioMenuOpen ? "v" : ">"}</span>
+                  <svg
+                    viewBox="0 0 12 8"
+                    className="h-3 w-3 opacity-90"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path d="M1 1.25L6 6.25l5-5z" />
+                  </svg>
                 </button>
 
                 {isPortfolioMenuOpen && (
