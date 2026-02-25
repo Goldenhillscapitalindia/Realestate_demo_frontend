@@ -136,13 +136,6 @@ const MarketRadar: React.FC = () => {
     >
       <div className="mx-auto max-w-6xl space-y-6">
         <div className="flex flex-wrap items-center gap-3">
-          <button
-            type="button"
-            className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-black shadow-sm transition hover:border-slate-400 hover:text-black"
-            onClick={() => navigate("/", { state: { scrollTo: "demos" } })}
-          >
-            ← Back
-          </button>
           <div className="flex flex-1 justify-center gap-2 ">
             {["Multifamily", "Industrial"].map((tab) => {
               const isActive = assetType === tab;
@@ -201,4 +194,5 @@ const MarketRadar: React.FC = () => {
 };
 
 export default MarketRadar;
+
 

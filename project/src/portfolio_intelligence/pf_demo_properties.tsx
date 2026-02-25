@@ -15,7 +15,13 @@ type PropertyRecord = {
   property_response: unknown;
 };
 
-const PfDemoProperties: React.FC = () => {
+export type PropertySelection = Pick<PropertyRecord, "property_name" | "submarket" | "region">;
+
+type PfDemoPropertiesProps = {
+  onPropertySelect?: (property: PropertySelection) => void;
+};
+
+const PfDemoProperties: React.FC<PfDemoPropertiesProps> = ({ onPropertySelect }) => {
   const [data, setData] = useState<PropertyRecord[]>([]);
   const [selected, setSelected] = useState<PropertyRecord | null>(null);
   const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
@@ -54,6 +60,15 @@ const PfDemoProperties: React.FC = () => {
 
   const handleRowClick = (row: PropertyRecord) => {
     setSelected(row);
+    if (onPropertySelect) {
+      onPropertySelect({
+        property_name: row.property_name,
+        submarket: row.submarket,
+        region: row.region,
+      });
+      return;
+    }
+
     const params = new URLSearchParams({
       property_name: row.property_name,
       submarket: row.submarket,
