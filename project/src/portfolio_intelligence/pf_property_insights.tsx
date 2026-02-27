@@ -277,7 +277,7 @@ const InsightCard: React.FC<InsightCardProps> = ({
       {badge ? (
         <span
           className={`rounded-full px-3 py-1 text-[11px] font-semibold ${
-            badgeClass ?? "bg-slate-100 text-slate-500"
+            badgeClass ?? "bg-slate-200 text-slate-800"
           }`}
         >
           {badge}
@@ -286,8 +286,8 @@ const InsightCard: React.FC<InsightCardProps> = ({
     </div>
     <div>
       <p className="text-3xl font-semibold text-slate-900">{value}</p>
-      <p className="text-sm text-slate-500">{caption}</p>
-      {description ? <p className="mt-2 text-xs text-slate-500">{description}</p> : null}
+      <p className="text-sm text-slate-800">{caption}</p>
+      {description ? <p className="mt-2 text-sm text-slate-800">{description}</p> : null}
     </div>
   </button>
 );
@@ -709,7 +709,7 @@ const PfPropertyInsights: React.FC<PfPropertyInsightsProps> = ({
               <div className="relative rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
                 <div className="mb-4 flex items-center justify-between">
                   <h3 className="text-m font-semibold text-black">NOI Trend (12 Month)</h3>
-                  <span className="text-xs text-slate-400">Last 12 months</span>
+                  <span className="text-xs text-slate-800">Last 12 months</span>
                 </div>
                 <div className="mt-4 h-64">
                   <Line data={noiChartData} options={trendLineOptions} />
@@ -721,7 +721,7 @@ const PfPropertyInsights: React.FC<PfPropertyInsightsProps> = ({
               <div className="relative rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
                 <div className="mb-4 flex items-center justify-between">
                   <h3 className="text-m font-semibold text-black">Revenue vs Expense</h3>
-                  <span className="text-xs text-slate-400">Last 12 months</span>
+                  <span className="text-xs text-slate-800">Last 12 months</span>
                 </div>
                 <div className="mt-4 h-64">
                   <Line data={revenueExpenseChartData} options={revenueLineOptions} />
@@ -740,7 +740,7 @@ const PfPropertyInsights: React.FC<PfPropertyInsightsProps> = ({
                   <Bar data={leaseChartData} options={baseBarOptions} />
                 </div>
               ) : (
-                <p className="mt-3 text-sm text-slate-400">No lease ladder data available</p>
+                <p className="mt-3 text-sm text-slate-700">No lease ladder data available</p>
               )}
             </div>
 
@@ -753,7 +753,7 @@ const PfPropertyInsights: React.FC<PfPropertyInsightsProps> = ({
                   <Bar data={rentComparisonChartData} options={baseBarOptions} />
                 </div>
               ) : (
-                <p className="mt-3 text-sm text-slate-400">Rent comparison unavailable</p>
+                <p className="mt-3 text-sm text-slate-700">Rent comparison unavailable</p>
               )}
             </div>
           </div>
@@ -797,7 +797,7 @@ const PfPropertyInsights: React.FC<PfPropertyInsightsProps> = ({
                 {detailPanel.keyStats.map((stat) => (
                   <div
                     key={stat.label}
-                    className="rounded-2xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-600"
+                    className="rounded-2xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-800"
                   >
                     <span className="block text-[15px] font-normal text-indigo-700">{stat.label}</span>
                     <span className="text-lg text-slate-900">{stat.value}</span>
@@ -807,7 +807,7 @@ const PfPropertyInsights: React.FC<PfPropertyInsightsProps> = ({
 
               <div className="mt-4 space-y-2">
                 <p className="text-m font-semibold uppercase tracking-wide text-black">Why this matters</p>
-                <ul className="space-y-2 text-sm text-slate-600">
+                <ul className="space-y-2 text-sm text-slate-800">
                   {detailPanel.whyThisMatters.map((item) => (
                     <li key={item} className="flex items-start gap-2">
                       <span className="mt-0.5 h-2 w-2 shrink-0 rounded-full bg-black" />
@@ -819,7 +819,7 @@ const PfPropertyInsights: React.FC<PfPropertyInsightsProps> = ({
 
               <div className="mt-4 space-y-2">
                 <p className="text-m font-semibold uppercase tracking-wide text-black">Next best actions</p>
-                <ol className="space-y-2 text-sm text-slate-600">
+                <ol className="space-y-2 text-sm text-slate-800">
                   {detailPanel.nextActions.map((action, index) => (
                     <li
                       key={`${action}-${index}`}
